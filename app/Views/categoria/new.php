@@ -6,10 +6,10 @@
     <title><?php echo $tituloVista; ?></title>
 </head>
 <body>
-    <form action="/pelicula/create" method="POST">
-        <?php echo view("pelicula/_form"); ?>
+    <form action="/categoria/create" method="POST">
+        <?php echo view("categoria/_form"); ?>
     </form>
     <br>
-    <a href="/pelicula">Get Back</a>
+    <a href="/categoria">Get Back</a>
 </body>
 </html>

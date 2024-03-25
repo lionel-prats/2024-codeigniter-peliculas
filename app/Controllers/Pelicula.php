@@ -12,7 +12,7 @@ class Pelicula extends BaseController
         $peliculaModel = new PeliculaModel();
         $peliculas = $peliculaModel->findAll();
         $data = [
-            "nombreVariableVista" => "Contenido",
+            "tituloVista" => "Listado de películas",
             "peliculas" => $peliculas,
         ];
         return view('pelicula/index', $data);
@@ -24,6 +24,7 @@ class Pelicula extends BaseController
         $peliculaModel = new PeliculaModel();
         $pelicula = $peliculaModel->find($id);
         $data = [
+            "tituloVista" => "Detalle Película",
             "pelicula" => $pelicula,
         ];
         return view('pelicula/show', $data);
@@ -33,6 +34,7 @@ class Pelicula extends BaseController
     public function new(): string
     {
         $data = [
+            "tituloVista" => "Crear Película",
             "op" => "Create",
             "pelicula" => [
                 "titulo" => "",
@@ -68,6 +70,7 @@ class Pelicula extends BaseController
         $peliculaModel = new PeliculaModel();
         $pelicula = $peliculaModel->find($id);
         $data = [
+            "tituloVista" => "Editar Película",
             "op" => "Update",
             "pelicula" => $pelicula,
         ];

@@ -22,10 +22,10 @@
 <body>
     <h1><?php echo $tituloVista; ?></h1>
     <div class="flex justify-content-between w-45">
-        <a href="/pelicula/new">New</a>
+        <a href="/categoria/new">New</a>
         <div>
             <a href="/" class="pr-2">Home</a>
-            <a href="/categoria">Categorías</a>
+            <a href="/pelicula">Películas</a>
         </div>
     </div>
     <br>
@@ -36,21 +36,19 @@
             <tr>
                 <th>ID</th>
                 <th>Título</th>
-                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach($peliculas as $pelicula): ?>
+            <?php foreach($categorias as $categoria): ?>
                 <tr>
-                    <td><?php echo $pelicula["id"]; ?></td>
-                    <td><?php echo $pelicula["titulo"]; ?></td>
-                    <td><?php echo $pelicula["descripcion"]; ?></td>
+                    <td><?php echo $categoria["id"]; ?></td>
+                    <td><?php echo $categoria["titulo"]; ?></td>
                     <td>
-                        <a href="/pelicula/show/<?php echo $pelicula["id"]; ?>">Detail</a>
+                        <a href="/categoria/show/<?php echo $categoria["id"]; ?>">Detail</a>
                         <br>
-                        <a href="/pelicula/edit/<?php echo $pelicula["id"]; ?>">Edit</a>
-                        <form action="/pelicula/delete/<?php echo $pelicula["id"]; ?>" method="POST">
+                        <a href="/categoria/edit/<?php echo $categoria["id"]; ?>">Edit</a>
+                        <form action="/categoria/delete/<?php echo $categoria["id"]; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>
                     </td>

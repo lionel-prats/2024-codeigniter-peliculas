@@ -286,3 +286,17 @@ git push --tags | "para subir las etiquetas"
 
 - RECORDATORIO: la carpeta vendor esta en el .gitignore 
 - Cuando se hace un clone del proyecto, para descargar la carpeta vendor debemos ejecutar el comando "composer install"
+
+---------- 
+
+43. Reto: Crear el CRUD para las categorías
+
+- creé la carpeta categorias para las vistas del recurso categoria copiando dentro todos los archivos del recurso pelicula vvv 
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4/app/Views (main)
+$ mkdir -p categoria && cp -r pelicula/* categoria/
+
+- creé el controlador para el recurso categoria vvv
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:controller Categoria

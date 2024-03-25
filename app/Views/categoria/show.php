@@ -11,18 +11,16 @@
             <tr>
                 <th>ID</th>
                 <th>Título</th>
-                <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><?php echo $pelicula["id"]; ?></td>
-                <td><?php echo $pelicula["titulo"]; ?></td>
-                <td><?php echo $pelicula["descripcion"]; ?></td>
+                <td><?php echo $categoria["id"]; ?></td>
+                <td><?php echo $categoria["titulo"]; ?></td>
             </tr>
         </tbody>
     </table>
     <br>
-    <a href="/pelicula">Get Back</a>
+    <a href="/categoria">Get Back</a>
 </body>
 </html>

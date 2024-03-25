@@ -8,7 +8,7 @@ php spark routes
 -> lista todas las rutas de nuestra aplicacion
 
 php spark make:migration Peliculas 
--> crea la migracion para la tabla peliculas
+-> crear migracion para la tabla peliculas
 
 php spark migrate
 -> este comando corre las migraciones
@@ -17,7 +17,13 @@ php spark migrate:rollback
 -> revierto la ultima migracion (migrations.batch)
 
 php spark make:model PeliculaModel
--> comando para crear un modelo
+-> crear un modelo
 
 composer install 
--> para instalar las dependencias de un proyecto Codeigniter luego de clonarlo (carpeta vendor, etc)
+-> para instalar las dependencias de un proyecto Codeigniter luego de clonarlo (carpeta vendor, etc) (COMPOSER)
+
+php spark make:controller Categoria
+-> crear un controlador
+
+mkdir -p categoria && cp -r pelicula/* categoria/
+-> copiar el contenido de una carpeta en otra nueva (LINUX)
