@@ -1,0 +1,288 @@
+7. Snippets VSC PHP
+
+- Para crear snippets HTML en VSCode
+
+7.1. Desde el nav superior vvv
+File > Preferences > Configure User Snippets > buscar "html" en el browser
+
+7.2. Se abre el archivo html.json
+Se trata de un json de configuracion donde agregamos los snippets que necesitemos
+
+*** snippets sugerencia el profesor (/carpeta-local/0.snippets.txt)
+
+---------- 
+
+8. Sobre CodeIgniter 4
+
+Documentacion oficial:
+
+https://www.codeigniter.com/
+https://codeigniter4.github.io/userguide/intro/index.html
+
+---------- 
+
+9. ¿Necesitas dar los primeros pasos en las principales tecnologías del desarrollo?
+
+Enlace al curso (PAGO) del profesor
+
+https://www.desarrollolibre.net/blog/javascript/curso-introduccion-a-las-principales-tecnologias-de-desarrollo-web
+
+---------- 
+
+11. Software necesario e instalación de las herramientas: Windows 
+
+- Ecosistema recomendado para Windows: Laragon
+*** Laragon es una herramienta que nos provee de un monton de herramientas 
+*** Aqui tienes PHP, Apache, MySQL, PostgreSQL, Python, Node, Composer y un monton de cosas mas, que son empleadas para los desarrollos modernos
+
+*** Instalé Laragon el Sábado 23/3/2024 siguiendo un tutorial de YT subido hacía 3 meses (aprox 12/2023):
+*** Enlace: https://www.youtube.com/watch?v=0HHD-afDiI8
+*** Canal: Oregoc
+
+- ¿Por que instalamos Laragon?
+*** Instalamos Laragon en nuestro SO porque para programar en PHP necesitamos un servidor web.
+*** Para construir o para instalar un servidor web en nuestra PC necesitamos instalados el servidor Apache, el lenguaje PHP y MySQL 
+*** Laragon incluye estos 3 componentes. 
+
+- Sitio para la descarga: 
+*** https://laragon.org/index.html
+
+- Paso a paso instalacion de Laragon:
+1. Descargamos el instalador de Laragon 
+*** https://laragon.org/download/ | Nav Superior > Download > click en "Download Laragon - Full (173 MB)"
+2. buscamos la descarga del ejecutable (/Descargas/laragon-wamp.exe) | click derecho en "Ejecutar como administrador" 
+3. "¿Quieres permitir que esta aplicación de un anunciante desconocido haga cambios en tu dispositivo?" | click en "Sí"
+4. Se abre el asistente de instalacion | seleccionamos el idioma (seleccioné español)
+5. El asistente nos indica donde se va a instalar el programa (Por default en "C:\laragon") | click en "Siguiente"
+6. Aparacen 3 checkboxes, mantuve activados los primeros 2 | click en "Siguiente" vvv
+
+Laragon runs extremely fast and has very low memory footprint(< 4MB)
+- Run Laragon when Windows starts (ACTIVADO)
+
+Your app will get pretty url ---> http://app.test
+- Auto virtual hosts (ACTIVADO)
+
+Quick ways to open Text Editor & Command Prompt
+- Add Notepad++ & Terminal to the Right-Click Menu (DESACTIVADO)
+
+7. Click en "Instalar"
+8. La ventana del asistente me indica que terminó la instalación incluyendo 2 checkboxes | click en "Finalizar" vvv 
+
+Haga click en Finalizar para salir del programa de instalación.
+
+- View the README file (DESACTIVADO)
+- Run Laragon (DESACTIVADO)
+
+9. Verifiqué que el programa se instaló correctamente (se creó la carpeta "laragon" con su contenido en el disco local C -> "C:\laragon")
+
+10. Vamos a mover la carpeta "laragon" al escritorio para trabajar de manera profesional
+*** desde "C:\laragon", click derecho | Enviar a | click en "Escritorio (crear acceso directo)"
+
+11. Verifico que en el escritorio tengo un acceso directo a "C:\laragon" y a su vez un acceso directo al panel de laragon
+
+12. Configuro Laragon para ejecutarlo siempre como administrador 
+*** click derecho al acceso directo en el escritorio (ícono de Laragon)
+*** click en propiedades
+*** click en Compatibilidad
+*** Activo el checkbox "Ejecutar este programa como administrador"
+*** Click en "Aplicar"
+*** Click en "Aceptar"
+
+13. Con esta configuracion, cada vez que ejecutemos o iniciemos este programa, este programa va a iniciarse como administrador 
+*** cuando un programa no se ejecuta como administrador a veces no funcionan todos los componentes correctamente
+
+14- Laragon incluye PHP, Apache, MySQL y Composer. Con estas 4 herramientas podemos llevar adelante el curso
+
+---------- 
+
+12. Instalar CodeIgniter 4 con composer
+
+Documentacion instalacion via composer: 
+https://codeigniter4.github.io/userguide/installation/installing_composer.html
+
+- Desde la terminal de Laragon vvv
+
+C:\laragon\www
+λ composer create-project codeigniter4/appstarter 0_codeigniter4
+Creating a "codeigniter4/appstarter" project at "./0_codeigniter4"
+...
+
+---------- 
+
+14. Ejecutar CodeIgniter en el navegador
+
+- 3 formas de ejecutar la aplicacion en mi entorno local:
+
+1) Virtual Host (laragon lo crea automaticamente)
+http://0_codeigniter4.test/
+
+2) Accediendo a la carpeta /public desde la URL 
+http://localhost/0_codeigniter4/public/
+
+3) Desde la terminal de laragon
+C:\laragon\www\0_codeigniter4
+λ php spark serve
+http://localhost:8080
+*** esta opcion lo que hace es ejecutar el archivo "spark" en la raiz del proyecto
+
+---------- 
+
+16. Línea de comandos
+
+C:\laragon\www\0_codeigniter4
+λ php spark
+
+*** info sobre los comandos disponibles de la linea de comandos spark
+
+---------- 
+
+18. Habilitar el modo desarrollador
+
+- por default en desarrollo, cuando se genera algun error en nuestra app y una vista se rompe, se genera generan archivos de logs dentro de /writable/logs y estos errores no se muestran por pantalla 
+- el nombre de los archivos es del tipo "log-2024-03-23.log"
+
+- a su vez, por default, codeigniter toma como entorno a "production", lo que apunta de alguna manera al archivo /app/Config/Boot/production.php 
+- para habilitar el modo desarrollador seteamos la siguiente variable de entorno en el .env vvv 
+CI_ENVIRONMENT = development
+con este cambio, codeigniter tomara como entorno por defecto a development, que de alguna manera apunta al archivo /app/Config/Boot/development.php
+- development.php tiene la siguiente configuracion:
+ini_set('display_errors', '1');
+
+- con esta configuracion, en desarrollo, los errores se mostraran por pantalla, siendo mas facil corregirlos (y se siguen escribiendo en los logs de errores)
+
+---------- 
+
+19. Configurar la base de datos
+
+- desde el panel de laragon, el click en "btn.Base de Datos" genera una instancia de HeidiSQL en 127.0.0.1 (localhost)
+- en esta conexion creamos la DB "code_peliculas"
+- configuramos las variables de entorno correspondientes en el .env par conectarnos a esta nueva BD
+
+database.default.hostname = localhost
+database.default.database = code_peliculas
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+
+---------- 
+
+21. Introducción a las rutas: Parte 2
+
+- tipos de parametros que podemos incluir en las URL en las peticiones GET vvv 
+https://codeigniter4.github.io/userguide/incoming/routing.html#placeholders
+
+----- 
+
+- metodo presenter() del objeto $routes para crear todas las rutas necesarias para un recurso desde Routes.php (para una web) vvv
+
+$routes->presenter("recurso_web"); // Routes.php
+
+C:\laragon\www\0_codeigniter4
+λ php spark routes
++--------+-------------------------+------+-----------------------------------------+----------------+---------------+
+| Method | Route                   | Name | Handler                                 | Before Filters | After Filters |
++--------+-------------------------+------+-----------------------------------------+----------------+---------------+
+| GET    | recurso_web             | »    | \App\Controllers\Recurso_web::index     |                | toolbar       |
+| GET    | recurso_web/show/(.*)   | »    | \App\Controllers\Recurso_web::show/$1   |                | toolbar       |
+| GET    | recurso_web/new         | »    | \App\Controllers\Recurso_web::new       |                | toolbar       |
+| GET    | recurso_web/edit/(.*)   | »    | \App\Controllers\Recurso_web::edit/$1   |                | toolbar       |
+| GET    | recurso_web/remove/(.*) | »    | \App\Controllers\Recurso_web::remove/$1 |                | toolbar       |
+| GET    | recurso_web/(.*)        | »    | \App\Controllers\Recurso_web::show/$1   |                | toolbar       |
+| POST   | recurso_web/create      | »    | \App\Controllers\Recurso_web::create    |                | toolbar       |
+| POST   | recurso_web/update/(.*) | »    | \App\Controllers\Recurso_web::update/$1 |                | toolbar       |
+| POST   | recurso_web/delete/(.*) | »    | \App\Controllers\Recurso_web::delete/$1 |                | toolbar       |
+| POST   | recurso_web             | »    | \App\Controllers\Recurso_web::create    |                | toolbar       |
++--------+-------------------------+------+-----------------------------------------+----------------+---------------+
+
+----- 
+
+- metodo resource() del objeto $routes para crear todas las rutas necesarias para un recurso desde Routes.php (para una api) vvv
+
+$routes->resource("recurso_api"); // Routes.php
+
+C:\laragon\www\0_codeigniter4
+λ php spark routes
++--------+-----------------------+------+-----------------------------------------+----------------+---------------+
+| Method | Route                 | Name | Handler                                 | Before Filters | After Filters |
++--------+-----------------------+------+-----------------------------------------+----------------+---------------+
+| GET    | recurso_api           | »    | \App\Controllers\Recurso_api::index     |                | toolbar       |
+| GET    | recurso_api/new       | »    | \App\Controllers\Recurso_api::new       |                | toolbar       |
+| GET    | recurso_api/(.*)/edit | »    | \App\Controllers\Recurso_api::edit/$1   |                | toolbar       |
+| GET    | recurso_api/(.*)      | »    | \App\Controllers\Recurso_api::show/$1   |                | toolbar       |
+| POST   | recurso_api           | »    | \App\Controllers\Recurso_api::create    |                | toolbar       |
+| PATCH  | recurso_api/(.*)      | »    | \App\Controllers\Recurso_api::update/$1 |                | toolbar       |
+| PUT    | recurso_api/(.*)      | »    | \App\Controllers\Recurso_api::update/$1 |                | toolbar       |
+| DELETE | recurso_api/(.*)      | »    | \App\Controllers\Recurso_api::delete/$1 |                | toolbar       |
++--------+-----------------------+------+-----------------------------------------+----------------+---------------+
+
+---------- 
+
+27. Migraciones: Crear
+
+- modifique la clase /app/Config/App.php para que la aplicacion tome el DATETIME real de mi ubicacion geografica, concretamente del atributo $appTimezone vvv 
+
+public $appTimezone = 'America/Argentina/Buenos_Aires';
+
+----- 
+
+- creé la migracion para la tabla peliculas vvv 
+
+C:\laragon\www\0_codeigniter4
+λ php spark make:migration Peliculas
+
+CodeIgniter v4.4.6 Command Line Tool - Server Time: 2024-03-23 21:10:08 UTC-03:00
+
+File created: APPPATH\Database\Migrations\2024-03-24-001008_Peliculas.php
+
+---------- 
+
+28. Migraciones: Ejecutar
+
+- corro las migraciones vvv
+
+C:\laragon\www\0_codeigniter4
+λ php spark migrate
+
+---------- 
+
+30. Migraciones: Rollback
+
+- el rollback revierte la ultima migracion corrida 
+- las migraciones se identifican por el numero de lote (tabla migrations.batch)
+- esta ejecucion va a identificar el nro de batch mas alto en la tabla migrations, y va a revertir todos los cambios asociados a los registros que compartan ese nro de batch mas alto (eliminando a su vez estos registros de migrations)
+- a nivel base de datos, se eliminan los registros asociados al ultimo lote en la tabla migrations, y las modificaciones que esta ultima migracion pueda haber realizado (pro ejemplo creacion de tablas)
+- los numeros de batch no pueden ser arbitrarios: siempre que se hace un rolback, se va a buscar el nro inmediatamente anterior, y si no existe ese nro inmediatamente anterior habra conflicto.
+- TRUCO: si cuando corremos las migraciones, hay 10 archivos que crean tablas, se crearan 10 tablas, y en migrations se crearan 10 registros asociados a esas 10 tablas, todos con el mismo valor en el campo batch.
+Si lo necesitamos podemos modificar esos valores manualmente desde la DB y reorganizar los lotes como nos convenga.
+
+C:\laragon\www\0_codeigniter4
+λ php spark migrate:rollback
+
+---------- 
+
+31. Modelo: Crear modelo de película
+
+- creo el modelo PeliculaModel vvv 
+
+C:\laragon\www\0_codeigniter4
+λ php spark make:model PeliculaModel
+
+---------- 
+
+41. Publicar en github
+
+- sigue los pasos de siempre para hacer el push a un repo remoto del proyecto 
+
+- luego dice "vamos a crear un release" vvv 
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4
+$ git tag v0.1 -m "CRUD peliculas" + ENTER
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4
+git push --tags | "para subir las etiquetas"
+
+- luego, en el panel de la derecha del repo remoto en la web de github, en el apartado "Rreleases", vemos que se aha agregado el release (icono + "1 tags")
+- "este primer tag corresponde a la primera seccion, y aqui tenemos el codigo fuente hasta este punto"
+
+- RECORDATORIO: la carpeta vendor esta en el .gitignore 
+- Cuando se hace un clone del proyecto, para descargar la carpeta vendor debemos ejecutar el comando "composer install"

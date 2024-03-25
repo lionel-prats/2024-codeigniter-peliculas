@@ -1,0 +1,23 @@
+php spark 
+-> info sobre los comandos disponibles de la linea de comandos spark
+
+php spark serve 
+-> levanta un servidor de desarrollo 
+
+php spark routes 
+-> lista todas las rutas de nuestra aplicacion
+
+php spark make:migration Peliculas 
+-> crea la migracion para la tabla peliculas
+
+php spark migrate
+-> este comando corre las migraciones
+
+php spark migrate:rollback
+-> revierto la ultima migracion (migrations.batch)
+
+php spark make:model PeliculaModel
+-> comando para crear un modelo
+
+composer install 
+-> para instalar las dependencias de un proyecto Codeigniter luego de clonarlo (carpeta vendor, etc)
