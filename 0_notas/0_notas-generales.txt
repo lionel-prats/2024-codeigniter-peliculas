@@ -300,3 +300,45 @@ $ mkdir -p categoria && cp -r pelicula/* categoria/
 
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
 $ php spark make:controller Categoria
+
+---------- 
+
+47. Redirecciones
+
+- en /app/Config/App.php seteo el atributo $indexPage como un string vacio para que funcione correctamente el redireccionamiento desde los controladores vvv 
+
+public string $indexPage = '';
+
+- de ser necesario, hay que modificar tambien el atributo $baseURL, para que el redireccionamiento funcione correctamente; en mi caso, al estar desarrollando con el servidor levantado con spark en el 8080, el seteo necesario es el siguiente vvv
+
+public string $baseURL = 'http://localhost:8080/';
+
+---------- 
+
+53. Publicar en github
+
+1)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git add .
+
+2)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git commit -m "Seccion 5: Rutas y redirecciones"
+
+3)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push
+
+4)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag
+v.0.1
+v0.2
+
+5)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag v0.3 -m "redirecciones y rutas"
+
+6)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push --tags | "para subir las etiquetas"

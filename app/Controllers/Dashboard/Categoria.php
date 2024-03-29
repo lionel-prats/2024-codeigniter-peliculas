@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Dashboard;
 
 use App\Models\CategoriaModel;
+use App\Controllers\BaseController;
 
 class Categoria extends BaseController
 {
@@ -15,7 +16,7 @@ class Categoria extends BaseController
             "tituloVista" => "Listado de categorías",
             "categorias" => $categorias,
         ];
-        return view('categoria/index', $data);
+        return view('dashboard/categoria/index', $data);
     }   
 
     // list a single resource
@@ -27,7 +28,7 @@ class Categoria extends BaseController
             "tituloVista" => "Detalle Categoría",
             "categoria" => $categoria,
         ];
-        return view('categoria/show', $data);
+        return view('dashboard/categoria/show', $data);
     }   
 
     // render form to create new resource
@@ -40,7 +41,7 @@ class Categoria extends BaseController
                 "titulo" => "",
             ],
         ];
-        return view('categoria/new', $data);
+        return view('dashboard/categoria/new', $data);
     }   
     
     // process form to create new resource
@@ -56,7 +57,7 @@ class Categoria extends BaseController
         
         if($result) {
             $newId = $categoriaModel->getInsertID();
-            echo "La categoría '" . $this->request->getPost("titulo") . "' se ha creado correctamente con el id $newId.";
+            return redirect()->to("/dashboard/categoria");
         } else {
             echo "error";
         }
@@ -72,7 +73,7 @@ class Categoria extends BaseController
             "op" => "Update",
             "categoria" => $categoria,
         ];
-        return view('categoria/edit', $data);
+        return view('dashboard/categoria/edit', $data);
     } 
 
     // process form to update a resource
@@ -85,7 +86,9 @@ class Categoria extends BaseController
         ];
         
         $result = $categoriaModel->update($id, $data);
-        var_dump($result);
+        if($result) {
+            return redirect()->to("/dashboard/categoria");
+        }
     }   
     
     // delete a resource
@@ -93,6 +96,8 @@ class Categoria extends BaseController
     {   
         $categoriaModel = new categoriaModel();    
         $result = $categoriaModel->delete($id);
-        var_dump($result);
+        if($result) {
+            return redirect()->back();
+        }
     }   
 }

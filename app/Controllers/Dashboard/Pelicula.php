@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Dashboard;
 
 use App\Models\PeliculaModel;
+use App\Controllers\BaseController;
 
 class Pelicula extends BaseController
 {
@@ -15,7 +16,7 @@ class Pelicula extends BaseController
             "tituloVista" => "Listado de películas",
             "peliculas" => $peliculas,
         ];
-        return view('pelicula/index', $data);
+        return view('dashboard/pelicula/index', $data);
     }   
 
     // list a single resource
@@ -27,7 +28,7 @@ class Pelicula extends BaseController
             "tituloVista" => "Detalle Película",
             "pelicula" => $pelicula,
         ];
-        return view('pelicula/show', $data);
+        return view('dashboard/pelicula/show', $data);
     }   
 
     // render form to create new resource
@@ -41,7 +42,7 @@ class Pelicula extends BaseController
                 "descripcion" => "",
             ],
         ];
-        return view('pelicula/new', $data);
+        return view('dashboard/pelicula/new', $data);
     }   
     
     // process form to create new resource
@@ -58,7 +59,8 @@ class Pelicula extends BaseController
         
         if($result) {
             $newId = $peliculaModel->getInsertID();
-            echo "La película '" . $this->request->getPost("titulo") . "' se ha creado correctamente con el id $newId.";
+            // echo "La película '" . $this->request->getPost("titulo") . "' se ha creado correctamente con el id $newId.";
+            return redirect()->to("/dashboard/pelicula");
         } else {
             echo "error";
         }
@@ -74,7 +76,7 @@ class Pelicula extends BaseController
             "op" => "Update",
             "pelicula" => $pelicula,
         ];
-        return view('pelicula/edit', $data);
+        return view('dashboard/pelicula/edit', $data);
     } 
 
     // process form to update a resource
@@ -88,7 +90,13 @@ class Pelicula extends BaseController
         ];
         
         $result = $peliculaModel->update($id, $data);
-        var_dump($result);
+        
+        if($result) {
+            // return redirect()->back();
+            return redirect()->to("/dashboard/pelicula");
+            // return redirect()->route("pelicula.test");
+        }
+
     }   
     
     // delete a resource
@@ -96,6 +104,16 @@ class Pelicula extends BaseController
     {   
         $peliculaModel = new PeliculaModel();    
         $result = $peliculaModel->delete($id);
-        var_dump($result);
+        if($result) {
+            return redirect()->back();
+        }
+    }   
+    
+    // controller for proofs
+    public function test($arg1, $arg2)//: string
+    {   
+        echo "Argumento $arg1 recibido correctamente<br>";
+        echo "Argumento $arg2 recibido correctamente<br>";
+        echo "<br><a href='/dashboard/pelicula'>Get Back</a>";
     }   
 }

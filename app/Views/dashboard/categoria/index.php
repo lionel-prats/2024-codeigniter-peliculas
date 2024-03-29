@@ -22,10 +22,10 @@
 <body>
     <h1><?php echo $tituloVista; ?></h1>
     <div class="flex justify-content-between w-45">
-        <a href="/categoria/new">New</a>
+        <a href="/dashboard/categoria/new">New</a>
         <div>
             <a href="/" class="pr-2">Home</a>
-            <a href="/pelicula">Películas</a>
+            <a href="/dashboard/pelicula">Películas</a>
         </div>
     </div>
     <br>
@@ -45,10 +45,10 @@
                     <td><?php echo $categoria["id"]; ?></td>
                     <td><?php echo $categoria["titulo"]; ?></td>
                     <td>
-                        <a href="/categoria/show/<?php echo $categoria["id"]; ?>">Detail</a>
+                        <a href="/dashboard/categoria/show/<?php echo $categoria["id"]; ?>">Detail</a>
                         <br>
-                        <a href="/categoria/edit/<?php echo $categoria["id"]; ?>">Edit</a>
-                        <form action="/categoria/delete/<?php echo $categoria["id"]; ?>" method="POST">
+                        <a href="/dashboard/categoria/edit/<?php echo $categoria["id"]; ?>">Edit</a>
+                        <form action="/dashboard/categoria/delete/<?php echo $categoria["id"]; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>
                     </td>
