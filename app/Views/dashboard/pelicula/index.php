@@ -1,30 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $tituloVista; ?></title>
-    <style>
-        .flex{
-            display: flex;
-        }
-        .justify-content-between {
-            justify-content: space-between;
-        }
-        .w-45 {
-            width: 45vw;
-        }
-        .pr-2{
-            padding-right: .5rem;
-        }
-    </style>
-</head>
-<body>
-    
+<?php echo $this->extend("Layouts/dashboard"); ?>
 
-    <?php echo view("partials/_session"); ?>
-    
-    <h1><?php echo $tituloVista; ?></h1>
+<?php echo $this->section("contenido"); ?>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/pelicula/new">New</a>
         <div>
@@ -68,7 +44,4 @@
     <a href="/testing/show/10">/testing/show/10</a>
     <br>
     <a href="/testing2/new">/testing2/new</a>
-    
-
-</body>
-</html>
+<?php echo $this->endSection(); ?>

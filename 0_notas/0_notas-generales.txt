@@ -404,7 +404,39 @@ v0.3
 
 5)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-$ git tag v0.3 -m "Seccion 7: Sesión y mensaje flash"
+$ git tag v0.4 -m "Seccion 7: Sesión y mensaje flash"
+
+6)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push --tags
+
+---------- 
+
+71. Publicar en github
+
+1)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git add .
+
+2)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git commit -m "Seccion 8: Vistas y layouts"
+
+3)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push
+
+4)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag
+v.0.1
+v0.2
+v0.3
+v0.4
+
+5)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag v0.5 -m "Seccion 8: Vistas y layouts"
 
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)

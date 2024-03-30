@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $tituloVista; ?></title>
-</head>
-<body>
+<?php echo $this->extend("Layouts/dashboard"); ?>
+
+<?php echo $this->section("contenido"); ?>
     <table border="1" cellspacing="0" cellpadding="10">
         <thead>
             <tr>
@@ -24,5 +19,4 @@
     </table>
     <br>
     <a href="/dashboard/pelicula">Get Back</a>
-</body>
-</html>
+<?php echo $this->endSection(); ?>

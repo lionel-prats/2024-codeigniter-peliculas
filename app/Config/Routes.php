@@ -12,7 +12,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/', 'Home::index');
 $routes->group("dashboard", function($routes){
     $routes->presenter("pelicula", ["controller" => "Dashboard\Pelicula"]);
-    $routes->presenter("categoria", ["controller" => "Dashboard\Categoria", "except" => "show"]);
+    $routes->presenter("categoria", ["controller" => "Dashboard\Categoria"/* , "except" => "show" */]);
     $routes->get("test/(:num)/(:num)", "Dashboard\Pelicula::test/$1/$2", ["as" => "pelicula.test"]);
     $routes->get("destroy-session", "Dashboard\Pelicula::destruir_session", ["as" => "pelicula.destruir-session"]);
 });
