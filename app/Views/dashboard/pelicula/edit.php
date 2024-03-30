@@ -6,6 +6,7 @@
     <title><?php echo $tituloVista; ?></title>
 </head>
 <body>
+    
     <form action="/dashboard/pelicula/update/<?php echo $pelicula["id"]; ?>" method="POST">
         <?php echo view("dashboard/pelicula/_form"); ?>
     </form>

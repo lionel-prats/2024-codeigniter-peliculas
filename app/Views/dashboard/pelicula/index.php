@@ -20,6 +20,10 @@
     </style>
 </head>
 <body>
+    
+
+    <?php echo view("partials/_session"); ?>
+    
     <h1><?php echo $tituloVista; ?></h1>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/pelicula/new">New</a>

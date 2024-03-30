@@ -10,6 +10,29 @@ Se trata de un json de configuracion donde agregamos los snippets que necesitemo
 
 *** snippets sugerencia el profesor (/carpeta-local/0.snippets.txt)
 
+snippets personales vvv 
+
+"php": {
+    "prefix": "php",
+    "body": [
+        "<?php $1 ?>"
+    ],
+    "description": "php tag"
+},
+"echo": {
+    "prefix": "echo",
+    "body": [
+        "<?php echo $1; ?>"
+    ]
+},
+"each": {
+    "prefix": "each",
+    "body": [
+        "<?php foreach($$iterable as $$key => $$value): ?>",
+        "<?php endforeach ?>"
+    ]
+}
+
 ---------- 
 
 8. Sobre CodeIgniter 4
@@ -337,8 +360,52 @@ v0.2
 
 5)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-$ git tag v0.3 -m "redirecciones y rutas"
+$ git tag v0.3 -m "Seccion 5: Rutas y redirecciones"
 
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-git push --tags | "para subir las etiquetas"
+git push --tags
+
+---------- 
+
+65. Seccion 7: Sesión y mensajes flash 
+
+- tenemos 2 tipos de sesiones en codeigniter 
+1) sesiones o mensajes de tipo flash -> son sesiones que duran solamente una peticion HTTP, un request
+2) variables de sesion clasicas 
+- pruebas en Chrome:
+* hice pruebas, y cuando se crea una variable de sesion solo he podido destruirlas con session()->destroy() o borrando el historial de navegacion
+* probe cerrando todas las instancias de chrome volviendo a iniciar, y estas variables persistian
+- pruebas en Firefox:
+* como con $_SESSION, las variables se destruyen automaticamente cuando cierro todas las instancias del navegador
+
+---------- 
+
+68. Publicar en github
+
+1)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git add .
+
+2)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git commit -m "Seccion 7: Sesión y mensaje flash"
+
+3)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push
+
+4)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag
+v.0.1
+v0.2
+v0.3
+
+5)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag v0.3 -m "Seccion 7: Sesión y mensaje flash"
+
+6)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push --tags

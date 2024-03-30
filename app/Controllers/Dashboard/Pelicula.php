@@ -10,6 +10,16 @@ class Pelicula extends BaseController
     // list all resources
     public function index(): string
     {
+
+        session()->set("ip", "192.155.14.187");
+        session()->set("ip2", "248.074.133.05");
+
+        session()->set("session_key", [
+            "origin" => "Dashboard/Pelicula::index",
+            "owner" => "lionel prats",
+            "shadow_pass" => "1sadas4d4d5as4asd245",
+        ]);
+
         $peliculaModel = new PeliculaModel();
         $peliculas = $peliculaModel->findAll();
         $data = [
@@ -59,8 +69,7 @@ class Pelicula extends BaseController
         
         if($result) {
             $newId = $peliculaModel->getInsertID();
-            // echo "La película '" . $this->request->getPost("titulo") . "' se ha creado correctamente con el id $newId.";
-            return redirect()->to("/dashboard/pelicula");
+            return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película creada exitosamente");
         } else {
             echo "error";
         }
@@ -93,7 +102,7 @@ class Pelicula extends BaseController
         
         if($result) {
             // return redirect()->back();
-            return redirect()->to("/dashboard/pelicula");
+            return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película editada exitosamente");;
             // return redirect()->route("pelicula.test");
         }
 
@@ -105,7 +114,7 @@ class Pelicula extends BaseController
         $peliculaModel = new PeliculaModel();    
         $result = $peliculaModel->delete($id);
         if($result) {
-            return redirect()->back();
+            return redirect()->back()->with("mensaje", "Película borrada exitosamente");
         }
     }   
     
@@ -115,5 +124,13 @@ class Pelicula extends BaseController
         echo "Argumento $arg1 recibido correctamente<br>";
         echo "Argumento $arg2 recibido correctamente<br>";
         echo "<br><a href='/dashboard/pelicula'>Get Back</a>";
-    }   
+    } 
+    
+    public function destruir_session()
+    {
+        session()->destroy();
+        session()->setFlashdata("mensaje", "Se ha destruído la sesión!!");
+        return redirect()->back();
+    }
+
 }

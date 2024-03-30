@@ -57,6 +57,7 @@ class Categoria extends BaseController
         
         if($result) {
             $newId = $categoriaModel->getInsertID();
+            session()->setFlashdata("mensaje", "Se ha creado la categoría " . $this->request->getPost("titulo"));
             return redirect()->to("/dashboard/categoria");
         } else {
             echo "error";
@@ -84,9 +85,10 @@ class Categoria extends BaseController
         $data = [
             'titulo' => $this->request->getPost("titulo"),
         ];
-        
+        $categoria = $categoriaModel->find($id); 
         $result = $categoriaModel->update($id, $data);
         if($result) {
+            session()->setFlashdata("mensaje", "La categoría " . $categoria["titulo"] . " pasó a llamarse " . $this->request->getPost("titulo"));
             return redirect()->to("/dashboard/categoria");
         }
     }   
@@ -94,9 +96,11 @@ class Categoria extends BaseController
     // delete a resource
     public function delete($id)//: string
     {   
-        $categoriaModel = new categoriaModel();    
+        $categoriaModel = new categoriaModel(); 
+        $categoria = $categoriaModel->find($id); 
         $result = $categoriaModel->delete($id);
         if($result) {
+            session()->setFlashdata("mensaje", "Se ha eliminado la categoría " . $categoria["titulo"]);
             return redirect()->back();
         }
     }   
