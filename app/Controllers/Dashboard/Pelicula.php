@@ -58,20 +58,27 @@ class Pelicula extends BaseController
     // process form to create new resource
     public function create()//: string
     {   
-        $peliculaModel = new PeliculaModel();
-    
-        $data = [
-            'titulo' => $this->request->getPost("titulo"),
-            'descripcion' => $this->request->getPost("descripcion"),
-        ];
-        
-        $result = $peliculaModel->insert($data, false);
-        
-        if($result) {
-            $newId = $peliculaModel->getInsertID();
-            return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película creada exitosamente");
+        if($this->validate("peliculas")){
+            $peliculaModel = new PeliculaModel();
+            $data = [
+                'titulo' => $this->request->getPost("titulo"),
+                'descripcion' => $this->request->getPost("descripcion"),
+            ];
+            $result = $peliculaModel->insert($data, false); 
+            if($result) {
+                $newId = $peliculaModel->getInsertID();
+                return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película creada exitosamente");
+            } else {
+                echo "error";
+            }
         } else {
-            echo "error";
+            session()->setFlashdata([
+                "validation" => [
+                    "descripcion" => $this->validator->getError("descripcion"),
+                    "titulo" => $this->validator->getError("titulo")
+                ]
+            ]);
+            return redirect()->back()/* ->withInput() */;
         }
     }   
 
@@ -91,21 +98,27 @@ class Pelicula extends BaseController
     // process form to update a resource
     public function update($id)//: string
     {   
-        $peliculaModel = new PeliculaModel();
-    
-        $data = [
-            'titulo' => $this->request->getPost("titulo"),
-            'descripcion' => $this->request->getPost("descripcion"),
-        ];
-        
-        $result = $peliculaModel->update($id, $data);
-        
-        if($result) {
-            // return redirect()->back();
-            return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película editada exitosamente");;
-            // return redirect()->route("pelicula.test");
+        if($this->validate("peliculas")){
+            $peliculaModel = new PeliculaModel();
+            $data = [
+                'titulo' => $this->request->getPost("titulo"),
+                'descripcion' => $this->request->getPost("descripcion"),
+            ];
+            $result = $peliculaModel->update($id, $data);
+            if($result) {
+                // return redirect()->back();
+                return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película editada exitosamente");
+                // return redirect()->route("pelicula.test");
+            }
+        } else {
+            session()->setFlashdata([
+                "validation" => [
+                    "descripcion" => $this->validator->getError("descripcion"),
+                    "titulo" => $this->validator->getError("titulo")
+                ]
+            ]);
+            return redirect()->back()/* ->withInput() */;
         }
-
     }   
     
     // delete a resource

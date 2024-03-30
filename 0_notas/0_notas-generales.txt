@@ -241,6 +241,8 @@ C:\laragon\www\0_codeigniter4
 
 ---------- 
 
+Sección 3: Crear el primer CRUD: Películas 
+
 27. Migraciones: Crear
 
 - modifique la clase /app/Config/App.php para que la aplicacion tome el DATETIME real de mi ubicacion geografica, concretamente del atributo $appTimezone vvv 
@@ -326,6 +328,8 @@ $ php spark make:controller Categoria
 
 ---------- 
 
+Sección 5: Rutas y redirecciones 
+
 47. Redirecciones
 
 - en /app/Config/App.php seteo el atributo $indexPage como un string vacio para que funcione correctamente el redireccionamiento desde los controladores vvv 
@@ -368,7 +372,9 @@ git push --tags
 
 ---------- 
 
-65. Seccion 7: Sesión y mensajes flash 
+Sección 7: Sesión y mensajes flash 
+
+65. Introducción
 
 - tenemos 2 tipos de sesiones en codeigniter 
 1) sesiones o mensajes de tipo flash -> son sesiones que duran solamente una peticion HTTP, un request
@@ -412,6 +418,8 @@ git push --tags
 
 ---------- 
 
+Sección 8: Vistas y layouts
+
 71. Publicar en github
 
 1)
@@ -437,6 +445,101 @@ v0.4
 5)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
 $ git tag v0.5 -m "Seccion 8: Vistas y layouts"
+
+6)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push --tags
+
+---------- 
+
+Sección 9: Formularios y validaciones
+
+Documentación oficial validaciones
+https://codeigniter4.github.io/userguide/libraries/validation.html
+
+73. Validaciones: Definir reglas
+
+- en /app/Config/Validation.php definimos las reglas de validacion para nuestros formularios vvv
+
+class Validation extends BaseConfig
+{
+    ...
+    public $categorias = [
+        "titulo" => "required|min_length[3]|max_length[255]"
+    ];
+    public $pelicula = [
+        "descripcion" => "required|min_length[3]|max_length[2000]",
+        "titulo" => "required|min_length[3]|max_length[255]",
+    ];
+}
+
+---------- 
+
+74. Validaciones: Establecerlas en formularios
+
+- vimos que con $this->validator->listErrors() obtenemos el listado de erores segun las reglas de validacion definidas en Validation.php 
+- vimos que por default, cuando imprimos este listado en pantalla, tiene una estructura html y estilos css por default 
+- este codigo esta definido en el template /vendor/codeigniter4/framework/system/Validation/Views/list.php
+
+- vimos que con $this->validator->getError("titulo"); obtenemos el error de un campo del form en especifico, segun las reglas de validacion definidas en Validation.php  
+- vimos que por default, cuando imprimos este error en pantalla, tiene una estructura html y estilos css por default 
+- este codigo esta definido en el template /vendor/codeigniter4/framework/system/Validation/Views/single.php
+
+- esto lo sabemos, ya que esta defnido en en el atributo $templates de la clase Validation (Validaton.php) vvv 
+public array $templates = [
+    'list'   => 'CodeIgniter\Validation\Views\list',
+    // /vendor/codeigniter4/framework/system/Validation/Views/list.php
+
+    'single' => 'CodeIgniter\Validation\Views\single',
+    // /vendor/codeigniter4/framework/system/Validation/Views/single.php
+
+];
+
+- estos templates los podemos customizar a nuestro gusto
+
+---------- 
+
+75. Función de old()
+
+- cuando salta algun error de validacion para lo que es un INSERT o un UPDATE, y por ende se hace un return back al formulario, esta es la forma para que persista lo que escribio el usuario en los distintos inputs, para que no se pierda la informacion cargada y pueda corregir vvv 
+
+* en el return back del controlador ejecutamos withInput() vvv
+return redirect()->back()->withInput();
+
+* en los inputs del form usamos la funcion old(), a la que le pasamos 2 argumentos: el name del mismo input, con lo cual si el usuario escribio algo antes del submit, esto se cargara en el value, y si no escribio nada, el value cargara el segundo parametro que le pasemos a la funcion vvv 
+<input name="titulo" value="<?php echo old("titulo", $categoria["titulo"]); ?>">
+<input name="titulo" value="<?php echo old("titulo", ""); ?>">
+
+- esta combinacion de withInput() y old() es una mensaje flash
+
+---------- 
+
+76. Publicar en github
+
+1)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git add .
+
+2)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git commit -m "Sección 9: Formularios y validaciones"
+
+3)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+git push
+
+4)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag
+v.0.1
+v0.2
+v0.3
+v0.4
+v0.5
+
+5)
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ git tag v0.6 -m "Sección 9: Formularios y validaciones"
 
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)

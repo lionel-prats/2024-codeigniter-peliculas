@@ -17,11 +17,19 @@
         .pr-2{
             padding-right: .5rem;
         }
+        .p-2{
+            padding: .5rem;
+        }
         .title {
             color: #6B9471;
         }
-        .text-danger {
-            color: red;
+        .error-message {
+            background-color: #e24152;
+            color: white;
+        }
+        .success-message {
+            background-color: #6B9471;
+            color: yellow;
         }
     </style>
 </head>

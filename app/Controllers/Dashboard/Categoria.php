@@ -47,20 +47,24 @@ class Categoria extends BaseController
     // process form to create new resource
     public function create()//: string
     {   
-        $categoriaModel = new CategoriaModel();
-    
-        $data = [
-            'titulo' => $this->request->getPost("titulo"),
-        ];
-        
-        $result = $categoriaModel->insert($data, false);
-        
-        if($result) {
-            $newId = $categoriaModel->getInsertID();
-            session()->setFlashdata("mensaje", "Se ha creado la categoría " . $this->request->getPost("titulo"));
-            return redirect()->to("/dashboard/categoria");
+        if($this->validate("categorias")){
+            $categoriaModel = new CategoriaModel();
+            $data = [
+                'titulo' => $this->request->getPost("titulo"),
+            ];
+            $result = $categoriaModel->insert($data, false);
+            if($result) {
+                $newId = $categoriaModel->getInsertID();
+                session()->setFlashdata("mensaje", "Se ha creado la categoría " . $this->request->getPost("titulo"));
+                return redirect()->to("/dashboard/categoria");
+            } else {
+                echo "error";
+            }
         } else {
-            echo "error";
+            session()->setFlashdata([
+                "validation" => $this->validator->listErrors()
+            ]);
+            return redirect()->back()->withInput();
         }
     }   
 
@@ -80,16 +84,22 @@ class Categoria extends BaseController
     // process form to update a resource
     public function update($id)//: string
     {   
-        $categoriaModel = new categoriaModel();
-    
-        $data = [
-            'titulo' => $this->request->getPost("titulo"),
-        ];
-        $categoria = $categoriaModel->find($id); 
-        $result = $categoriaModel->update($id, $data);
-        if($result) {
-            session()->setFlashdata("mensaje", "La categoría " . $categoria["titulo"] . " pasó a llamarse " . $this->request->getPost("titulo"));
-            return redirect()->to("/dashboard/categoria");
+        if($this->validate("categorias")){
+            $categoriaModel = new categoriaModel();
+            $data = [
+                'titulo' => $this->request->getPost("titulo"),
+            ];
+            $categoria = $categoriaModel->find($id); 
+            $result = $categoriaModel->update($id, $data);
+            if($result) {
+                session()->setFlashdata("mensaje", "La categoría " . $categoria["titulo"] . " pasó a llamarse " . $this->request->getPost("titulo"));
+                return redirect()->to("/dashboard/categoria");
+            }
+        } else {
+            session()->setFlashdata([
+                "validation" => $this->validator->listErrors()
+            ]);
+            return redirect()->back()->withInput();
         }
     }   
     

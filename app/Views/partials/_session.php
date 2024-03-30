@@ -1,4 +1,4 @@
 <?php if(session("mensaje")): ?>
-    <small class="text-danger"><?php echo session("mensaje"); ?></small>
+    <small class="success-message p-2"><?php echo session("mensaje"); ?></small>
     <br>
 <?php endif ?>

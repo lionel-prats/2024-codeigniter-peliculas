@@ -37,8 +37,18 @@ class Validation extends BaseConfig
         'list'   => 'CodeIgniter\Validation\Views\list',
         'single' => 'CodeIgniter\Validation\Views\single',
     ];
+    // /vendor/codeigniter4/framework/system/Validation/Views/list.php
+    // /vendor/codeigniter4/framework/system/Validation/Views/single.php
 
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+    public $categorias = [
+        "titulo" => "required|min_length[3]|max_length[255]"
+    ];
+    public $peliculas = [
+        "titulo" => "required|min_length[3]|max_length[255]",
+        "descripcion" => "required|min_length[3]|max_length[2000]",
+    ];
+
 }
