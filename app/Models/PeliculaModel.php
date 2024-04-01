@@ -9,4 +9,15 @@ class PeliculaModel extends Model
     protected $table = 'peliculas';
     protected $primaryKey = 'id';
     protected $allowedFields = ["titulo", "descripcion"];
+
+    protected $returnType = "object";
+
+    // $useSoftDeletes
+    // $useTimestamps
+    // $createdField
+    // $updatedField
+
+    // $this->db->get_compiled_select();
+    // $this->db->getCompiledSelect();
+
 }

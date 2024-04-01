@@ -11,9 +11,9 @@
         </thead>
         <tbody>
             <tr>
-                <td><?php echo $pelicula["id"]; ?></td>
-                <td><?php echo $pelicula["titulo"]; ?></td>
-                <td><?php echo $pelicula["descripcion"]; ?></td>
+                <td><?php echo $pelicula->id; ?></td>
+                <td><?php echo $pelicula->titulo; ?></td>
+                <td><?php echo $pelicula->descripcion; ?></td>
             </tr>
         </tbody>
     </table>

@@ -21,13 +21,13 @@
         <tbody>
             <?php foreach($categorias as $categoria): ?>
                 <tr>
-                    <td><?php echo $categoria["id"]; ?></td>
-                    <td><?php echo $categoria["titulo"]; ?></td>
+                    <td><?php echo $categoria->id; ?></td>
+                    <td><?php echo $categoria->titulo; ?></td>
                     <td>
-                        <a href="/dashboard/categoria/show/<?php echo $categoria["id"]; ?>">Detail</a>
+                        <a href="/dashboard/categoria/show/<?php echo $categoria->id; ?>">Detail</a>
                         <br>
-                        <a href="/dashboard/categoria/edit/<?php echo $categoria["id"]; ?>">Edit</a>
-                        <form action="/dashboard/categoria/delete/<?php echo $categoria["id"]; ?>" method="POST">
+                        <a href="/dashboard/categoria/edit/<?php echo $categoria->id; ?>">Edit</a>
+                        <form action="/dashboard/categoria/delete/<?php echo $categoria->id; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>
                     </td>

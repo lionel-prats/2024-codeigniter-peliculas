@@ -518,7 +518,7 @@ return redirect()->back()->withInput();
 
 1)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-$ git add .
+git add .
 
 2)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
@@ -530,7 +530,7 @@ git push
 
 4)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-$ git tag
+git tag
 v.0.1
 v0.2
 v0.3
@@ -539,7 +539,7 @@ v0.5
 
 5)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
-$ git tag v0.6 -m "Sección 9: Formularios y validaciones"
+git tag v0.6 -m "Sección 9: Formularios y validaciones"
 
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)

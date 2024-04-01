@@ -92,7 +92,7 @@ class Categoria extends BaseController
             $categoria = $categoriaModel->find($id); 
             $result = $categoriaModel->update($id, $data);
             if($result) {
-                session()->setFlashdata("mensaje", "La categoría " . $categoria["titulo"] . " pasó a llamarse " . $this->request->getPost("titulo"));
+                session()->setFlashdata("mensaje", "La categoría " . $categoria->titulo . " pasó a llamarse " . $this->request->getPost("titulo"));
                 return redirect()->to("/dashboard/categoria");
             }
         } else {
@@ -110,7 +110,7 @@ class Categoria extends BaseController
         $categoria = $categoriaModel->find($id); 
         $result = $categoriaModel->delete($id);
         if($result) {
-            session()->setFlashdata("mensaje", "Se ha eliminado la categoría " . $categoria["titulo"]);
+            session()->setFlashdata("mensaje", "Se ha eliminado la categoría " . $categoria->titulo);
             return redirect()->back();
         }
     }   

@@ -4,6 +4,7 @@ namespace App\Controllers\Dashboard;
 
 use App\Models\PeliculaModel;
 use App\Controllers\BaseController;
+use Config\Database;
 
 class Pelicula extends BaseController
 {
@@ -21,6 +22,37 @@ class Pelicula extends BaseController
         ]);
 
         $peliculaModel = new PeliculaModel();
+
+        /*
+        lionel -> ejemplo interesante VIDEO 79 "Operaciones comunes"    
+        // $db = Database::connect();
+        // $builder = $db->table("peliculas");
+        // return $builder->limit(10, 20)->getCompiledSelect();
+
+        // $db = Database::connect();
+        // $builder = $db->table("peliculas");
+        // return $peliculaModel->limit(10, 20)->getCompiledSelect();
+        
+ 
+        $db = Database::connect();
+        $builder = $db->table("peliculas");
+        
+        // $ejemplo1 = $peliculaModel->asObject()
+        //     ->select("peliculas.*", "categorias.titulo as categoria")
+        //     ->join("categorias*", "categorias.id = peliculas.categoria.id")
+        //     ->where("categorias.id", 1)
+        //     // ->find();
+        //     ->getCompiledSelect();
+        
+        $ejemplo2 = $builder
+            ->select("peliculas.*", "categorias.titulo as categoria")
+            ->join("categorias*", "categorias.id = peliculas.categoria.id")
+            ->where("categorias.id", 1)
+            // ->find();
+            ->getCompiledSelect();
+        return $ejemplo2; // SELECT `peliculas`.* FROM `peliculas` JOIN `categorias*` ON `categorias`.`id` = `peliculas`.`categoria`.`id` WHERE `categorias`.`id` = 1 
+        */
+        
         $peliculas = $peliculaModel->findAll();
         $data = [
             "tituloVista" => "Listado de películas",
@@ -34,6 +66,18 @@ class Pelicula extends BaseController
     {
         $peliculaModel = new PeliculaModel();
         $pelicula = $peliculaModel->find($id);
+        
+        // $pelicula = $peliculaModel->asObject()->find($id);
+        // dd(
+        //     $peliculaModel,
+        //     $pelicula, 
+        //     $pelicula->id, 
+        //     $pelicula->titulo, 
+        //     $pelicula->descripcion
+        // );
+
+        
+
         $data = [
             "tituloVista" => "Detalle Película",
             "pelicula" => $pelicula,
@@ -72,13 +116,18 @@ class Pelicula extends BaseController
                 echo "error";
             }
         } else {
+            $validation = new \stdClass();
+            $validation->descripcion =  $this->validator->getError("descripcion");
+            $validation->titulo =  $this->validator->getError("titulo");
+
             session()->setFlashdata([
-                "validation" => [
+                /* "validation" => [
                     "descripcion" => $this->validator->getError("descripcion"),
                     "titulo" => $this->validator->getError("titulo")
-                ]
+                ] */
+                "validation" => $validation
             ]);
-            return redirect()->back()/* ->withInput() */;
+            return redirect()->back()->withInput();
         }
     }   
 
@@ -111,13 +160,19 @@ class Pelicula extends BaseController
                 // return redirect()->route("pelicula.test");
             }
         } else {
+
+            $validation = new \stdClass();
+            $validation->descripcion =  $this->validator->getError("descripcion");
+            $validation->titulo =  $this->validator->getError("titulo");
+
             session()->setFlashdata([
-                "validation" => [
-                    "descripcion" => $this->validator->getError("descripcion"),
-                    "titulo" => $this->validator->getError("titulo")
-                ]
+                // "validation" => [
+                //     "descripcion" => $this->validator->getError("descripcion"),
+                //     "titulo" => $this->validator->getError("titulo")
+                // ]
+                "validation" => $validation
             ]);
-            return redirect()->back()/* ->withInput() */;
+            return redirect()->back()->withInput();
         }
     }   
     
