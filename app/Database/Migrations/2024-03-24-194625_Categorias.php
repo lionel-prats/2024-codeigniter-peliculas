@@ -8,10 +8,11 @@ class Categorias extends Migration
 {
     public function up()
     {
+        // defino los campos de la tabla usuarios en la DB
         $this->forge->addField([
             "id" => [
                 "type" => "INT",
-                "constraint" => 5,
+                "constraint" => 5,  // para indicar la longitud (v27)
                 "unsigned" => TRUE, // campo con valores solo positivos
                 "auto_increment" => TRUE,
             ],

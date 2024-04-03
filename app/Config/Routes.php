@@ -9,8 +9,13 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 // $routes->get('/peliculas', 'Pelicula::index');
 
-$routes->get('/', 'Home::index');
 $routes->group("dashboard", function($routes){
+
+    // bloque para testear los metodos de hash de contraseña para la entidad usuario
+    $routes->get('usuario/crear', 'Web\Usuario::crear_usuario');
+    $routes->get('usuario/probar/contrasena', '\App\Controllers\Web\Usuario::verificar_contrasena');
+    // fin bloque 
+    
     $routes->presenter("pelicula", ["controller" => "Dashboard\Pelicula"]);
     $routes->presenter("categoria", ["controller" => "Dashboard\Categoria"/* , "except" => "show" */]);
     $routes->get("test/(:num)/(:num)", "Dashboard\Pelicula::test/$1/$2", ["as" => "pelicula.test"]);
@@ -50,3 +55,15 @@ $routes->presenter("testing2", ["except" => ["edit", "show", "create", "update",
 // POST   /Testing3/update/(.*) /App/Controllers/Testing3::update/$1 
 // POST   /Testing3/delete/(.*) /App/Controllers/Testing3::delete/$1 
 // POST   /Testing3             /App/Controllers/Recurso_web::create    
+
+// $routes->get('/login', 'Web\Usuario::login', ["as" => "usuario.login"]);
+$routes->get('login', 'Web\Usuario::login', ["as" => "usuario.login"]);
+// $routes->get('login', '\App\Controllers\Web\Usuario::login', ["as" => "usuario.login"]);
+
+// $routes->post('/login', 'Web\Usuario::login_post', ["as" => "usuario.login_post"]);
+$routes->post('login', 'Web\Usuario::login_post', ["as" => "usuario.login_post"]);
+// $routes->post('login_post', '\App\Controllers\Web\Usuario::login_post', ["as" => "usuario.login_post"]);
+
+$routes->get('register', 'Web\Usuario::register', ["as" => "usuario.register"]);
+$routes->post('register', 'Web\Usuario::register_post', ["as" => "usuario.register_post"]);
+$routes->post('logout', 'Web\Usuario::logout', ["as" => "usuario.logout"]);

@@ -10,6 +10,15 @@ class Categoria extends BaseController
     // list all resources
     public function index(): string
     {
+
+        // session()->destroy();
+
+        // echo "<pre>";
+        // var_dump(session("usuario"));
+        // echo "</pre>";
+        // exit;
+        // echo json_encode(session("usuario"));
+
         $categoriaModel = new CategoriaModel();
         $categorias = $categoriaModel->findAll();
         $data = [
@@ -54,7 +63,7 @@ class Categoria extends BaseController
             ];
             $result = $categoriaModel->insert($data, false);
             if($result) {
-                $newId = $categoriaModel->getInsertID();
+                // $newId = $categoriaModel->getInsertID();
                 session()->setFlashdata("mensaje", "Se ha creado la categoría " . $this->request->getPost("titulo"));
                 return redirect()->to("/dashboard/categoria");
             } else {

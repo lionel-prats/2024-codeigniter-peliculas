@@ -11,15 +11,38 @@ class Pelicula extends BaseController
     // list all resources
     public function index(): string
     {
+        // $contrasena_plana = "1234";
+        // echo "$contrasena_plana<br>";
+        // echo PASSWORD_DEFAULT . "<br>";
+        // echo password_hash($contrasena_plana, "2y") . "<br>";
+        // echo password_hash($contrasena_plana, PASSWORD_DEFAULT) . "<br>";
+        // echo password_hash($contrasena_plana, "2y") . "<br>";
+        // exit;
 
+        // cargo variables de sesion
         session()->set("ip", "192.155.14.187");
         session()->set("ip2", "248.074.133.05");
+        session()->set("profesional", "Lionel Prats");
+        session()->set("holamundo");
 
         session()->set("session_key", [
             "origin" => "Dashboard/Pelicula::index",
             "owner" => "lionel prats",
             "shadow_pass" => "1sadas4d4d5as4asd245",
         ]);
+
+        // imprimo variables de sesion por pantalla
+        // echo session("ip") . "<br>";
+        // echo session("ip2") . "<br>";
+        // echo session("profesional") . "<hr>";
+        // echo "<pre>";
+        // print_r(session("session_key"));
+        // echo "</pre>";
+        // echo "<hr>";
+        // echo "<pre>";
+        // print_r(session());
+        // exit;
+
 
         $peliculaModel = new PeliculaModel();
 
@@ -102,6 +125,7 @@ class Pelicula extends BaseController
     // process form to create new resource
     public function create()//: string
     {   
+        // $this->validate("peliculas") es referencia a Validation::peliculas (/app/Config/Validation.php)
         if($this->validate("peliculas")){
             $peliculaModel = new PeliculaModel();
             $data = [

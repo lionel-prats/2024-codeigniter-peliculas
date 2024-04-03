@@ -27,3 +27,12 @@ php spark make:controller Categoria
 
 mkdir -p categoria && cp -r pelicula/* categoria/
 -> copiar el contenido de una carpeta en otra nueva (LINUX)
+
+php spark make:filter
+...
+Filter class name : $nombreFiltro
+-> para crear filtros (autenticacion) (video 84)
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:filter DashboardFilter
+-> una forma mas directa de curear un filtro (/app/Filters/$nuevoFiltro)

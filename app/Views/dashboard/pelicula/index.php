@@ -1,6 +1,13 @@
-<?php echo $this->extend("Layouts/dashboard"); ?>
+<?php
+    // include|require del layout /app/Views/Layout/dashboard.php
+    echo $this->extend("Layouts/dashboard"); 
+?>
 
-<?php echo $this->section("contenido"); ?>
+
+<?php 
+    // seccion "contenido" (/app/Views/Layout/dashboard.php)
+    echo $this->section("contenido"); 
+?>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/pelicula/new">New</a>
         <div>
@@ -44,4 +51,7 @@
     <a href="/testing/show/10">/testing/show/10</a>
     <br>
     <a href="/testing2/new">/testing2/new</a>
-<?php echo $this->endSection(); ?>
+<?php
+    // fin seccion "contenido" (/app/Views/Layout/dashboard.php) 
+    echo $this->endSection(); 
+?>

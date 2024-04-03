@@ -1,3 +1,4 @@
+Sección 1: Introducción al curso
 7. Snippets VSC PHP
 
 - Para crear snippets HTML en VSCode
@@ -35,6 +36,7 @@ snippets personales vvv
 
 ---------- 
 
+Sección 1: Introducción al curso
 8. Sobre CodeIgniter 4
 
 Documentacion oficial:
@@ -44,6 +46,7 @@ https://codeigniter4.github.io/userguide/intro/index.html
 
 ---------- 
 
+Sección 1: Introducción al curso
 9. ¿Necesitas dar los primeros pasos en las principales tecnologías del desarrollo?
 
 Enlace al curso (PAGO) del profesor
@@ -52,6 +55,7 @@ https://www.desarrollolibre.net/blog/javascript/curso-introduccion-a-las-princip
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 11. Software necesario e instalación de las herramientas: Windows 
 
 - Ecosistema recomendado para Windows: Laragon
@@ -118,6 +122,7 @@ Haga click en Finalizar para salir del programa de instalación.
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 12. Instalar CodeIgniter 4 con composer
 
 Documentacion instalacion via composer: 
@@ -132,6 +137,7 @@ Creating a "codeigniter4/appstarter" project at "./0_codeigniter4"
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 14. Ejecutar CodeIgniter en el navegador
 
 - 3 formas de ejecutar la aplicacion en mi entorno local:
@@ -159,6 +165,7 @@ C:\laragon\www\0_codeigniter4
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 18. Habilitar el modo desarrollador
 
 - por default en desarrollo, cuando se genera algun error en nuestra app y una vista se rompe, se genera generan archivos de logs dentro de /writable/logs y estos errores no se muestran por pantalla 
@@ -175,6 +182,7 @@ ini_set('display_errors', '1');
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 19. Configurar la base de datos
 
 - desde el panel de laragon, el click en "btn.Base de Datos" genera una instancia de HeidiSQL en 127.0.0.1 (localhost)
@@ -190,6 +198,7 @@ database.default.port = 3306
 
 ---------- 
 
+Sección 2: Básico - Primeros pasos con Codeigniter 4
 21. Introducción a las rutas: Parte 2
 
 - tipos de parametros que podemos incluir en las URL en las peticiones GET vvv 
@@ -242,7 +251,6 @@ C:\laragon\www\0_codeigniter4
 ---------- 
 
 Sección 3: Crear el primer CRUD: Películas 
-
 27. Migraciones: Crear
 
 - modifique la clase /app/Config/App.php para que la aplicacion tome el DATETIME real de mi ubicacion geografica, concretamente del atributo $appTimezone vvv 
@@ -271,6 +279,7 @@ C:\laragon\www\0_codeigniter4
 
 ---------- 
 
+Sección 3: Crear el primer CRUD: Películas 
 30. Migraciones: Rollback
 
 - el rollback revierte la ultima migracion corrida 
@@ -286,6 +295,7 @@ C:\laragon\www\0_codeigniter4
 
 ---------- 
 
+Sección 3: Crear el primer CRUD: Películas 
 31. Modelo: Crear modelo de película
 
 - creo el modelo PeliculaModel vvv 
@@ -295,6 +305,7 @@ C:\laragon\www\0_codeigniter4
 
 ---------- 
 
+Sección 3: Crear el primer CRUD: Películas 
 41. Publicar en github
 
 - sigue los pasos de siempre para hacer el push a un repo remoto del proyecto 
@@ -314,6 +325,7 @@ git push --tags | "para subir las etiquetas"
 
 ---------- 
 
+Sección 4: Reto: CRUD Categorías
 43. Reto: Crear el CRUD para las categorías
 
 - creé la carpeta categorias para las vistas del recurso categoria copiando dentro todos los archivos del recurso pelicula vvv 
@@ -329,7 +341,6 @@ $ php spark make:controller Categoria
 ---------- 
 
 Sección 5: Rutas y redirecciones 
-
 47. Redirecciones
 
 - en /app/Config/App.php seteo el atributo $indexPage como un string vacio para que funcione correctamente el redireccionamiento desde los controladores vvv 
@@ -342,6 +353,7 @@ public string $baseURL = 'http://localhost:8080/';
 
 ---------- 
 
+Sección 5: Rutas y redirecciones 
 53. Publicar en github
 
 1)
@@ -373,7 +385,6 @@ git push --tags
 ---------- 
 
 Sección 7: Sesión y mensajes flash 
-
 65. Introducción
 
 - tenemos 2 tipos de sesiones en codeigniter 
@@ -387,6 +398,7 @@ Sección 7: Sesión y mensajes flash
 
 ---------- 
 
+Sección 7: Sesión y mensajes flash 
 68. Publicar en github
 
 1)
@@ -419,7 +431,6 @@ git push --tags
 ---------- 
 
 Sección 8: Vistas y layouts
-
 71. Publicar en github
 
 1)
@@ -453,7 +464,6 @@ git push --tags
 ---------- 
 
 Sección 9: Formularios y validaciones
-
 Documentación oficial validaciones
 https://codeigniter4.github.io/userguide/libraries/validation.html
 
@@ -475,6 +485,7 @@ class Validation extends BaseConfig
 
 ---------- 
 
+Sección 9: Formularios y validaciones
 74. Validaciones: Establecerlas en formularios
 
 - vimos que con $this->validator->listErrors() obtenemos el listado de erores segun las reglas de validacion definidas en Validation.php 
@@ -499,6 +510,7 @@ public array $templates = [
 
 ---------- 
 
+Sección 9: Formularios y validaciones
 75. Función de old()
 
 - cuando salta algun error de validacion para lo que es un INSERT o un UPDATE, y por ende se hace un return back al formulario, esta es la forma para que persista lo que escribio el usuario en los distintos inputs, para que no se pierda la informacion cargada y pueda corregir vvv 
@@ -514,6 +526,7 @@ return redirect()->back()->withInput();
 
 ---------- 
 
+Sección 9: Formularios y validaciones
 76. Publicar en github
 
 1)
@@ -544,3 +557,168 @@ git tag v0.6 -m "Sección 9: Formularios y validaciones"
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
 git push --tags
+
+---------- 
+
+Sección 11: Filtros (Autenticación)
+84. Primeros pasos
+
+documentacion oficial filtros
+https://codeigniter.com/user_guide/incoming/filters.html
+
+- los filtros son un proceso que nos permite interceptar antes o despues de que lleguen al controlador, las peticiones HTTP
+- podemos ejececutarlos de manera global o en ciertas partes de nuestra aplicacion
+
+1) creo el filtro "MiFiltro" vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:filter
+...
+Filter class name : MiFiltro
+File created: APPPATH\Filters\MiFiltro.php
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+*** se creó el archivo /app/Filters/MiFiltro.php
+
+class MiFiltro implements FilterInterface
+{
+    public function before(RequestInterface $request, $arguments = null)
+    {
+        if(true) {
+            return redirect()->to("/dashboard/categoria");
+        }
+    }
+}
+
+2) /app/Config/Filters.php vvv
+
+class Filters extends BaseConfig
+{
+
+    public array $aliases = [
+        'csrf'          => CSRF::class,
+        'toolbar'       => DebugToolbar::class,
+        'honeypot'      => Honeypot::class,
+        'invalidchars'  => InvalidChars::class,
+        'secureheaders' => SecureHeaders::class,
+        'mifiltro' => MiFiltro::class, // referencia a /app/Filters/MiFiltro.php
+    ];
+
+    public array $globals = [
+        'before' => [
+            
+            // 'mifiltro', 
+            // se ejecutaria para todas las peticiones a mi app, antes de llegar al controlador, MiFiltro->before()
+            
+            // 'honeypot',
+            // 'csrf',
+            // 'invalidchars',
+        ],
+        'after' => [
+            'toolbar',
+            // 'honeypot',
+            // 'secureheaders',
+        ],
+    ];
+
+    // defino que quiero que se ejecute MiFiltro->before() para las peticiones a las rutas de mi aplicacion que yo quiera (se ejecuta antes de llegar al controlador)
+    public array $filters = [
+        "mifiltro" => [
+            "before" => [
+                // "dashboard/pelicula",
+                "dashboard/pelicula/*",
+            ]
+        ]
+    ];
+
+}
+
+---------- 
+
+Sección 11: Filtros (Autenticación)
+85. Crear migración, controlador y modelo de usuario
+
+- vamos a crear un sencillo modulo de autenticacion
+- para nuestro modulo de autenticacion necesitamos crear las bases como tal: un controlador, un modelo y la migracion, del usuario
+- el modulo dautenticacion viene fuertemente ligada al usuario, a una entidad llamada usuario 
+
+- vamos a empezar a crear todos nuestros procesos vvv
+
+- creo la migracion para la tabla usuarios vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:migration Usuarios
+
+- ejecuto las migraciones (se ejecutan todas las migraciones dentro de /app/Database/Migrations) vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark migrate 
+*** se creo la tabla usuarios en la DB
+
+- creo el modelo Usuario vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:model UsuarioModel
+
+- creo el controlador para manejar todo lo relacionado a la entidad Usuario vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+php spark make:controller Web/Usuario
+
+---------- 
+
+Sección 11: Filtros (Autenticación)
+87. Login
+
+- vamos a crear completamente el modulo de login, que incluye los controladores, sus vistas y asociados y tambien las rutas vvv
+
+- /app/Views/web/usuario/login.php vvv
+<form action="<?php echo route_to("usuario.login_post"); ?>" method="POST"></form> vvv
+*** $routes->post('login_post', '\App\Controllers\Web\Usuario::login_post', ["as" => "usuario.login_post"]);
+
+*** hice pruebas, y cuando se crea una variable de sesion solo he podido destruirlas con session()->destroy() o borrando el historial de navegacion
+
+---------- 
+
+Sección 11: Filtros (Autenticación)
+90. Filtro para usuario autenticado 
+
+1) creo el filtro DashboardFilter (/app/Filters/$nuevoFiltro) vvv 
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:filter DashboardFilter 
+...
+
+2) Configuro la clase Filters para que todo funcione (/app/Config/Filters.php) vvv 
+
+2.1) modifico la propiedad $aliases (array) agregando una nueva clave que referencia el alias con el que voy a invocar a DashboardFilter en otras partes de la clase vvv
+class Filters extends BaseConfig
+{
+    public array $aliases = [
+        ...
+        'dashboardFilter' => DashboardFilter::class,
+    ];
+}
+
+2.2) modifico la propiedad $filters (array) agregando una nueva clave que invoca al alias que referencia a DashboarFilter. Este va a ser un array en el que definimos las rutas en las cuales queremos que se ejecute previo a llegar a los correspondientes controladores, la logica que vamos a definir en el emtodo DashboardFilter::before() vvv
+class Filters extends BaseConfig
+{
+    public array $filters = [
+        "dashboardFilter" => [
+            "before" => [
+                "dashboard",
+                "dashboard/*",
+            ]
+        ]
+    ];
+}
+
+3) configuramos el metodo before() de la clase DashboardFilter que sera el middleware (filtro) que sera lo primero que se ejecutara cuando se haga una peticion http a cualquier ruta que comienze con "/dashboard" (asi lo definimos en el paso "2.2"), y solo permitira seguir con la ejecucion a usuarior autenticados con rol de administrador vvv 
+
+class DashboardFilter implements FilterInterface
+{
+    public function before(RequestInterface $request, $arguments = null)
+    {
+        if(!session()->get("usuario") || session("usuario")->tipo != "admin") {
+            return redirect()->to("/login")->with("mensaje", "acceso denegado");
+        }
+    }
+}
+
+----- 
+
+Sección 12: Rest Api CRUD
+...

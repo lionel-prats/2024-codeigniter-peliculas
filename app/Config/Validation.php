@@ -50,5 +50,14 @@ class Validation extends BaseConfig
         "titulo" => "required|min_length[3]|max_length[255]",
         "descripcion" => "required|min_length[3]|max_length[2000]",
     ];
+    public $registro_usuarios = [
+        "usuario" => "required|min_length[3]|max_length[20]|is_unique[usuarios.usuario]",
+        // is_unique[usuarios.usario] va a la base de datos y verifica que no exista previamente el dato que se quiere insertar en el campo usuario de la tabla usuarios (v88)
+        
+        "email" => "required|min_length[3]|max_length[70]|is_unique[usuarios.email]",
+        // is_unique[usuarios.email] va a la base de datos y verifica que no exista previamente el dato que se quiere insertar en el campo email de la tabla usuarios (v88)
+        
+        "contrasena" => "required|min_length[5]|max_length[15]",
+    ];
 
 }

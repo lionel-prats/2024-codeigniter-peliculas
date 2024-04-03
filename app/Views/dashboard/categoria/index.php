@@ -49,4 +49,8 @@
         <br>
         <a href="<?php echo route_to("pelicula.destruir-session", 15, 38); ?>">Destruir datos de sesión</a>
     <?php endif ?>
+    <br>
+    <form action="<?php echo route_to("usuario.logout"); ?>" method="POST">
+        <input type="submit" value="Cerrar Sesión">    
+    </form>
 <?php echo $this->endSection(); ?>

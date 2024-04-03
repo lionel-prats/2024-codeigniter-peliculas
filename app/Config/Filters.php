@@ -2,12 +2,14 @@
 
 namespace Config;
 
-use CodeIgniter\Config\BaseConfig;
+use App\Filters\MiFiltro;
 use CodeIgniter\Filters\CSRF;
-use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
+use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\DashboardFilter;
 
 class Filters extends BaseConfig
 {
@@ -24,6 +26,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'mifiltro' => MiFiltro::class,
+        'dashboardFilter' => DashboardFilter::class,
     ];
 
     /**
@@ -34,12 +38,19 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
+            // 'mifiltro',
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
         ],
         'after' => [
+            
             'toolbar',
+            // hace referencia al icono de codeigniter que vemos en el vertice inferior derefho del navegador. 
+            // esta utilidad, con el click, nos da informacion sobre nuestro sistema
+            // si comentamos esta linea, el toolbar desaparece
+            // con ctrl + u en el navegador podemos chequear que este icono es generado con bloque javascript en el <head>, y que si comentamos esta linea, dicho codigo y el icono desaparecen
+
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -65,5 +76,18 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        "dashboardFilter" => [
+            "before" => [
+                "dashboard",
+                "dashboard/*",
+            ]
+        ]
+        // "mifiltro" => [
+        //     "before" => [
+        //         // "dashboard/pelicula",
+        //         "dashboard/pelicula/*",
+        //     ]
+        // ]
+    ];
 }
