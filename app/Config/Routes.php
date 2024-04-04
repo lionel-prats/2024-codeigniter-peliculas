@@ -9,6 +9,18 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 // $routes->get('/peliculas', 'Pelicula::index');
 
+$routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+    $routes->resource("pelicula");
+    // GET    | api/pelicula           \App\Controllers\Api\Pelicula::index       
+    // GET    | api/pelicula/new       \App\Controllers\Api\Pelicula::new      
+    // GET    | api/pelicula/(.*)/edit \App\Controllers\Api\Pelicula::edit/$1  
+    // GET    | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::show/$1  
+    // POST   | api/pelicula           \App\Controllers\Api\Pelicula::create   
+    // PATCH  | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
+    // PUT    | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
+    // DELETE | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::delete/$1 
+});
+
 $routes->group("dashboard", function($routes){
 
     // bloque para testear los metodos de hash de contraseña para la entidad usuario
@@ -22,17 +34,17 @@ $routes->group("dashboard", function($routes){
     $routes->get("destroy-session", "Dashboard\Pelicula::destruir_session", ["as" => "pelicula.destruir-session"]);
 });
 
-$routes->group("api", function($routes){
-    $routes->presenter("protocolo");
-    // GET    | api/protocolo           /Controllers/Protocolo::index    
-    // GET    | api/protocolo/new       /Controllers/Protocolo::new      
-    // GET    | api/protocolo/(.*)/edit /Controllers/Protocolo::edit/$1  
-    // GET    | api/protocolo/(.*)      /Controllers/Protocolo::show/$1  
-    // POST   | api/protocolo           /Controllers/Protocolo::create   
-    // PATCH  | api/protocolo/(.*)      /Controllers/Protocolo::update/$1
-    // PUT    | api/protocolo/(.*)      /Controllers/Protocolo::update/$1
-    // DELETE | api/protocolo/(.*)      /Controllers/Protocolo::delete/$1 
-});
+// $routes->group("api", function($routes){
+//     $routes->presenter("protocolo");
+//     // GET    | api/protocolo           /Controllers/Protocolo::index    
+//     // GET    | api/protocolo/new       /Controllers/Protocolo::new      
+//     // GET    | api/protocolo/(.*)/edit /Controllers/Protocolo::edit/$1  
+//     // GET    | api/protocolo/(.*)      /Controllers/Protocolo::show/$1  
+//     // POST   | api/protocolo           /Controllers/Protocolo::create   
+//     // PATCH  | api/protocolo/(.*)      /Controllers/Protocolo::update/$1
+//     // PUT    | api/protocolo/(.*)      /Controllers/Protocolo::update/$1
+//     // DELETE | api/protocolo/(.*)      /Controllers/Protocolo::delete/$1 
+// });
 
 $routes->presenter("testing", ["only" => ["edit", "show"]]);
 // GET testing/show/(.*)    /App/Controllers/Testing::show/$1

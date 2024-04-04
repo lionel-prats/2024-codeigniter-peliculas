@@ -721,4 +721,17 @@ class DashboardFilter implements FilterInterface
 ----- 
 
 Sección 12: Rest Api CRUD
-...
+93. Primeros pasos
+
+- una REST API es una interfaz entre sistemas que usa HTTP para obtener y enviar los datos 
+- Codeigniter nos permite exponer datos en formato XML y JSON 
+- una REST API es una capa que nosotros implementamos en nuestra aplicacion con la cual podemos intecomunicar aplicaciones para consumir datos 
+- vamos a hacer una REST API tipo CRUD para que desde otra aplicacion que pueda realizar una peticion HTTP a nuestro sistema pueda consumir esos datos 
+- una REST API no viene siendo un protocolo, si no que es una serie de reglas que nosotros implementamos y la adaptamos a nuestras necesidades  
+
+- para manejar los endpoints vamos a crear controladores dentro de /app/Controllers/Api/ que van a extiender de la clase ResourceController vvv
+/vendor/codeigniter4/framework/system/RESTful/ResourceController.php
+- ResourceController extiende a su vez de la clase abstracta BaseResource vvv
+/vendor/codeigniter4/framework/system/RESTful/BaseResource.php
+- ResourceController tambien hace uso del trait ResponseTrait vvv
+/vendor/codeigniter4/framework/system/API/ResponseTrait.php
