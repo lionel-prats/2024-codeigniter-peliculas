@@ -745,4 +745,30 @@ Sección 12: Rest Api CRUD
 
 ----- 
 
-...
+Sección 13: Seeders
+99. Introducción 
+
+- Los Seeders son utilizados para generar data e prueba
+
+----- 
+
+Sección 13: Seeders
+99. ¿Que és y cómo generar un seeder? 
+
+1) creo el seeder para la entidad categorias vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:seeder CategoriaSeeder
+
+2) configuro el metodo run() del seeder creado para generar un nuevo INSERT en categorias
+
+3) ejecuto el seeder del seeder para que se haga el INSERT en categorias vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark db:seed CategoriaSeeder
+
+----- 
+
+Sección 13: Seeders
+102. Seeders anidados 
+
+- conviene manejar los seeders con uno principal, que en su metodo run() invoque a todos los demas, y llamandolos en orden tal que no genere conflictos con la data.
+- luego, solo deberemos ejecuar el Seeder princpal y se poblaran de todas las tablas asociadas a los seeders que invoquemos desde el seeder principal (ver el fichero "MainSeeder.php")
