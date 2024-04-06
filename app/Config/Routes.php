@@ -18,7 +18,8 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
     // POST   | api/pelicula           \App\Controllers\Api\Pelicula::create   
     // PATCH  | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
     // PUT    | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
-    // DELETE | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::delete/$1 
+    // DELETE | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::delete/$1
+    $routes->resource("categoria"); 
 });
 
 $routes->group("dashboard", function($routes){
