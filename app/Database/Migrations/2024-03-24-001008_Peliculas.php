@@ -25,10 +25,24 @@ class Peliculas extends Migration
                 "type" => "TEXT",
                 "null" => TRUE,
             ],
+            "categoria_id" => [
+                "type" => "INT",
+                "constraint" => 5,  // para indicar la longitud (v27)
+                "unsigned" => TRUE, // campo con valores solo positivos
+            ],
         ]);
         
         //defino la clave primaria de la tabla
         $this->forge->addKey("id", TRUE); 
+        
+        // defino al campo categoria_id como FK, referenciando a categorias.id
+        $this->forge->addForeignKey(
+            "categoria_id", 
+            "categorias", 
+            "id", 
+            "CASCADE",
+            "CASCADE"
+        ); 
         
         // definio el nombre de la tabla a crear
         $this->forge->createTable("peliculas");

@@ -748,7 +748,7 @@ Sección 12: Rest Api CRUD
 Sección 13: Seeders
 99. Introducción 
 
-- Los Seeders son utilizados para generar data e prueba
+- Los Seeders son utilizados para generar data de prueba
 
 ----- 
 
@@ -772,3 +772,82 @@ Sección 13: Seeders
 
 - conviene manejar los seeders con uno principal, que en su metodo run() invoque a todos los demas, y llamandolos en orden tal que no genere conflictos con la data.
 - luego, solo deberemos ejecuar el Seeder princpal y se poblaran de todas las tablas asociadas a los seeders que invoquemos desde el seeder principal (ver el fichero "MainSeeder.php")
+
+----- 
+
+Sección 14: Relaciones
+105. Relaciones uno a muchos: Migración
+
+- creamos una migracion para agregar el campo "categoria" a la tabla "peliculas" y definirla como FK vvv 
+
+1) creo la migracion vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark make:migration AgregarCampoCategoriaATablaPelicula
+
+2) configuro la migracion (ver /app/Database/Migrations/2024-04-08-230528_AgregarCampoCategoriaATablaPelicula.php) 
+*** en el punto 5 hago un rollback de esta migracion, asi que le cambie el nombre y la reubique para que quede de ejemplo (ver informacion en el punto 5 unos renglones abajo)
+
+3) corro las migraciones vvv 
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark migrate
+
+4) la columna se ha creado correctamente vvv 
+
+- nueva estructura de la tabla peliculas vvv
+USE code_peliculas;
+SHOW CREATE TABLE peliculas;
+
+CREATE TABLE `peliculas` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) NOT NULL,
+  `descripcion` text,
+  `categoria_id` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_categoria_id_foreign` (`categoria_id`),
+  CONSTRAINT `products_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb3
+
+----- 
+
+5) esta es una forma de hacerlo, pero por una cuestion de orden hago un rollback para deshacer este ultimo cambio, saco la migracion de /Migrations (la dejo como ejemplo dentro de /Database con el nombre de "migracion_ejemplo_video_105.php") vvv 
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark migrate:rollback
+... 
+
+- desde Heidi compruebo que se borro el ultimo registro de la tabla migrations (correspondiente a la migracion que acabo de revertir) y que se borro la columna categoria_id de peliculas
+
+6) ahora reconfiguro la migracion original de peliculas, para generar esta nueva columna 
+
+7) tiro 2 rollbacks mas (ya que la de peliculas es la primera de todas, entonceso para poder volver a correrla tengo que revertir los 2 rollbacks posteriores: el de usuarios y el de categorias)
+*** cada rollback elimina los registros de la tabla migrations que tengan el batch mas alto 
+*** el batch es el numero de lote de una migracion
+*** ahora, cuando revirtamos todas las migraciones, para luego correr de nuevo las migraciones, se van a ejecutar las de peliculas, categorias y usuarios 
+*** entonces vamos a comprobar que migrations va a quedar con 3 registros, y las 3 3 con el mismo nro de lote (mismo valor en el campo batch)
+
+8) con la base reseteada (ya que si hay migraciones que crearon tablas, el rollback de estas elimina las tablas), volvi a correr las migraciones y rompio porque la migracion de peliculas se ejcutaba antes que la de categorias 
+- el problema es que en la migracion de peliculas defini la relacion con categorias, y no se puede crear una relacion co una tabla que no existe 
+
+9) para solucionarlo modifique el nombre de la migracion de categorias, de manera que quede ubicada antes que la migracion de peliculas, y por ende se cree primero la tabla de categorias 
+
+10) volvi a correr las migraciones y todo funciono correctamente
+
+----- 
+
+Sección 14: Relaciones
+106. Relaciones uno a muchos: Aplicar cambios
+
+1) corro el CategoriaSeeer para poblar con datos fake la tabla categorias vvv
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark db:seed CategoriaSeeder
+
+2) hacia el final de la clase corro MainSeeder, que ejecuta CategoriaSeeder y PeliculaSeeder, que resetean las tablas categorias y peliculas, repoblandolas con 10 y 50 registros fake respectivamente, y asignando a cada pelicula una FK categoria_id
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
+$ php spark db:seed MainSeeder 
+
+----- 
+
+Sección 14: Relaciones
+xxx. xxx 
+
+...

@@ -2,9 +2,12 @@
 
 namespace App\Controllers\Dashboard;
 
-use App\Models\PeliculaModel;
-use App\Controllers\BaseController;
 use Config\Database;
+use App\Models\PeliculaModel;
+use App\Models\CategoriaModel;
+use App\Controllers\BaseController;
+
+helper('globals'); 
 
 class Pelicula extends BaseController
 {
@@ -77,6 +80,13 @@ class Pelicula extends BaseController
         */
         
         $peliculas = $peliculaModel->findAll();
+        $peliculas = $peliculaModel
+                        // ->select("peliculas.id, peliculas.titulo, peliculas.descripcion, categorias.titulo as categoria")
+                        ->select("peliculas.*, c.titulo as categoria")
+                        ->join("categorias c", "c.id = peliculas.categoria_id")
+                        ->orderBy("peliculas.id")
+                        ->find();
+
         $data = [
             "tituloVista" => "Listado de películas",
             "peliculas" => $peliculas,
@@ -111,6 +121,12 @@ class Pelicula extends BaseController
     // render form to create new resource
     public function new(): string
     {
+        
+        $categoriaModel = new CategoriaModel;
+
+        // ddl($categoriaModel->find(), 1);
+
+
         $data = [
             "tituloVista" => "Crear Película",
             "op" => "Create",
@@ -118,6 +134,7 @@ class Pelicula extends BaseController
                 "titulo" => "",
                 "descripcion" => "",
             ],
+            "categorias" => $categoriaModel->find(),
         ];
         return view('dashboard/pelicula/new', $data);
     }   
@@ -131,6 +148,7 @@ class Pelicula extends BaseController
             $data = [
                 'titulo' => $this->request->getPost("titulo"),
                 'descripcion' => $this->request->getPost("descripcion"),
+                'categoria_id' => $this->request->getPost("categoria_id"),
             ];
             $result = $peliculaModel->insert($data, false); 
             if($result) {
@@ -143,7 +161,8 @@ class Pelicula extends BaseController
             $validation = new \stdClass();
             $validation->descripcion =  $this->validator->getError("descripcion");
             $validation->titulo =  $this->validator->getError("titulo");
-
+            $validation->categoria_id =  $this->validator->getError("categoria_id");
+            
             session()->setFlashdata([
                 /* "validation" => [
                     "descripcion" => $this->validator->getError("descripcion"),
@@ -159,11 +178,13 @@ class Pelicula extends BaseController
     public function edit($id): string
     {
         $peliculaModel = new PeliculaModel();
+        $categoriaModel = new CategoriaModel;
         $pelicula = $peliculaModel->find($id);
         $data = [
             "tituloVista" => "Editar Película",
             "op" => "Update",
             "pelicula" => $pelicula,
+            "categorias" => $categoriaModel->find(),
         ];
         return view('dashboard/pelicula/edit', $data);
     } 
@@ -176,6 +197,7 @@ class Pelicula extends BaseController
             $data = [
                 'titulo' => $this->request->getPost("titulo"),
                 'descripcion' => $this->request->getPost("descripcion"),
+                'categoria_id' => $this->request->getPost("categoria_id"),
             ];
             $result = $peliculaModel->update($id, $data);
             if($result) {
@@ -188,6 +210,7 @@ class Pelicula extends BaseController
             $validation = new \stdClass();
             $validation->descripcion =  $this->validator->getError("descripcion");
             $validation->titulo =  $this->validator->getError("titulo");
+            $validation->categoria_id =  $this->validator->getError("categoria_id");
 
             session()->setFlashdata([
                 // "validation" => [

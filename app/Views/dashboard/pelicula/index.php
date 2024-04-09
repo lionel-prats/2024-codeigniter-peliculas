@@ -24,6 +24,7 @@
                 <th>ID</th>
                 <th>Título</th>
                 <th>Descripción</th>
+                <th>Categoría</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                     <td><?php echo $pelicula->id; ?></td>
                     <td><?php echo $pelicula->titulo; ?></td>
                     <td><?php echo $pelicula->descripcion; ?></td>
+                    <td><?php echo $pelicula->categoria; ?></td>
                     <td>
                         <a href="/dashboard/pelicula/show/<?php echo $pelicula->id; ?>">Detail</a>
                         <br>
