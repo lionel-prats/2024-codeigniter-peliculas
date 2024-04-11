@@ -22,6 +22,7 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
     $routes->resource("categoria"); 
 });
 
+// /dashboard/pelicula
 $routes->group("dashboard", function($routes){
 
     // bloque para testear los metodos de hash de contraseña para la entidad usuario
@@ -29,7 +30,15 @@ $routes->group("dashboard", function($routes){
     $routes->get('usuario/probar/contrasena', '\App\Controllers\Web\Usuario::verificar_contrasena');
     // fin bloque 
     
+    // /dashboard/pelicula/etiquetas/$id_pelicula
+    $routes->get("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas/$1", ["as" => "pelicula.etiquetas"]);
+    $routes->post("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas_post/$1", ["as" => "pelicula.etiquetas"]);
+
     $routes->presenter("pelicula", ["controller" => "Dashboard\Pelicula"]);
+
+
+
+
     $routes->presenter("categoria", ["controller" => "Dashboard\Categoria"/* , "except" => "show" */]);
     $routes->get("test/(:num)/(:num)", "Dashboard\Pelicula::test/$1/$2", ["as" => "pelicula.test"]);
     $routes->get("destroy-session", "Dashboard\Pelicula::destruir_session", ["as" => "pelicula.destruir-session"]);

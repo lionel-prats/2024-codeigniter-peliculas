@@ -4,33 +4,28 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-// php spark make:migration Peliculas (v?)
+// php spark make:migration Etiquetas (v109)
 // "php spark migrate" para correr las migraciones
-class Peliculas extends Migration
+class Etiquetas extends Migration
 {
     public function up()
     {
 
-        // defino los campos de la tabla peliculas en la DB (v27)
         $this->forge->addField([
             "id" => [
                 "type" => "INT",
-                "constraint" => 5,  // para indicar la longitud (v27)
-                "unsigned" => TRUE, // campo con valores solo positivos
+                "constraint" => 5,  
+                "unsigned" => TRUE, 
                 "auto_increment" => TRUE,
             ],
             "titulo" => [
                 "type" => "VARCHAR",
                 "constraint" => 255,
             ],
-            "descripcion" => [
-                "type" => "TEXT",
-                "null" => TRUE,
-            ],
             "categoria_id" => [
                 "type" => "INT",
-                "constraint" => 5,  // para indicar la longitud (v27)
-                "unsigned" => TRUE, // campo con valores solo positivos
+                "constraint" => 5, 
+                "unsigned" => TRUE, 
             ],
         ]);
         
@@ -46,12 +41,11 @@ class Peliculas extends Migration
             "CASCADE"
         ); 
         
-        // definio el nombre de la tabla a crear
-        $this->forge->createTable("peliculas");
+        $this->forge->createTable("etiquetas");
     }
 
     public function down()
     {
-        $this->forge->dropTable("peliculas");
+        $this->forge->dropTable("etiquetas");
     }
 }

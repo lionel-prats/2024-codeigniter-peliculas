@@ -10,7 +10,11 @@
  * @return none imprime el dato recibido por parametro, con opcion a a cortar la ejecucion
 */
 function ddl($data, $exit = null) {
-	if($exit) {
+	if($exit == 1) {
+		echo "<pre>";
+		print_r($data);
+		exit;
+	} elseif($exit == 2) {
 		echo "<pre>";
 		var_dump($data);
 		exit;

@@ -13,6 +13,17 @@ Se trata de un json de configuracion donde agregamos los snippets que necesitemo
 
 snippets personales vvv 
 
+- html.json vvv
+"imagenes": {
+    "prefix": "im",
+    "body" : [
+        "<picture>",
+            "\t<source srcset=\"$1.avif\" type=\"image/avif\">",
+            "\t<source srcset=\"$2.webp\" type=\"image/webp\">",
+            "\t<img loading=\"lazy\" width=\"200\" height=\"300\" src=\"$3\" alt=\"$4\">",
+        "</picture>"
+    ]
+},
 "php": {
     "prefix": "php",
     "body": [
@@ -32,6 +43,43 @@ snippets personales vvv
         "<?php foreach($$iterable as $$key => $$value): ?>",
         "<?php endforeach ?>"
     ]
+},
+"if": {
+    "prefix": "if",
+    "body": [
+        "<?php if($$validation): ?>",
+        "<?php endif ?>"
+    ]
+},
+"ife": {
+    "prefix": "ife",
+    "body": [
+        "<?php if($$validation): ?>",
+        "<?php else: ?>",
+        "<?php endif ?>"
+    ]
+},
+"ifeie": {
+    "prefix": "ifeie",
+    "body": [
+        "<?php if($$validation): ?>",
+        "<?php elseif($$validation): ?>",
+        "<?php endif ?>"
+    ]
+}
+
+-php.json vvv 
+"comentario": {
+    "prefix": "comentario",
+    "body": [
+        "/**",
+        " * ${1:Descripción de la función}.",
+        " *",
+        " * @param ${2:type} ${3:nombre} ${4:Descripción del parámetro}.",
+        " * @return ${5:type} ${6:Descripción del valor de retorno}.",
+        "*/"
+    ],
+    "description": "Genera un bloque de comentarios para una función PHP."
 }
 
 ---------- 
@@ -848,6 +896,6 @@ $ php spark db:seed MainSeeder
 ----- 
 
 Sección 14: Relaciones
-xxx. xxx 
+115. xxx 
 
 ...

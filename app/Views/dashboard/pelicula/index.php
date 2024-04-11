@@ -39,6 +39,9 @@
                         <a href="/dashboard/pelicula/show/<?php echo $pelicula->id; ?>">Detail</a>
                         <br>
                         <a href="/dashboard/pelicula/edit/<?php echo $pelicula->id; ?>">Edit</a>
+                        <br>
+                        <a href="<?php echo route_to("pelicula.etiquetas", $pelicula->id); ?>">Tags</a>
+
                         <form action="/dashboard/pelicula/delete/<?php echo $pelicula->id; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>

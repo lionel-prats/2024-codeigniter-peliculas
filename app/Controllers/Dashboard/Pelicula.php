@@ -3,9 +3,13 @@
 namespace App\Controllers\Dashboard;
 
 use Config\Database;
+use App\Models\ImagenModel;
+use App\Models\EtiquetaModel;
 use App\Models\PeliculaModel;
 use App\Models\CategoriaModel;
 use App\Controllers\BaseController;
+use App\Models\PeliculaImagenModel;
+use App\Models\PeliculaEtiquetaModel;
 
 helper('globals'); 
 
@@ -99,6 +103,9 @@ class Pelicula extends BaseController
     {
         $peliculaModel = new PeliculaModel();
         $pelicula = $peliculaModel->find($id);
+
+        $pelicula_imagenes = $peliculaModel->getImagesById($id);
+        // ddl($pelicula_imagenes);
         
         // $pelicula = $peliculaModel->asObject()->find($id);
         // dd(
@@ -109,11 +116,13 @@ class Pelicula extends BaseController
         //     $pelicula->descripcion
         // );
 
-        
+        // ddl($peliculaModel->getEtiquetasById($id));
 
         $data = [
             "tituloVista" => "Detalle Película",
             "pelicula" => $pelicula,
+            "pelicula_imagenes" => $pelicula_imagenes,
+            "etiquetas" => $peliculaModel->getEtiquetasById($id),
         ];
         return view('dashboard/pelicula/show', $data);
     }   
@@ -233,9 +242,16 @@ class Pelicula extends BaseController
         }
     }   
     
-    // controller for proofs
+    // controller for proofs -> http://localhost:8080/dashboard/test/248/496
     public function test($arg1, $arg2)//: string
     {   
+
+        $imagenModel = new ImagenModel(); 
+        ddl($imagenModel->getPeliculasById(4)/* , 1 */);
+
+
+        // dd($this->asignar_imagen() ,1);
+
         echo "Argumento $arg1 recibido correctamente<br>";
         echo "Argumento $arg2 recibido correctamente<br>";
         echo "<br><a href='/dashboard/pelicula'>Get Back</a>";
@@ -248,4 +264,71 @@ class Pelicula extends BaseController
         return redirect()->back();
     }
 
+    // este metodo, al ser privado, solo puede ser accedido dentro de esta clase (v107)
+    private function generar_imagen()
+    {
+        $imagenModel = new ImagenModel();
+        $data = [
+            'imagen' => date("Y-m-d H:m:s"), // string(19) "2024-04-09 21:04:11"
+            'extension' => "Pendiente",
+            'data' => "Pendiente",
+        ];
+        return $imagenModel->insert($data, false); 
+    }
+    
+    private function asignar_imagen() // v107
+    {
+        $PeliculaImagenModel = new PeliculaImagenModel();
+        $data = [
+            'pelicula_id' => 44,
+            'imagen_id' => 4,
+        ];
+        return $PeliculaImagenModel->insert($data, true); 
+    }
+
+    public function etiquetas($id)
+    {
+        $categoriaModel = new CategoriaModel;
+        $etiquetaModel = new EtiquetaModel;
+        $peliculaModel = new PeliculaModel;
+        $etiquetas = [];
+        $categoria_id = null;
+        if($this->request->getGet("categoria_id")) { // (v111)
+            $categoria_id = $this->request->getGet("categoria_id");
+            $etiquetas = $etiquetaModel->where("categoria_id", $categoria_id)
+                                    ->find();
+        }
+        $data = [
+            "tituloVista" => "Película - Etiquetas",
+            "pelicula" => $peliculaModel->find($id),
+            "categorias" => $categoriaModel->find(),
+            "categoria_id" => $categoria_id,
+            "etiquetas" => $etiquetas,
+        ];
+        return view('dashboard/pelicula/etiquetas', $data);
+    }
+    
+    public function etiquetas_post($pelicula_id)
+    {   
+        $pelicula_etiqueta_model = new PeliculaEtiquetaModel;
+        $etiqueta_id = $this->request->getPost("etiqueta_id");
+
+        if(!$etiqueta_id) {
+            session()->setFlashdata("mensaje", "Debes seleccionar una etiqueta para la película"); 
+        } else {                                 
+                     
+            // verifico si ya existe una etiqueta asignada a la pelicula
+            $existe_tag = $pelicula_etiqueta_model->existTagForMovie($pelicula_id, $etiqueta_id);
+            if(!$existe_tag) {
+                $pelicula_etiqueta_model->save([
+                    "pelicula_id" => $pelicula_id,
+                    "etiqueta_id" => $etiqueta_id,
+                ]); 
+                session()->setFlashdata("mensaje", "Se ha creado una nueva etiqueta para la película"); 
+            } else {
+                session()->setFlashdata("mensaje", "Ya existe la etiqueta seleccionada para la película");
+            }
+        }
+        return redirect()->back();
+    }
 }
