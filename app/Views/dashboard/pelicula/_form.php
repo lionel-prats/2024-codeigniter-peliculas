@@ -55,7 +55,6 @@
         ><?php echo $categoria->titulo; ?></option>
     <?php endforeach ?>
 </select>
-
 <?php if(isset($validation->categoria_id) && $validation->categoria_id != ""): ?>
     <br>
     <br>
@@ -63,5 +62,13 @@
 <?php endif ?>
 <br>
 <br>
+<?php if(isset($pelicula->id)): ?>
+    <label for="imagen">Imagen</label>
+    <input type="file" name="imagen" id="imagen">
+    <br>
+    <br>
+<?php endif ?>
+
+
 
 <input type="submit" value="<?php echo $op; ?>" 

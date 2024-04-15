@@ -1,12 +1,20 @@
-<?php echo $this->extend("Layouts/dashboard"); ?>
+<?php if($pelicula): ?>
+    <?php echo $this->extend("Layouts/dashboard"); ?>
 
-<?php echo $this->section("contenido"); ?>
+    <?php echo $this->section("contenido"); ?>
 
-    <?php // echo view("partials/_form-error"); ?>
+        <?php // echo view("partials/_form-error"); ?>
 
-    <form action="/dashboard/pelicula/update/<?php echo $pelicula->id; ?>" method="POST">
-        <?php echo view("dashboard/pelicula/_form"); ?>
-    </form>
-    <br>
-    <a href="/dashboard/pelicula">Get Back</a>
-<?php echo $this->endSection(); ?>
+        <form 
+            action="/dashboard/pelicula/update/<?php echo $pelicula->id; ?>" 
+            method="POST"
+            enctype="multipart/form-data"
+        >
+            <?php echo view("dashboard/pelicula/_form"); ?>
+        </form>
+        <br>
+        <a href="/dashboard/pelicula">Get Back</a>
+    <?php echo $this->endSection(); ?>
+<?php else: ?>
+    <p>El id especificado no existe.</p>
+<?php endif ?>

@@ -895,7 +895,12 @@ $ php spark db:seed MainSeeder
 
 ----- 
 
-Sección 14: Relaciones
-115. xxx 
+Sección 15: Carga de archivos
+119. Carga de archivos, parte 1 
 
-...
+- en Codeigniter 4 solo existe una carpeta escribible -> /writable 
+- es decir que solo podemos subir archivos a /writable 
+
+- para acceder a recursos como imagenes y otros tipos de archivos desde el navegador, estos deben estar ubicados en /public 
+
+- en el controlador Peliculas creamos el metodo privado asignarImagen(), que vamos a usar para gestionar archivos 

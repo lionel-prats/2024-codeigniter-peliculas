@@ -10,9 +10,10 @@ seccion 9 : formularios y validaciones                | 30
 seccion 10: modelos                                   | 22
 seccion 11: filtros                                   | 77
 seccion 12: rest api crud                             | 40
-seccion 13: seeders                                   | 18 | 538 minutos | 8 horas 58 minutos
-seccion 14: relaciones                                | 151
-seccion 15: xxx                                       | 65
+seccion 13: seeders                                   | 18 
+seccion 14: relaciones                                | 151 | 689 minutos | 11 horas 29 minutos
+
+seccion 15: Carga de archivos                         | 65
 seccion 16: xxx                                       | 30
 seccion 17: xxx                                       | 70
 seccion 18: xxx                                       | 129

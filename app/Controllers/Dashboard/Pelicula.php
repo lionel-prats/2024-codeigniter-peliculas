@@ -210,6 +210,12 @@ class Pelicula extends BaseController
             ];
             $result = $peliculaModel->update($id, $data);
             if($result) {
+
+                $this->asignar_imagen($id);
+
+
+
+
                 // return redirect()->back();
                 return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película editada exitosamente");
                 // return redirect()->route("pelicula.test");
@@ -264,6 +270,25 @@ class Pelicula extends BaseController
         return redirect()->back();
     }
 
+    private function asignar_imagen($pelicula_id) // v119
+    {
+        if($image_file = $this->request->getFile("imagen")){
+            // ddl($image_file, 1);
+            if($image_file->isValid()){
+                $validated = $this->validate([
+                    "uploaded[imagen]",
+                    "mime_in[imagen,image/jpg,image/gif,image/png,image/jpeg]",
+                    "max_size[imagen,4096]"
+                ]);
+                if($validated) {
+                    $imagen_nombre = $image_file->getRandomName();
+                    $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
+                }
+                return $this->validator->listErrors();
+            }
+        }
+    }
+
     // este metodo, al ser privado, solo puede ser accedido dentro de esta clase (v107)
     private function generar_imagen()
     {
@@ -276,7 +301,7 @@ class Pelicula extends BaseController
         return $imagenModel->insert($data, false); 
     }
     
-    private function asignar_imagen() // v107
+    private function asignar_imagen2() // v107
     {
         $PeliculaImagenModel = new PeliculaImagenModel();
         $data = [
