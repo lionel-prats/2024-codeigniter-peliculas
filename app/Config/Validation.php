@@ -46,6 +46,10 @@ class Validation extends BaseConfig
     public $categorias = [
         "titulo" => "required|min_length[3]|max_length[255]"
     ];
+    public $etiquetas = [
+        "titulo" => "required|min_length[3]|max_length[255]",
+        "categoria_id" => "required|is_natural",
+    ];
     public $peliculas = [
         "titulo" => "required|min_length[3]|max_length[255]",
         "descripcion" => "required|min_length[3]|max_length[2000]",

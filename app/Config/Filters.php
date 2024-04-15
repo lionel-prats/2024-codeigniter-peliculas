@@ -46,7 +46,7 @@ class Filters extends BaseConfig
         'after' => [
             
             'toolbar',
-            // hace referencia al icono de codeigniter que vemos en el vertice inferior derefho del navegador. 
+            // hace referencia al icono de codeigniter que vemos en el vertice inferior derecho del navegador. 
             // esta utilidad, con el click, nos da informacion sobre nuestro sistema
             // si comentamos esta linea, el toolbar desaparece
             // con ctrl + u en el navegador podemos chequear que este icono es generado con bloque javascript en el <head>, y que si comentamos esta linea, dicho codigo y el icono desaparecen

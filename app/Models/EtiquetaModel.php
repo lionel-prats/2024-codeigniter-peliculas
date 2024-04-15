@@ -12,5 +12,26 @@ class EtiquetaModel extends Model
     protected $allowedFields = ["titulo", "categoria_id"];
     protected $returnType = "object";
 
-    
+    /**
+     * retorna el titulo de la categoria asociada a una etiqueta
+     *
+     * @param int $id e.id
+     * @return string retorna el titulo de la categoria asociada a la etiqueta recibida por parametro
+    */
+    public function getCategoryTag($id)
+    {
+        /* 
+        SELECT e.id, e.titulo, c.titulo 
+        FROM etiquetas e
+        LEFT JOIN categorias c ON c.id = e.categoria_id 
+        WHERE e.id = 8 
+        */
+        // return $this->select("e.id, e.titulo, c.titulo")
+        $response =  $this->select("c.titulo")
+            ->join("categorias c", "c.id = etiquetas.categoria_id", "LEFT")
+            ->where("etiquetas.id", $id)
+            ->find();
+
+        return $response[0]->titulo;
+    }
 }

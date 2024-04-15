@@ -33,13 +33,12 @@ $routes->group("dashboard", function($routes){
     // /dashboard/pelicula/etiquetas/$id_pelicula
     $routes->get("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas/$1", ["as" => "pelicula.etiquetas"]);
     $routes->post("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas_post/$1", ["as" => "pelicula.etiquetas"]);
-
-    $routes->presenter("pelicula", ["controller" => "Dashboard\Pelicula"]);
-
-
-
+    $routes->post("pelicula/(:num)/etiqueta/(:num)/delete", "Dashboard\Pelicula::etiqueta_delete/$1/$2", ["as" => "pelicula.etiqueta_delete"]);
 
     $routes->presenter("categoria", ["controller" => "Dashboard\Categoria"/* , "except" => "show" */]);
+    $routes->presenter("etiqueta", ["controller" => "Dashboard\Etiqueta"]);
+    $routes->presenter("pelicula", ["controller" => "Dashboard\Pelicula"]);
+    
     $routes->get("test/(:num)/(:num)", "Dashboard\Pelicula::test/$1/$2", ["as" => "pelicula.test"]);
     $routes->get("destroy-session", "Dashboard\Pelicula::destruir_session", ["as" => "pelicula.destruir-session"]);
 });

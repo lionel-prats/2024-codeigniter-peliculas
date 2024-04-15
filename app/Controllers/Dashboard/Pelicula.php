@@ -324,11 +324,24 @@ class Pelicula extends BaseController
                     "pelicula_id" => $pelicula_id,
                     "etiqueta_id" => $etiqueta_id,
                 ]); 
-                session()->setFlashdata("mensaje", "Se ha creado una nueva etiqueta para la película"); 
+                session()->setFlashdata("mensaje", "Se ha creado una nueva etiqueta para la película $pelicula_id"); 
             } else {
-                session()->setFlashdata("mensaje", "Ya existe la etiqueta seleccionada para la película");
+                session()->setFlashdata("mensaje", "Ya existe la etiqueta seleccionada para la película $pelicula_id");
             }
         }
         return redirect()->back();
+    }
+
+    // /pelicula/(:num)/etiqueta/(:num)/delete
+    public function etiqueta_delete($pelicula_id, $etiqueta_id)
+    {   
+        $pelicula_etiqueta_model = new PeliculaEtiquetaModel;   
+        $result = $pelicula_etiqueta_model->where("pelicula_id", $pelicula_id)
+            ->where("etiqueta_id", $etiqueta_id)
+            ->delete();
+        if($result) {
+            // echo json_encode(["deleted" => true,"pelicula_id" => $pelicula_id,"etiqueta_id" => $etiqueta_id]);
+            echo '{"mensaje":"eliminado"}';
+        }
     }
 }

@@ -885,7 +885,7 @@ $ php spark migrate:rollback
 Sección 14: Relaciones
 106. Relaciones uno a muchos: Aplicar cambios
 
-1) corro el CategoriaSeeer para poblar con datos fake la tabla categorias vvv
+1) corro el CategoriaSeeder para poblar con datos fake la tabla categorias vvv
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
 $ php spark db:seed CategoriaSeeder
 

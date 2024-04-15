@@ -28,9 +28,45 @@
     </ul>
     <h3>Etiquetas</h3>
     <?php foreach($etiquetas as $etiqueta): ?>
-        <button><?php echo $etiqueta->titulo; ?></button>
+
+        <!-- bloque para hacer una peticion POST via PHP para borrar la etiqueta de una pelicula -->
+        <!-- <form 
+            method="POST"
+            action="<?php //echo route_to("pelicula.etiqueta_delete", $pelicula->id, $etiqueta->id); ?>" 
+        >
+            <input type="submit" value="<?php //echo $etiqueta->titulo; ?>">
+        </form> -->
+
+        <button 
+            class="delete-etiqueta"
+            data-url="
+                <?php echo route_to("pelicula.etiqueta_delete", $pelicula->id, $etiqueta->id); ?>
+                <?php //echo route_to("pelicula.test", 1, 2); ?>
+            "
+        >
+            <?php echo $etiqueta->titulo; ?>
+        </button>
+        
         <br>
         <br>
     <?php endforeach ?>
     <a href="/dashboard/pelicula">Get Back</a>
+
+    <script>
+        document.querySelectorAll(".delete-etiqueta").forEach((button) =>{
+            button.onclick = (e) => {
+                fetch(button.getAttribute("data-url"), {
+                    method: "POST"
+                }).then(res => /* res.json() */  window.location.reload())  
+                .then(res => {
+                    if(res.deleted) {
+                        // estamos en la vista"http://localhost:8080/dashboard/pelicula/show/$pelicula_id"
+                        // con esta instruccion, se recarga la pagina en la que estamos parados cada vez el usuario elimine la etiqueta de la pelicula cuyo detalle estamos viendo (v115) 
+                        window.location.reload()
+                    }
+                })
+            }
+        })
+    </script>
+
 <?php echo $this->endSection(); ?>

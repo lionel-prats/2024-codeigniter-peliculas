@@ -33,10 +33,10 @@ class PeliculaModel extends Model
     }
     
     /**
-     * retorna informacion de todas las imagenes asociadas a una pelicula
+     * retorna informacion de todas las etiquetas asociadas a una pelicula
      *
      * @param int $id peliculas.id
-     * @return array retorna un array indexado de objetos donde cada objeto es un registro de la tabla imagenes asociado a la pelicula buscada
+     * @return array retorna un array indexado de objetos donde cada objeto es un registro de la tabla etiquetas asociado a la pelicula buscada
     */
     public function getEtiquetasById($id)
     {
