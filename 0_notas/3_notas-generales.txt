@@ -741,7 +741,10 @@ class Filters extends BaseConfig
     ];
 }
 
-2.2) modifico la propiedad $filters (array) agregando una nueva clave que invoca al alias que referencia a DashboarFilter. Este va a ser un array en el que definimos las rutas en las cuales queremos que se ejecute previo a llegar a los correspondientes controladores, la logica que vamos a definir en el emtodo DashboardFilter::before() vvv
+2.2) 
+- modifico la propiedad $filters (array) agregando una nueva clave que invoca al alias que referencia a DashboarFilter. 
+- $filters va a ser un array en el que definimos las rutas en las cuales queremos que se ejecute la logica que vamos a definir en el metodo before() del filtro referenciado entre ña peticion realizada y previo a llegar a los correspondientes controladores
+- la logica que vamos a definir en el metodo DashboardFilter::before() vvv
 class Filters extends BaseConfig
 {
     public array $filters = [
@@ -754,7 +757,7 @@ class Filters extends BaseConfig
     ];
 }
 
-3) configuramos el metodo before() de la clase DashboardFilter que sera el middleware (filtro) que sera lo primero que se ejecutara cuando se haga una peticion http a cualquier ruta que comienze con "/dashboard" (asi lo definimos en el paso "2.2"), y solo permitira seguir con la ejecucion a usuarior autenticados con rol de administrador vvv 
+3) configuramos el metodo before() de la clase DashboardFilter que sera el middleware (filtro) que sera lo primero que se ejecutara cuando se haga una peticion http a cualquier ruta que comienze con "/dashboard" (asi lo definimos en el paso "2.2"), y solo permitira seguir con la ejecucion a usuarios autenticados con rol de administrador vvv 
 
 class DashboardFilter implements FilterInterface
 {
@@ -903,4 +906,19 @@ Sección 15: Carga de archivos
 
 - para acceder a recursos como imagenes y otros tipos de archivos desde el navegador, estos deben estar ubicados en /public 
 
-- en el controlador Peliculas creamos el metodo privado asignarImagen(), que vamos a usar para gestionar archivos 
+- en el controlador Peliculas creamos el metodo privado asignar_imagen(), que vamos a usar para gestionar imagenes 
+- se trata de un metodo que (al menos en este video) va a ser invocado por el metodo update(), es decir, el metodo que procesa la edicion de una pelicula 
+- este metodo valida que en caso de que el usuario cargue una imagen, que esta cumpla con lo que esperamos (tipo, tamaño, etc, todo definido en /app/Config/Validation::$imagenes)
+- superada la validacion, guarda fisicamente la imagen en /writable/uploads/peliculas 
+- luego de esta accion realiza las acciones correspondientes en la DB para asociar la imagen cargada a la pelicula vvv 
+* INSERT INTO imagenes 
+* INSERT INTO pelicula_imagen
+
+----- 
+
+Sección 15: Carga de archivos
+120. Carga de archivos, parte 2 
+
+- modificamos el metodo asignar_imagen() del controlador Pelicula para que las imagenes se guarden dentro de /public y puedan ser consumidas por el navegador 
+- path a las imagenes vvv 
+http://localhost:8080/uploads/peliculas/1713320426_49ecd23ec5f3bb440e9a.jpg

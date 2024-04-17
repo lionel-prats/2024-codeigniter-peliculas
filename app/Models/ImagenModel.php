@@ -15,16 +15,25 @@ class ImagenModel extends Model
     /**
      * retorna informacion de todas las peliculas asociadas a una imagen
      *
-     * @param int $id imagenes.id
-     * @return array retorna un array indexado de objetos donde cada objeto es un registro de la tabla peliculas asociado a la imgen buscada
+     * @param int $id_imagen imagenes.id
+     * @return array retorna un array indexado de objetos donde cada objeto es un registro de la tabla peliculas asociado a la imagen buscada
     */
-    public function getPeliculasById($id)
+    public function getPeliculasById($id_imagen)
     {
-        return $this->select("p.*")
-            ->join("pelicula_imagen pi", "pi.imagen_id = imagenes.id")
-            ->join("peliculas p", "p.id = pi.pelicula_id")
-            ->where("pi.imagen_id", $id)
-            ->orderBy("p.id")
+        return $this->select("PEL.*")
+            ->join("pelicula_imagen PIM", "PIM.imagen_id = imagenes.id")
+            ->join("peliculas PEL", "PEL.id = PIM.pelicula_id")
+            ->where("PIM.imagen_id", $id_imagen)
+            ->orderBy("PEL.id")
             ->find();
     }
+    // public function getPeliculasById($id_imagen)
+    // {
+    //     return $this->select("PEL.*")
+    //         ->join("pelicula_imagen PIM", "PIM.imagen_id = imagenes.id")
+    //         ->join("peliculas PEL", "PEL.id = PIM.pelicula_id")
+    //         ->where("PIM.imagen_id", $id_imagen)
+    //         ->orderBy("PEL.id")
+    //         ->find();
+    // }
 }

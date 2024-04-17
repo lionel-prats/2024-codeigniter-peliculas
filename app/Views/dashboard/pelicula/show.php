@@ -22,7 +22,7 @@
     <ul>
         <?php foreach($pelicula_imagenes as $imagen): ?>
             <li>
-                <?php echo $imagen->imagen . "." . $imagen->extension; ?>
+                <?php echo $imagen->imagen/*  . "." . $imagen->extension */; ?>
             </li>
         <?php endforeach ?>
     </ul>

@@ -210,14 +210,11 @@ class Pelicula extends BaseController
             ];
             $result = $peliculaModel->update($id, $data);
             if($result) {
-
-                $this->asignar_imagen($id);
-
-
-
-
+                $insertar_imagen = $this->asignar_imagen($id);
+                $mensaje = "Película editada. $insertar_imagen";
+                
                 // return redirect()->back();
-                return redirect()->to("/dashboard/pelicula")->with("mensaje", "Película editada exitosamente");
+                return redirect()->to("/dashboard/pelicula")->with("mensaje", $mensaje);
                 // return redirect()->route("pelicula.test");
             }
         } else {
@@ -273,42 +270,55 @@ class Pelicula extends BaseController
     private function asignar_imagen($pelicula_id) // v119
     {
         if($image_file = $this->request->getFile("imagen")){
-            // ddl($image_file, 1);
             if($image_file->isValid()){
-                $validated = $this->validate([
-                    "uploaded[imagen]",
-                    "mime_in[imagen,image/jpg,image/gif,image/png,image/jpeg]",
-                    "max_size[imagen,4096]"
-                ]);
-                if($validated) {
+                if($this->validate("imagenes")){
                     $imagen_nombre = $image_file->getRandomName();
-                    $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
-                }
-                return $this->validator->listErrors();
-            }
-        }
-    }
+                    $extension = $image_file->getExtension();
+                    try {
+                        // $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
+                        $image_file->move(/* WRITEPATH .  */"../public/uploads/peliculas", $imagen_nombre);
 
-    // este metodo, al ser privado, solo puede ser accedido dentro de esta clase (v107)
-    private function generar_imagen()
-    {
-        $imagenModel = new ImagenModel();
-        $data = [
-            'imagen' => date("Y-m-d H:m:s"), // string(19) "2024-04-09 21:04:11"
-            'extension' => "Pendiente",
-            'data' => "Pendiente",
-        ];
-        return $imagenModel->insert($data, false); 
-    }
-    
-    private function asignar_imagen2() // v107
-    {
-        $PeliculaImagenModel = new PeliculaImagenModel();
-        $data = [
-            'pelicula_id' => 44,
-            'imagen_id' => 4,
-        ];
-        return $PeliculaImagenModel->insert($data, true); 
+                        // insert en tabla imagenes
+                        $imagenModel = new ImagenModel();
+                        $data = [
+                            'imagen' => $imagen_nombre,
+                            'extension' => $extension,
+                            'data' => "Pendiente",
+                        ];
+                        $imagen_id = $imagenModel->insert($data); 
+                        
+                        
+                        // insert en tabla pelicula_imagen
+                        $PeliculaImagenModel = new PeliculaImagenModel();
+                        $data = [
+                            'pelicula_id' => $pelicula_id,
+                            'imagen_id' => $imagen_id,
+                        ];
+                        $PeliculaImagenModel->insert($data); 
+
+                        return "Imagen subida correctamente";
+                    } catch (\Throwable $th) {
+                        return "Problemas en el servidor, no se pudo cargar la imagen";
+                    }
+                } else {
+                    // return $this->validator->listErrors();
+                    return "Archivo inválido";
+                }
+                // $validated = $this->validate([
+                //     "uploaded[imagen]",
+                //     "mime_in[imagen,image/jpg,image/gif,image/png,image/jpeg]",
+                //     "max_size[imagen,4096]"
+                // ]);
+                // if($validated) {
+                //     $imagen_nombre = $image_file->getRandomName();
+                //     $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
+                // } 
+            } else {
+                return "El usuario no ha cargado ninguna imagen";
+            }
+        } else {
+            return "El usuario no ha cargado ninguna imagen";
+        }
     }
 
     public function etiquetas($id)

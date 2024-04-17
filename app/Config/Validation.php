@@ -50,6 +50,11 @@ class Validation extends BaseConfig
         "titulo" => "required|min_length[3]|max_length[255]",
         "categoria_id" => "required|is_natural",
     ];
+    public $imagenes = [
+        "uploaded[imagen]",
+        "mime_in[imagen,image/jpg,image/gif,image/png,image/jpeg]",
+        "max_size[imagen,4096]",
+    ];
     public $peliculas = [
         "titulo" => "required|min_length[3]|max_length[255]",
         "descripcion" => "required|min_length[3]|max_length[2000]",
