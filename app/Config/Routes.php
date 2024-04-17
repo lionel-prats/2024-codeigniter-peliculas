@@ -34,6 +34,9 @@ $routes->group("dashboard", function($routes){
     $routes->get("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas/$1", ["as" => "pelicula.etiquetas"]);
     $routes->post("pelicula/(:num)/etiquetas", "Dashboard\Pelicula::etiquetas_post/$1", ["as" => "pelicula.etiquetas"]);
     $routes->post("pelicula/(:num)/etiqueta/(:num)/delete", "Dashboard\Pelicula::etiqueta_delete/$1/$2", ["as" => "pelicula.etiqueta_delete"]);
+    
+    // borrar imagen (v123)
+    $routes->post("pelicula/imagen_delete/(:num)", "Dashboard\Pelicula::borrar_imagen/$1", ["as" => "pelicula.borrar_imagen"]);
 
     $routes->presenter("categoria", ["controller" => "Dashboard\Categoria"/* , "except" => "show" */]);
     $routes->presenter("etiqueta", ["controller" => "Dashboard\Etiqueta"]);

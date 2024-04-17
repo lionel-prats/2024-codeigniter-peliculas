@@ -253,7 +253,6 @@ class Pelicula extends BaseController
         $imagenModel = new ImagenModel(); 
         ddl($imagenModel->getPeliculasById(4)/* , 1 */);
 
-
         // dd($this->asignar_imagen() ,1);
 
         echo "Argumento $arg1 recibido correctamente<br>";
@@ -266,6 +265,15 @@ class Pelicula extends BaseController
         session()->destroy();
         session()->setFlashdata("mensaje", "Se ha destruído la sesión!!");
         return redirect()->back();
+    }
+
+    // v123 - metodo para borrar una imagen (tanto fisicamente en el server como de las tablas imagenes y pelicula_imagen)
+    public function borrar_imagen($imagen_id) {
+        $imagen_model = new ImagenModel();
+        $pelicula_imagen_model = new PeliculaImagenModel();
+        $pelicula_imagen_model->where("imagen_id", $imagen_id)->delete();
+        $imagen_model->delete($imagen_id);
+        return redirect()->back()->with("mensaje", "Imagen borrada exitosamente");
     }
 
     private function asignar_imagen($pelicula_id) // v119

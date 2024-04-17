@@ -22,21 +22,29 @@
     <ul>
         <?php foreach($pelicula_imagenes as $imagen): ?>
             <li>
-                <?php echo $imagen->imagen/*  . "." . $imagen->extension */; ?>
+                <img 
+                    style="width: 7rem; height: 7rem;"
+                    alt="<?php echo "imagen_pelicula_" . $pelicula->id; ?>"
+                    src="<?php echo "/uploads/peliculas/$imagen->imagen"; ?>" 
+                >
+                <form action="<?php echo route_to("pelicula.borrar_imagen", $imagen->id); ?>" method="POST">
+                    <button>Borrar Imagen</button>
+                </form>
             </li>
         <?php endforeach ?>
     </ul>
     <h3>Etiquetas</h3>
     <?php foreach($etiquetas as $etiqueta): ?>
 
-        <!-- bloque para hacer una peticion POST via PHP para borrar la etiqueta de una pelicula -->
+        <!-- BLOQUE para hacer una peticion POST via PHP para borrar la etiqueta de una pelicula -->
         <!-- <form 
             method="POST"
             action="<?php //echo route_to("pelicula.etiqueta_delete", $pelicula->id, $etiqueta->id); ?>" 
         >
             <input type="submit" value="<?php //echo $etiqueta->titulo; ?>">
         </form> -->
-
+        <!-- fin BLOQUE -->
+        
         <button 
             class="delete-etiqueta"
             data-url="

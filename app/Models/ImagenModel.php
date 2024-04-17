@@ -20,6 +20,22 @@ class ImagenModel extends Model
     */
     public function getPeliculasById($id_imagen)
     {
+        /* 
+        -- query original de este metodo
+        SELECT PEL.* 
+        FROM imagenes
+        JOIN pelicula_imagen PIM ON PIM.imagen_id = imagenes.id 
+        JOIN peliculas PEL ON PEL.id = PIM.pelicula_id
+        WHERE PIM.imagen_id = 1
+        ORDER BY PEL.id
+
+        -- se puede obtener el mismo resultado con esta query que es mas simple (menos JOINS), aunque calculo que tiene sentido definir el metodo en PeliculaModel
+        SELECT PEL.* 
+        FROM peliculas PEL
+        JOIN pelicula_imagen PIM ON PIM.pelicula_id = PEL.id 
+        WHERE PIM.imagen_id = 1
+        ORDER BY PEL.id
+        */
         return $this->select("PEL.*")
             ->join("pelicula_imagen PIM", "PIM.imagen_id = imagenes.id")
             ->join("peliculas PEL", "PEL.id = PIM.pelicula_id")
@@ -27,13 +43,4 @@ class ImagenModel extends Model
             ->orderBy("PEL.id")
             ->find();
     }
-    // public function getPeliculasById($id_imagen)
-    // {
-    //     return $this->select("PEL.*")
-    //         ->join("pelicula_imagen PIM", "PIM.imagen_id = imagenes.id")
-    //         ->join("peliculas PEL", "PEL.id = PIM.pelicula_id")
-    //         ->where("PIM.imagen_id", $id_imagen)
-    //         ->orderBy("PEL.id")
-    //         ->find();
-    // }
 }
