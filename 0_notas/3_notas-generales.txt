@@ -922,3 +922,26 @@ Sección 15: Carga de archivos
 - modificamos el metodo asignar_imagen() del controlador Pelicula para que las imagenes se guarden dentro de /public y puedan ser consumidas por el navegador 
 - path a las imagenes vvv 
 http://localhost:8080/uploads/peliculas/1713320426_49ecd23ec5f3bb440e9a.jpg
+
+----- 
+
+Sección 15: Carga de archivos
+121. Funciones importantes en la carga de los archivos
+
+- /app/Controllers/Dashboard/Pelicula.php::asignar_imagen() vvv
+ddl($image_file->getName(), 2); // nombre original del archivo cargado en el input:file
+
+----- 
+
+Sección 15: Carga de archivos
+122. Acceder a la imagen mediante un controlador 
+
+- la idea es acceder desde el navegador a un recurso en /writable (en este caso una imagen), directorio al que el navegador por defecto no tiene acceso vvv
+
+1) creamos una ruta GET para hacer pruebas (Routes.php) vvv 
+$routes->get("image/(:any)", "Dashboard\Pelicula::image/$1", ["as" => "get_image"]);
+// http://localhost:8080/image/1713320426_49ecd23ec5f3bb440e9a.jpg
+
+2) creamos el controlador Pelicula::image() y lo configuramos para gestionar la peticion a la ruta del punto 1), que finalmente renderizara la imagen dentro de /writable
+
+*** acceder a un recurso desde el navegador de esta fforma representa un proceso mas pesado que acceder a los recursos alojandolos en /public

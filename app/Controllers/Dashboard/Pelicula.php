@@ -10,6 +10,7 @@ use App\Models\CategoriaModel;
 use App\Controllers\BaseController;
 use App\Models\PeliculaImagenModel;
 use App\Models\PeliculaEtiquetaModel;
+use CodeIgniter\Exceptions\PageNotFoundException; // v122 (Acceder a la imagen mediante un controlador)
 
 helper('globals'); 
 
@@ -270,10 +271,12 @@ class Pelicula extends BaseController
     private function asignar_imagen($pelicula_id) // v119
     {
         if($image_file = $this->request->getFile("imagen")){
+            // ddl($image_file->getName(), 2); // nombre original del archivo cargado en el input:file (v121)
             if($image_file->isValid()){
                 if($this->validate("imagenes")){
                     $imagen_nombre = $image_file->getRandomName();
-                    $extension = $image_file->getExtension();
+                    // $extension = $image_file->getExtension();
+                    $extension = $image_file->guessExtension();
                     try {
                         // $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
                         $image_file->move(/* WRITEPATH .  */"../public/uploads/peliculas", $imagen_nombre);
@@ -319,6 +322,27 @@ class Pelicula extends BaseController
         } else {
             return "El usuario no ha cargado ninguna imagen";
         }
+    }
+
+    // v122 - 122. Acceder a la imagen mediante un controlador vvv
+    // http://localhost:8080/image/1713320426_49ecd23ec5f3bb440e9a.jpg
+    function image($image)
+    {
+        // abre el archivo en modo binario
+        if(!$image) {
+            $image = $this->request->getGet("image");
+        }
+        $name = WRITEPATH . "uploads/peliculas/$image";
+        if(!file_exists($name)) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $fp = fopen($name, "rb");
+        // envia las cabeceras correctas 
+        header("Content-Type: image/png");
+        header("Content-Length: " . filesize($name));
+        // vuelca la imagen y detiene el script 
+        fpassthru($fp);
+        exit;
     }
 
     public function etiquetas($id)

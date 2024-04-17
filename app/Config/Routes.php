@@ -88,3 +88,7 @@ $routes->post('login', 'Web\Usuario::login_post', ["as" => "usuario.login_post"]
 $routes->get('register', 'Web\Usuario::register', ["as" => "usuario.register"]);
 $routes->post('register', 'Web\Usuario::register_post', ["as" => "usuario.register_post"]);
 $routes->post('logout', 'Web\Usuario::logout', ["as" => "usuario.logout"]);
+
+// test (v122)
+$routes->get("image/(:any)", "Dashboard\Pelicula::image/$1", ["as" => "get_image"]);
+// http://localhost:8080/image/1713320426_49ecd23ec5f3bb440e9a.jpg
