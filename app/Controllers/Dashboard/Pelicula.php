@@ -271,9 +271,30 @@ class Pelicula extends BaseController
     public function borrar_imagen($imagen_id) {
         $imagen_model = new ImagenModel();
         $pelicula_imagen_model = new PeliculaImagenModel();
-        $pelicula_imagen_model->where("imagen_id", $imagen_id)->delete();
-        $imagen_model->delete($imagen_id);
-        return redirect()->back()->with("mensaje", "Imagen borrada exitosamente");
+
+        // valido que la imagen a borrar exista en la tabla imagenes
+        $imagen = $imagen_model->find($imagen_id);
+        if($imagen == null){
+            return redirect()->back()->with("mensaje", "No existe imagen en BD");
+        }
+
+        // ruta relativa de la imagen en el server
+        $image_path = "../public/uploads/peliculas/$imagen->imagen";
+        // $image_path = "uploads/peliculas/$imagen->imagen";
+        
+        // valido que la imagen exista en el server
+        if (!file_exists($image_path)) {
+            return redirect()->back()->with("mensaje", "No existe imagen en server");
+        }
+
+        // valido que la imagen fisica del server se haya borrado correctamente 
+        if(unlink($image_path)) {
+            // borrado de registros asociados a la imagen en tabla spelicula_imagen
+            $pelicula_imagen_model->where("imagen_id", $imagen_id)->delete();
+            // borrado del registro asociado a la imagen en tabla imagenens
+            $imagen_model->delete($imagen_id);
+            return redirect()->back()->with("mensaje", "Imagen borrada exitosamente");
+        }
     }
 
     private function asignar_imagen($pelicula_id) // v119
