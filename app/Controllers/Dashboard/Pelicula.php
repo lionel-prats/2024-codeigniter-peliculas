@@ -268,7 +268,8 @@ class Pelicula extends BaseController
     }
 
     // v123 - metodo para borrar una imagen (tanto fisicamente en el server como de las tablas imagenes y pelicula_imagen)
-    public function borrar_imagen($imagen_id) {
+    // POST /dashboard/pelicula123/imagen_delete/$imagen_id (v123) 
+    public function borrar_imagen123($imagen_id) {
         $imagen_model = new ImagenModel();
         $pelicula_imagen_model = new PeliculaImagenModel();
 
@@ -287,14 +288,61 @@ class Pelicula extends BaseController
             return redirect()->back()->with("mensaje", "No existe imagen en server");
         }
 
-        // valido que la imagen fisica del server se haya borrado correctamente 
-        if(unlink($image_path)) {
+        try {
+            unlink($image_path);
             // borrado de registros asociados a la imagen en tabla spelicula_imagen
             $pelicula_imagen_model->where("imagen_id", $imagen_id)->delete();
             // borrado del registro asociado a la imagen en tabla imagenens
             $imagen_model->delete($imagen_id);
             return redirect()->back()->with("mensaje", "Imagen borrada exitosamente");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with("mensaje", "Falló el borrado de la imagen en el servidor");
         }
+    }
+
+    // POST /dashboard/pelicula/imagen_descargar/$imagen_id (v125) 
+    public function descargar_imagen($imagen_id) {
+        $imagen_model = new ImagenModel();
+        $imagen = $imagen_model->find($imagen_id);
+        if($imagen == null){
+            return redirect()->back()->with("mensaje", "No existe imagen en BD");
+        }
+        $image_path = "../public/uploads/peliculas/$imagen->imagen";
+        return $this->response
+            ->download($image_path, null)
+            ->setFileName("Imagen_$imagen_id" . "." . $imagen->extension);
+    }
+    
+    // v123 - este metodo borra la relacion entre una imagen y una pelicula (registros en "pelicula_imagen"). A su vez, luego de este borrado, verifica si la imagen sigue asociada a otras peliculas, y si fuera el caso, elimina el registro correspondiente en "imagenes" y el archivo fisico alojado en el server 
+    // POST /dashboard/pelicula126/imagen_delete/$imagen_id (v126) 
+    public function borrar_imagen126($pelicula_id, $imagen_id) {
+        $imagen_model = new ImagenModel();
+        $pelicula_model = new PeliculaModel();
+        $imagen = $imagen_model->find($imagen_id);
+        if($imagen == null){
+            return redirect()->back()->with("mensaje", "No existe imagen en BD");
+        }
+        $pelicula = $pelicula_model->find($pelicula_id);
+        if($pelicula == null){
+            return redirect()->back()->with("mensaje", "No existe pelicula en BD");
+        }
+        $image_path = "../public/uploads/peliculas/$imagen->imagen";
+        if (!file_exists($image_path)) {
+            return redirect()->back()->with("mensaje", "No existe imagen en server");
+        }
+        $pelicula_imagen_model = new PeliculaImagenModel();
+        $pelicula_imagen_model->where("imagen_id", $imagen_id)
+            ->where("pelicula_id", $pelicula_id)
+            ->delete();   
+        if($pelicula_imagen_model->where("imagen_id", $imagen_id)->countAllResults() == 0){
+            try {
+                unlink("$image_path");
+                $imagen_model->delete($imagen_id);
+            } catch (\Throwable $th) {
+                return redirect()->back()->with("mensaje", "Falló el borrado de la imagen en el servidor");
+            }
+        }
+        return redirect()->back()->with("mensaje", "Imagen asociada a '" . $pelicula->titulo . "' borrada exitosamente");
     }
 
     private function asignar_imagen($pelicula_id) // v119

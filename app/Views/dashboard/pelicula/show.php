@@ -27,9 +27,18 @@
                     alt="<?php echo "imagen_pelicula_" . $pelicula->id; ?>"
                     src="<?php echo "/uploads/peliculas/$imagen->imagen"; ?>" 
                 >
-                <form action="<?php echo route_to("pelicula.borrar_imagen", $imagen->id); ?>" method="POST">
-                    <button>Borrar Imagen</button>
+                <form action="<?php echo route_to("pelicula.borrar_imagen123", $imagen->id); ?>" method="POST">
+                    <button>Borrar Imagen v123</button>
                 </form>
+                <br>
+                <form action="<?php echo route_to("pelicula.descargar_imagen", $imagen->id); ?>" method="POST">
+                    <button>Descargar Imagen</button>
+                </form>
+                <br>
+                <form action="<?php echo route_to("pelicula.borrar_imagen126", $pelicula->id, $imagen->id); ?>" method="POST">
+                    <button>Borrar Imagen v126</button>
+                </form>
+                <br>
             </li>
         <?php endforeach ?>
     </ul>
