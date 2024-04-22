@@ -2,14 +2,14 @@
 <?php echo $this->section("contenido"); ?>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/etiqueta/new">New</a>
-        <div>
+        <!-- <div>
             <a href="/" class="pr-2">Home</a>
             <a href="/dashboard/categoria">Categorías</a>
-        </div>
+        </div> -->
     </div>
     <br>
     <br>
-    <table border="1" cellspacing="0" cellpadding="10">
+    <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -25,10 +25,8 @@
                     <td><?php echo $etiqueta->titulo; ?></td>
                     <td><?php echo $etiqueta->categoria_id; ?></td>
                     <td>
-                        <a href="/dashboard/etiqueta/show/<?php echo $etiqueta->id; ?>">Detail</a>
-                        <br>
+                        <a href="/dashboard/etiqueta/show/<?php echo $etiqueta->id; ?>">Detail</a>                        
                         <a href="/dashboard/etiqueta/edit/<?php echo $etiqueta->id; ?>">Edit</a>
-                        <br>
                         <form action="/dashboard/etiqueta/delete/<?php echo $etiqueta->id; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>

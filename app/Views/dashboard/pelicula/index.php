@@ -10,15 +10,15 @@
 ?>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/pelicula/new">New</a>
-        <div>
+        <!-- <div>
             <a href="/" class="pr-2">Home</a>
             <a href="/dashboard/categoria">Categorías</a>
-        </div>
+        </div> -->
     </div>
     <br>
     <br>
 
-    <table border="1" cellspacing="0" cellpadding="10">
+    <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -37,11 +37,8 @@
                     <td><?php echo $pelicula->categoria; ?></td>
                     <td>
                         <a href="/dashboard/pelicula/show/<?php echo $pelicula->id; ?>">Detail</a>
-                        <br>
                         <a href="/dashboard/pelicula/edit/<?php echo $pelicula->id; ?>">Edit</a>
-                        <br>
                         <a href="<?php echo route_to("pelicula.etiquetas", $pelicula->id); ?>">Tags</a>
-
                         <form action="/dashboard/pelicula/delete/<?php echo $pelicula->id; ?>" method="POST">
                             <input type="submit" value="Delete">
                         </form>
@@ -52,6 +49,7 @@
     </table>
 
     <?php echo $pager->links(); // v130 ?>
+    <?php //echo $pager->simpleLinks(); // v140 ?>
 
     <br>
     <a href="<?php echo route_to("pelicula.test", 15, 38); ?>">/dashboard/test/15/38</a>

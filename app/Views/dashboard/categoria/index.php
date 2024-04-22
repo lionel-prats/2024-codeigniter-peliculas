@@ -3,14 +3,14 @@
 <?php echo $this->section("contenido"); ?>
     <div class="flex justify-content-between w-45">
         <a href="/dashboard/categoria/new">New</a>
-        <div>
+        <!-- <div>
             <a href="/" class="pr-2">Home</a>
             <a href="/dashboard/pelicula">Películas</a>
-        </div>
+        </div> -->
     </div>
     <br>
     <br>
-    <table border="1" cellspacing="0" cellpadding="10">
+    <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -25,7 +25,6 @@
                     <td><?php echo $categoria->titulo; ?></td>
                     <td>
                         <a href="/dashboard/categoria/show/<?php echo $categoria->id; ?>">Detail</a>
-                        <br>
                         <a href="/dashboard/categoria/edit/<?php echo $categoria->id; ?>">Edit</a>
                         <form action="/dashboard/categoria/delete/<?php echo $categoria->id; ?>" method="POST">
                             <input type="submit" value="Delete">

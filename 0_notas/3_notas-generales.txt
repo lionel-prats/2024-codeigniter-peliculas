@@ -993,7 +993,6 @@ ddl($ultima_consulta_sql_puro, 1);
 Sección 16: Librerías y funciones en Codeigniter
 132. Manejo de errores
 
-
 /vendor/codeigniter4/framework/system/Exceptions/PageNotFoundException.php
 
 - en v122 vimos un primer ejemplo de manejo de excepciones vvv 
@@ -1008,3 +1007,84 @@ if(!file_exists($name)) {
 
 - dentro de esta clase estan contenidas todos los tipo de excepciones que ofrece Codeigniter (cada tipo de excepcion es un metodo de la clase)
 - podemos crear nuevas excepciones dentro de esta clase para utilizar en distintas partes de la aplicacion 
+
+----- 
+
+Sección 17: Bootsrap 5
+135. Sobre Bootstrap 5
+
+- "Tailwind esta mas orientado a trabajar con Node"
+
+----- 
+
+- INSTALACION MANUAL DE BOOTSTRAP 5.3.3 EN EL PROYECTO (21/4/24) 
+- modulo "download" en sitio de Bootsrap -> https://getbootstrap.com/docs/5.3/getting-started/download/ 
+
+1) dentro del modulo "download", en el apartado "Source files", click en "btn.Download"
+2) esto descarga un comprimido, que descomprimido nos proporciona la carpeta "bootsrap-5.3.3"
+3) en el proyecto, incluimos esta carpeta dentro de /public 
+4) renombro la carpeta como "bootsrap"
+5) los dos archivos que importan son vvv 
+* /public/bootstrap/dist/css/bootstrap.min.css
+* /public/bootstrap/dist/js/bootstrap.min.js
+6) importamos el CSS en el layout del modulo dashboard (/app/Views/Layouts/dashboard.php) vvv 
+    <head>
+        ...
+        <link rel="stylesheet" href="<?php echo base_url() ?>bootstrap/dist/css/bootstrap.min.css">
+        ...
+    </head>
+
+    PRUEBAS vvv
+    echo base_url(); // IMPRIME "http://localhost:8080/" 
+    *** base_url() retorna el valor del atributo publico $baseURL, definido en la clase App (/app/Config/App.php)
+    echo base_url() . "bootstrap/dist/css/bootstrap.min.css"; // IMPRIME "http://localhost:8080/bootstrap/dist/css/bootstrap.min.css"
+
+----- 
+
+- INSTALACION BOOTSTRAP 5.3.3 EN EL PROYECTO VIA CLI CON COMPOSER (https://getbootstrap.com/docs/5.3/getting-started/download/) (21/4/24) 
+ 
+1) instalo Bootsrap por linea de comandos 
+cUser@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main) composer require twbs/bootstrap:5.3.3
+*** esto crea la carpeta /twbs dentro de /vendor 
+
+2) luego copie los archivos "/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" y "/vendor/twbs/bootstrap/dist/js/bootstrap.min.js", y los pegue en "/public/bootsrap/css" y "/public/bootsrap/js" respectivamente, para poder accederlos desde el navegador 
+
+3) finalmente, lo importo desde el layout del modulo dashboard (/app/Views/Layouts/dashboard.php) vvv 
+<head>
+    ...
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap/css/bootstrap.min.css') ?>">
+    ...
+</head>
+
+----- 
+
+Sección 17: Bootsrap 5
+140. Paginación
+
+- Vamos a implementar las clases de Bootsrap en los bloques HTML que nos proporciona la libreria "pagination", que usamos para paginar las vistas de pelicula, categoria y etiqueta (v130) vvv 
+
+- vimos que en la vista, con este codigo se generaba una paginacion automatica, sin estilos vvv
+-- CONTROLADOR 
+$peliculaModel = new PeliculaModel();
+$data = [
+    ...
+    "pager" => $peliculaModel->pager, // v130
+];
+-- VISTA
+<?php echo $pager->links(); ?>
+
+- resulta que el metodo links() refiere a Pager->templates['default_full'] (/app/Config/Pager.php)
+- 'default_full' refiere al template "default_null.php" (/vendor/codeigniter4/framework/system/Pager/Views/default_full.php), el cual contiene el codigo HTML que se renderiza cuando imprimimos la ejecucion de $pager->links() 
+
+----- 
+
+IMPLEMENTACION DE ESTILOS DE BOOTSTRAP EN LOS TEMPLATES QUE NOS PROPORCIONA LA LIBRERIA PAGINATION vvv
+
+1) creamos el archivo /app/Views/partials/pagination.php
+2) en este archivo copiamos el contenido de "default_full.php" 
+3) modifico Pager->templates['default_full'] para que ahora $pager->links() renderize el contenido de /app/Views/partials/pagination.php vvv 
+public array $templates = [
+    'default_full'   => 'App\Views\partials\pagination',
+    ...
+];
+4) en el <nav> de /app/Views/partials/pagination.php aplico las clases de bootstrap que consideremos
