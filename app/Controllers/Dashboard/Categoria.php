@@ -20,10 +20,11 @@ class Categoria extends BaseController
         // echo json_encode(session("usuario"));
 
         $categoriaModel = new CategoriaModel();
-        $categorias = $categoriaModel->findAll();
+        $categorias = $categoriaModel->paginate(5);//->findAll();
         $data = [
             "tituloVista" => "Listado de categorías",
             "categorias" => $categorias,
+            'pager' => $categoriaModel->pager,
         ];
         return view('dashboard/categoria/index', $data);
     }   

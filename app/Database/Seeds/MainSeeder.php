@@ -9,6 +9,9 @@ class MainSeeder extends Seeder
 {
     public function run()
     {
+        $this->call("PeliculaImagenSeeder");
+        $this->call("PeliculaEtiquetaSeeder");
+        $this->call("ImagenSeeder");
         $this->call("CategoriaSeeder");
         $this->call("PeliculaSeeder");
         $this->call("EtiquetaSeeder");

@@ -14,10 +14,11 @@ class Etiqueta extends BaseController
     public function index(): string
     {
         $etiqueta_model = new EtiquetaModel();
-        $etiquetas = $etiqueta_model->findAll();
+        $etiquetas = $etiqueta_model->paginate(5);//->findAll();
         $data = [
             "tituloVista" => "Listado de etiquetas",
             "etiquetas" => $etiquetas,
+            'pager' => $etiqueta_model->pager,
         ];
         return view('dashboard/etiqueta/index', $data);
     }   

@@ -19,7 +19,7 @@ class PeliculaSeeder extends Seeder
         $categorias = $categoriaModel->select("id")->find();
 
         // Crear 50 nuevos peliculas
-        for ($i = 0; $i < 50; $i++) { 
+        for ($i = 0; $i < 400; $i++) { 
             $index_categorias = array_rand($categorias);
             $this->db->table("peliculas")->insert([
                 "titulo" => "Pelicula " . $i + 1,

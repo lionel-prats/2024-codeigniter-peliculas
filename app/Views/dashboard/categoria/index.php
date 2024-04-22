@@ -35,6 +35,7 @@
             <?php endforeach ?>
         </tbody>
     </table>
+    <?php echo $pager->links(); ?>
     <?php if(session("ip") && session("ip2") && session("session_key")): ?>
         <br>
         <code>Variable de sesion $ip == <?php echo session("ip"); ?></code>

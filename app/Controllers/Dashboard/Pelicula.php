@@ -10,12 +10,18 @@ use App\Models\CategoriaModel;
 use App\Controllers\BaseController;
 use App\Models\PeliculaImagenModel;
 use App\Models\PeliculaEtiquetaModel;
-use CodeIgniter\Exceptions\PageNotFoundException; // v122 (Acceder a la imagen mediante un controlador)
 
-helper('globals'); 
+// /vendor/codeigniter4/framework/system/Exceptions/PageNotFoundException.php
+use CodeIgniter\Exceptions\PageNotFoundException; // v122 (Acceder a la imagen mediante un controlador)
 
 class Pelicula extends BaseController
 {
+    // v129
+    public function __construct() 
+    {
+        // helper(["globals", "cookie", "date"]);
+    }
+
     // list all resources
     public function index(): string
     {
@@ -38,7 +44,6 @@ class Pelicula extends BaseController
             "owner" => "lionel prats",
             "shadow_pass" => "1sadas4d4d5as4asd245",
         ]);
-
         // imprimo variables de sesion por pantalla
         // echo session("ip") . "<br>";
         // echo session("ip2") . "<br>";
@@ -50,7 +55,6 @@ class Pelicula extends BaseController
         // echo "<pre>";
         // print_r(session());
         // exit;
-
 
         $peliculaModel = new PeliculaModel();
 
@@ -90,12 +94,18 @@ class Pelicula extends BaseController
                         ->select("peliculas.*, c.titulo as categoria")
                         ->join("categorias c", "c.id = peliculas.categoria_id")
                         ->orderBy("peliculas.id")
-                        ->find();
+                        // ->find();
+                        ->paginate(10);
+
+        $ultima_consulta_sql_puro = $peliculaModel->getLastQuery();
+        // ddl($ultima_consulta_sql_puro, 1);
 
         $data = [
             "tituloVista" => "Listado de películas",
             "peliculas" => $peliculas,
+            'pager' => $peliculaModel->pager, // v130
         ];
+        
         return view('dashboard/pelicula/index', $data);
     }   
 
@@ -347,6 +357,7 @@ class Pelicula extends BaseController
 
     private function asignar_imagen($pelicula_id) // v119
     {
+        helper("filesystem");
         if($image_file = $this->request->getFile("imagen")){
             // ddl($image_file->getName(), 2); // nombre original del archivo cargado en el input:file (v121)
             if($image_file->isValid()){
@@ -361,9 +372,10 @@ class Pelicula extends BaseController
                         // insert en tabla imagenes
                         $imagenModel = new ImagenModel();
                         $data = [
-                            'imagen' => $imagen_nombre,
-                            'extension' => $extension,
-                            'data' => "Pendiente",
+                            "imagen" => $imagen_nombre,
+                            "extension" => $extension,
+                            // "data" => "Pendiente",
+                            "data" => json_encode(get_file_info("../public/uploads/peliculas/$imagen_nombre")),
                         ];
                         $imagen_id = $imagenModel->insert($data); 
                         
@@ -374,8 +386,7 @@ class Pelicula extends BaseController
                             'pelicula_id' => $pelicula_id,
                             'imagen_id' => $imagen_id,
                         ];
-                        $PeliculaImagenModel->insert($data); 
-
+                        $PeliculaImagenModel->insert($data);                         
                         return "Imagen subida correctamente";
                     } catch (\Throwable $th) {
                         return "Problemas en el servidor, no se pudo cargar la imagen";
@@ -411,6 +422,8 @@ class Pelicula extends BaseController
         }
         $name = WRITEPATH . "uploads/peliculas/$image";
         if(!file_exists($name)) {
+
+            // metodo de la clase PageNotFoundException (v132) (en la importacion de esta clase se puede ver el path completo)
             throw PageNotFoundException::forPageNotFound();
         }
         $fp = fopen($name, "rb");

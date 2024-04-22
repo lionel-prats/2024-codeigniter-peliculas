@@ -216,7 +216,7 @@ C:\laragon\www\0_codeigniter4
 Sección 2: Básico - Primeros pasos con Codeigniter 4
 18. Habilitar el modo desarrollador
 
-- por default en desarrollo, cuando se genera algun error en nuestra app y una vista se rompe, se genera generan archivos de logs dentro de /writable/logs y estos errores no se muestran por pantalla 
+- por default en desarrollo, cuando se genera algun error en nuestra app y una vista crashea, se generan archivos de logs dentro de /writable/logs y estos errores no se muestran por pantalla 
 - el nombre de los archivos es del tipo "log-2024-03-23.log"
 
 - a su vez, por default, codeigniter toma como entorno a "production", lo que apunta de alguna manera al archivo /app/Config/Boot/production.php 
@@ -945,3 +945,66 @@ $routes->get("image/(:any)", "Dashboard\Pelicula::image/$1", ["as" => "get_image
 2) creamos el controlador Pelicula::image() y lo configuramos para gestionar la peticion a la ruta del punto 1), que finalmente renderizara la imagen dentro de /writable
 
 *** acceder a un recurso desde el navegador de esta fforma representa un proceso mas pesado que acceder a los recursos alojandolos en /public
+
+----- 
+
+Sección 16: Librerías y funciones en Codeigniter
+129. Librerías y funciones de ayuda 
+
+- documentacion oficial LIBRERIAS Codeigniter
+https://codeigniter4.github.io/userguide/libraries/index.html
+
+- documentacion oficial HELPERS Codeigniter
+https://codeigniter4.github.io/userguide/helpers/index.html
+
+- en /app/Controllers/BaseController.php, en el metodo initController() puedo cargar cualquier helper, modelo, etc, y estaran disponibles para cualquier controlador que herede de la clase abstracta BaseController (en este punto, todos los controladores de /app/Controllers/Dashboard/)
+
+- DATO DE COLOR: en el minuto 10' el profesor hace un echo de now() (metodo del helper "date", el cual retorna la fecha y hora actual en formato UNIX), es decir, el momento exacto en el que estaba grabando esta parte del video, y el resultado es vvv 
+- UNIX profesor = 1674297182 vvv
+$timestamp = "1674297182"; 
+$fecha_hora = date('Y-m-d H:i:s', $timestamp);
+ddl($fecha_hora, 1); // 2023-01-21 07:33:02 (7:33 AM del 21/1/2023 hora Argentina)
+
+- 3 formas de importar helpers, librerias, modelos, etc 
+* a nivel metodo de controlador (importacion en el mismo metodo) 
+* a nivel controlador (importacion en el constructor del controlador)
+* a nivel global para todos los controladores que hereden de una misma clase padre (importacion en el constructor de la clase padre)
+
+
+----- 
+
+Sección 16: Librerías y funciones en Codeigniter
+130. Implementar paginación
+
+- Forma de obtener la consulta SQL pura de una consulta contruida con elQueryBuilder de Codeigniter vvv 
+
+* Controlador Pelicula->index() vvv
+
+$peliculas = $peliculaModel->select("peliculas.*, c.titulo as categoria")
+                        ->join("categorias c", "c.id = peliculas.categoria_id")
+                        ->orderBy("peliculas.id")
+                        ->paginate(5);
+
+$ultima_consulta_sql_puro = $peliculaModel->getLastQuery();
+ddl($ultima_consulta_sql_puro, 1);
+
+----- 
+
+Sección 16: Librerías y funciones en Codeigniter
+132. Manejo de errores
+
+
+/vendor/codeigniter4/framework/system/Exceptions/PageNotFoundException.php
+
+- en v122 vimos un primer ejemplo de manejo de excepciones vvv 
+* controlador Pelicula->image() vvv
+if(!file_exists($name)) {
+    throw PageNotFoundException::forPageNotFound();
+}
+
+- en este ejemplo, forPageNotFound() es un metodo de la clase PageNotFoundException 
+- el path completo de esta vlase es vvv
+/vendor/codeigniter4/framework/system/Exceptions/PageNotFoundException.php
+
+- dentro de esta clase estan contenidas todos los tipo de excepciones que ofrece Codeigniter (cada tipo de excepcion es un metodo de la clase)
+- podemos crear nuevas excepciones dentro de esta clase para utilizar en distintas partes de la aplicacion 

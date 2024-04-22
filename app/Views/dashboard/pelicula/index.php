@@ -50,6 +50,9 @@
             <?php endforeach ?>
         </tbody>
     </table>
+
+    <?php echo $pager->links(); // v130 ?>
+
     <br>
     <a href="<?php echo route_to("pelicula.test", 15, 38); ?>">/dashboard/test/15/38</a>
     <br>
