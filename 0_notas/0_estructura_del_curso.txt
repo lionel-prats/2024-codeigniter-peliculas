@@ -13,10 +13,10 @@ seccion 12: rest api crud                             | 40
 seccion 13: seeders                                   | 18 
 seccion 14: relaciones                                | 151 
 seccion 15: Carga de archivos                         | 65
-seccion 16: Librerías y funciones en Codeigniter      | 30  | 784 minutos | 13 horas 04 minutos
+seccion 16: Librerías y funciones en Codeigniter      | 30
+seccion 17: Bootsrap 5                                | 70  | 854 minutos | 14 horas 14 minutos
 
-seccion 17: Bootsrap 5                                | 70
-seccion 18: xxx                                       | 129
+seccion 18: Módulo web                                | 129
 seccion 19: xxx                                       | 31
 seccion 20: xxx                                       | 28
 seccion 21: xxx                                       | 159
@@ -36,8 +36,8 @@ seccion 34: xxx                                       | 295
 seccion 35: xxx                                       | 76
 seccion 36: xxx                                       | 27  | 3274 minutos | 54 horas 34 minutos
 
-realizado -> 784  minutos | 13 horas 04 minutos | (23.95%) 
-pendiente -> 2490 minutos | 41 horas 30 minutos | (76.05%)
+realizado -> 854  minutos | 14 horas 14 minutos | (26.08%) 
+pendiente -> 2420 minutos | 40 horas 20 minutos | (73.92%)
 total     -> 3274 minutos | 54 horas 34 minutos | (100%)
 
 CANAL YOUTUBE PROFESOR vvv

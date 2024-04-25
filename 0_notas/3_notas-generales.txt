@@ -976,7 +976,7 @@ ddl($fecha_hora, 1); // 2023-01-21 07:33:02 (7:33 AM del 21/1/2023 hora Argentin
 Sección 16: Librerías y funciones en Codeigniter
 130. Implementar paginación
 
-- Forma de obtener la consulta SQL pura de una consulta contruida con elQueryBuilder de Codeigniter vvv 
+- Forma de obtener la consulta SQL pura de una consulta contruida con el QueryBuilder de Codeigniter vvv 
 
 * Controlador Pelicula->index() vvv
 
@@ -1090,3 +1090,11 @@ public array $templates = [
     ...
 ];
 4) en el <nav> de /app/Views/partials/pagination.php aplico las clases de bootstrap que consideremos
+
+----- 
+
+Sección 18: Módulo web
+151. Filtros para el listado: Filtrar, Buscar 
+
+- opciones de Codeigniter 4 para el QueryBuilder vvv 
+https://codeigniter4.github.io/userguide/database/query_builder.html

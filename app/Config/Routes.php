@@ -52,6 +52,10 @@ $routes->group("dashboard", function($routes){
     $routes->get("destroy-session", "Dashboard\Pelicula::destruir_session", ["as" => "pelicula.destruir-session"]);
 });
 
+// $routes->group("blog", function($routes){
+    $routes->presenter("blog", ["controller" => "Blog\Pelicula"], ["only" => ["index", "show"]]);
+// });
+
 // $routes->group("api", function($routes){
 //     $routes->presenter("protocolo");
 //     // GET    | api/protocolo           /Controllers/Protocolo::index    
@@ -101,3 +105,5 @@ $routes->post('logout', 'Web\Usuario::logout', ["as" => "usuario.logout"]);
 // test (v122)
 $routes->get("image/(:any)", "Dashboard\Pelicula::image/$1", ["as" => "get_image"]);
 // http://localhost:8080/image/1713320426_49ecd23ec5f3bb440e9a.jpg
+
+$routes->get("blog", "Dashboard\Pelicula::image/$1", ["as" => "get_image"]);

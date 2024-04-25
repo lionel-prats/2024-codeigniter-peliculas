@@ -3,13 +3,14 @@
 namespace Config;
 
 use App\Filters\MiFiltro;
+use App\Filters\UserFilter;
 use CodeIgniter\Filters\CSRF;
+use App\Filters\DashboardFilter;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
-use App\Filters\DashboardFilter;
 
 class Filters extends BaseConfig
 {
@@ -28,6 +29,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'mifiltro' => MiFiltro::class,
         'dashboardFilter' => DashboardFilter::class,
+        'userFilter' => UserFilter::class,
     ];
 
     /**
@@ -81,6 +83,12 @@ class Filters extends BaseConfig
             "before" => [
                 "dashboard",
                 "dashboard/*",
+            ]
+        ],
+        "userFilter" => [
+            "before" => [
+                "login",
+                "register",
             ]
         ]
         // "mifiltro" => [
