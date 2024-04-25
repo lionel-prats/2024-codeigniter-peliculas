@@ -8,16 +8,9 @@
     // seccion "contenido" (/app/Views/Layout/dashboard.php)
     echo $this->section("contenido"); 
 ?>
-    <div class="flex justify-content-between w-45">
-        <a href="/dashboard/pelicula/new">New</a>
-        <!-- <div>
-            <a href="/" class="pr-2">Home</a>
-            <a href="/dashboard/categoria">Categorías</a>
-        </div> -->
-    </div>
-    <br>
-    <br>
-
+    <a href="<?php echo base_url("/dashboard/pelicula/new"); ?>" 
+        class="btn btn-success mb-3"
+    >New</a>
     <table class="table">
         <thead>
             <tr>
@@ -36,11 +29,22 @@
                     <td><?php echo $pelicula->descripcion; ?></td>
                     <td><?php echo $pelicula->categoria; ?></td>
                     <td>
-                        <a href="/dashboard/pelicula/show/<?php echo $pelicula->id; ?>">Detail</a>
-                        <a href="/dashboard/pelicula/edit/<?php echo $pelicula->id; ?>">Edit</a>
-                        <a href="<?php echo route_to("pelicula.etiquetas", $pelicula->id); ?>">Tags</a>
+                        <a 
+                            href="/dashboard/pelicula/show/<?php echo $pelicula->id; ?>" class="btn btn-secondary btn-sm"
+                        >Show</a>
+                        <a 
+                            href="/dashboard/pelicula/edit/<?php echo $pelicula->id; ?>"
+                            class="btn btn-warning btn-sm"
+                        >Edit</a>
+                        <a 
+                            href="<?php echo route_to("pelicula.etiquetas", $pelicula->id); ?>"
+                            class="btn btn-primary btn-sm"
+                        >Tags</a>
                         <form action="/dashboard/pelicula/delete/<?php echo $pelicula->id; ?>" method="POST">
-                            <input type="submit" value="Delete">
+                            <input 
+                                type="submit" value="Delete"
+                                class="btn btn-danger btn-sm mt-1"    
+                            >
                         </form>
                     </td>
                 </tr>

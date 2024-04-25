@@ -39,3 +39,6 @@ seccion 36: xxx                                       | 27  | 3274 minutos | 54 
 realizado -> 784  minutos | 13 horas 04 minutos | (23.95%) 
 pendiente -> 2490 minutos | 41 horas 30 minutos | (76.05%)
 total     -> 3274 minutos | 54 horas 34 minutos | (100%)
+
+CANAL YOUTUBE PROFESOR vvv
+https://www.youtube.com/@desarrollolibre

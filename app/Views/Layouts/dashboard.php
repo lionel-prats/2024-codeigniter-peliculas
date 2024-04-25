@@ -6,34 +6,6 @@
     <title><?php echo $tituloVista; ?></title>
     <!-- <link rel="stylesheet" href="<?php //echo base_url() ?>bootstrap/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="<?php echo base_url("bootstrap/dist/css/bootstrap.min.css") ?>">
-    <!-- <style>
-        .flex{
-            display: flex;
-        }
-        .justify-content-between {
-            justify-content: space-between;
-        }
-        .w-45 {
-            width: 45vw;
-        }
-        .pr-2{
-            padding-right: .5rem;
-        }
-        .p-2{
-            padding: .5rem;
-        }
-        .title {
-            color: #6B9471;
-        }
-        .error-message {
-            background-color: #e24152;
-            color: white;
-        }
-        .success-message {
-            background-color: #6B9471;
-            color: yellow;
-        }
-    </style> -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg mb-3">
@@ -65,6 +37,7 @@
             </div>
         </div>
     </div>
+    <script src="<?php echo base_url("bootstrap/dist/js/bootstrap.min.js") ?>"></script>
 </body>
 </html>
 <?php //echo $this->extend("Layouts/dashboard"); ?>

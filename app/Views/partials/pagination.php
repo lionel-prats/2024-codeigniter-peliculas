@@ -6,6 +6,7 @@
  * @var PagerRenderer $pager
  */
 $pager->setSurroundCount(2);
+// ddl($pager->links());
 ?>
 
 <nav aria-label="<?= lang('Pager.pageNavigation') ?>">

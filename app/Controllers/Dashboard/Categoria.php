@@ -65,14 +65,16 @@ class Categoria extends BaseController
             $result = $categoriaModel->insert($data, false);
             if($result) {
                 // $newId = $categoriaModel->getInsertID();
-                session()->setFlashdata("mensaje", "Se ha creado la categoría " . $this->request->getPost("titulo"));
-                return redirect()->to("/dashboard/categoria");
+                $message = "Se ha creado la categoría <strong>" . $this->request->getPost("titulo") . "</strong>";
+                session()->setFlashdata("mensaje", $message);
+                return redirect()->to("/dashboard/categoria")->with("alert-bg", "alert-success");
             } else {
                 echo "error";
             }
         } else {
             session()->setFlashdata([
-                "validation" => $this->validator->listErrors()
+                // "validation" => $this->validator->listErrors()
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }
@@ -102,12 +104,14 @@ class Categoria extends BaseController
             $categoria = $categoriaModel->find($id); 
             $result = $categoriaModel->update($id, $data);
             if($result) {
-                session()->setFlashdata("mensaje", "La categoría " . $categoria->titulo . " pasó a llamarse " . $this->request->getPost("titulo"));
-                return redirect()->to("/dashboard/categoria");
+                $message = "La categoría <strong>" . $categoria->titulo . "</strong> pasó a llamarse <b>" . $this->request->getPost("titulo") . "</b>";
+                session()->setFlashdata("mensaje", $message);
+                return redirect()->to("/dashboard/categoria")->with("alert-bg", "alert-success");
             }
         } else {
             session()->setFlashdata([
-                "validation" => $this->validator->listErrors()
+                // "validation" => $this->validator->listErrors()
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }
@@ -120,8 +124,9 @@ class Categoria extends BaseController
         $categoria = $categoriaModel->find($id); 
         $result = $categoriaModel->delete($id);
         if($result) {
-            session()->setFlashdata("mensaje", "Se ha eliminado la categoría " . $categoria->titulo);
-            return redirect()->back();
+            $message = "Se ha eliminado la categoría <strong>" . $categoria->titulo . "</strong>";
+            session()->setFlashdata("mensaje", $message);
+            return redirect()->back()->with("alert-bg", "alert-danger");
         }
     }   
 }

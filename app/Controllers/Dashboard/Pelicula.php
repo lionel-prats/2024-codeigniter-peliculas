@@ -178,17 +178,18 @@ class Pelicula extends BaseController
                 echo "error";
             }
         } else {
-            $validation = new \stdClass();
-            $validation->descripcion =  $this->validator->getError("descripcion");
-            $validation->titulo =  $this->validator->getError("titulo");
-            $validation->categoria_id =  $this->validator->getError("categoria_id");
+            // $validation = new \stdClass();
+            // $validation->descripcion =  $this->validator->getError("descripcion");
+            // $validation->titulo =  $this->validator->getError("titulo");
+            // $validation->categoria_id =  $this->validator->getError("categoria_id");
             
             session()->setFlashdata([
                 /* "validation" => [
                     "descripcion" => $this->validator->getError("descripcion"),
                     "titulo" => $this->validator->getError("titulo")
                 ] */
-                "validation" => $validation
+                // "validation" => $validation
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }
@@ -230,17 +231,18 @@ class Pelicula extends BaseController
             }
         } else {
 
-            $validation = new \stdClass();
-            $validation->descripcion =  $this->validator->getError("descripcion");
-            $validation->titulo =  $this->validator->getError("titulo");
-            $validation->categoria_id =  $this->validator->getError("categoria_id");
+            // $validation = new \stdClass();
+            // $validation->descripcion =  $this->validator->getError("descripcion");
+            // $validation->titulo =  $this->validator->getError("titulo");
+            // $validation->categoria_id =  $this->validator->getError("categoria_id");
 
             session()->setFlashdata([
                 // "validation" => [
                 //     "descripcion" => $this->validator->getError("descripcion"),
                 //     "titulo" => $this->validator->getError("titulo")
                 // ]
-                "validation" => $validation
+                // "validation" => $validation
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }

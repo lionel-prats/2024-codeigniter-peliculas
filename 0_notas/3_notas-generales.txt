@@ -1064,17 +1064,19 @@ Sección 17: Bootsrap 5
 - Vamos a implementar las clases de Bootsrap en los bloques HTML que nos proporciona la libreria "pagination", que usamos para paginar las vistas de pelicula, categoria y etiqueta (v130) vvv 
 
 - vimos que en la vista, con este codigo se generaba una paginacion automatica, sin estilos vvv
--- CONTROLADOR 
+-- CONTROLADOR Pelicula->index()
 $peliculaModel = new PeliculaModel();
+...
 $data = [
     ...
     "pager" => $peliculaModel->pager, // v130
 ];
--- VISTA
+return view('dashboard/pelicula/index', $data);
+-- VISTA /app/Views/dashboard/pelicula/index.php
 <?php echo $pager->links(); ?>
 
-- resulta que el metodo links() refiere a Pager->templates['default_full'] (/app/Config/Pager.php)
-- 'default_full' refiere al template "default_null.php" (/vendor/codeigniter4/framework/system/Pager/Views/default_full.php), el cual contiene el codigo HTML que se renderiza cuando imprimimos la ejecucion de $pager->links() 
+- resulta que el metodo links() refiere a Pager->$templates['default_full'] (/app/Config/Pager.php)
+- 'default_full' refiere al template "default_full.php" (/vendor/codeigniter4/framework/system/Pager/Views/default_full.php), el cual contiene el codigo HTML que se renderiza cuando imprimimos la ejecucion de $pager->links() 
 
 ----- 
 
@@ -1082,7 +1084,7 @@ IMPLEMENTACION DE ESTILOS DE BOOTSTRAP EN LOS TEMPLATES QUE NOS PROPORCIONA LA L
 
 1) creamos el archivo /app/Views/partials/pagination.php
 2) en este archivo copiamos el contenido de "default_full.php" 
-3) modifico Pager->templates['default_full'] para que ahora $pager->links() renderize el contenido de /app/Views/partials/pagination.php vvv 
+3) modifico Pager->templates['default_full'] para que ahora apunte a /app/Views/partials/pagination.php y $pager->links() renderize su contenido vvv 
 public array $templates = [
     'default_full'   => 'App\Views\partials\pagination',
     ...

@@ -1,4 +1,6 @@
 <?php if(session("mensaje")): ?>
-    <small class="success-message p-2"><?php echo session("mensaje"); ?></small>
-    <br>
+    <div class="alert alert-dismissible fade show <?php echo session("alert-bg"); ?>">
+        <?php echo session("mensaje"); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php endif ?>

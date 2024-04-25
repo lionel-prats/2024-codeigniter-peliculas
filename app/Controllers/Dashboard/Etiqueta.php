@@ -72,7 +72,8 @@ class Etiqueta extends BaseController
             $validation->categoria_id =  $this->validator->getError("categoria_id");
             
             session()->setFlashdata([
-                "validation" => $validation
+                // "validation" => $validation
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }
@@ -109,7 +110,8 @@ class Etiqueta extends BaseController
             $validation->titulo =  $this->validator->getError("titulo");
             $validation->categoria_id =  $this->validator->getError("categoria_id");
             session()->setFlashdata([
-                "validation" => $validation
+                // "validation" => $validation
+                "validation" => $this->validator->getErrors()
             ]);
             return redirect()->back()->withInput();
         }

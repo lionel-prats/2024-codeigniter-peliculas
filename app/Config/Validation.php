@@ -60,6 +60,10 @@ class Validation extends BaseConfig
         "descripcion" => "required|min_length[3]|max_length[2000]",
         "categoria_id" => "required|is_natural",
     ];
+    public $login_usuarios = [
+        "email" => "required|min_length[3]|max_length[70]",
+        "contrasena" => "required|min_length[5]|max_length[15]",
+    ];
     public $registro_usuarios = [
         "usuario" => "required|min_length[3]|max_length[20]|is_unique[usuarios.usuario]",
         // is_unique[usuarios.usario] va a la base de datos y verifica que no exista previamente el dato que se quiere insertar en el campo usuario de la tabla usuarios (v88)

@@ -1,15 +1,9 @@
 <?php echo $this->extend("Layouts/dashboard"); ?>
 
 <?php echo $this->section("contenido"); ?>
-    <div class="flex justify-content-between w-45">
-        <a href="/dashboard/categoria/new">New</a>
-        <!-- <div>
-            <a href="/" class="pr-2">Home</a>
-            <a href="/dashboard/pelicula">Películas</a>
-        </div> -->
-    </div>
-    <br>
-    <br>
+    <a href="<?php echo base_url("/dashboard/categoria/new"); ?>" 
+        class="btn btn-success mb-3"
+    >New</a>
     <table class="table">
         <thead>
             <tr>
@@ -24,10 +18,19 @@
                     <td><?php echo $categoria->id; ?></td>
                     <td><?php echo $categoria->titulo; ?></td>
                     <td>
-                        <a href="/dashboard/categoria/show/<?php echo $categoria->id; ?>">Detail</a>
-                        <a href="/dashboard/categoria/edit/<?php echo $categoria->id; ?>">Edit</a>
+                        <a 
+                            href="/dashboard/categoria/show/<?php echo $categoria->id; ?>"
+                            class="btn btn-warning btn-sm"    
+                        >Show</a>
+                        <a 
+                            href="/dashboard/categoria/edit/<?php echo $categoria->id; ?>"
+                            class="btn btn-primary btn-sm"    
+                        >Edit</a>
                         <form action="/dashboard/categoria/delete/<?php echo $categoria->id; ?>" method="POST">
-                            <input type="submit" value="Delete">
+                            <input 
+                                type="submit" value="Delete"
+                                class="btn btn-danger btn-sm mt-1"
+                            >
                         </form>
                     </td>
                 </tr>
@@ -51,6 +54,6 @@
     <?php endif ?>
     <br>
     <form action="<?php echo route_to("usuario.logout"); ?>" method="POST">
-        <input type="submit" value="Cerrar Sesión">    
+        <input type="submit" value="Cerrar Sesión" class="btn btn-primary">    
     </form>
 <?php echo $this->endSection(); ?>

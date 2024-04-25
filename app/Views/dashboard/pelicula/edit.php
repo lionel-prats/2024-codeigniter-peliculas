@@ -3,7 +3,7 @@
 
     <?php echo $this->section("contenido"); ?>
 
-        <?php // echo view("partials/_form-error"); ?>
+        <?php echo view("partials/_form-error_v2"); ?>
 
         <form 
             action="/dashboard/pelicula/update/<?php echo $pelicula->id; ?>" 
@@ -13,7 +13,7 @@
             <?php echo view("dashboard/pelicula/_form"); ?>
         </form>
         <br>
-        <a href="/dashboard/pelicula">Get Back</a>
+        <a href="/dashboard/pelicula" class="btn btn-primary">Get Back</a>
     <?php echo $this->endSection(); ?>
 <?php else: ?>
     <p>El id especificado no existe.</p>

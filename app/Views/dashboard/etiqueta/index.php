@@ -1,14 +1,8 @@
 <?php echo $this->extend("Layouts/dashboard"); ?>
 <?php echo $this->section("contenido"); ?>
-    <div class="flex justify-content-between w-45">
-        <a href="/dashboard/etiqueta/new">New</a>
-        <!-- <div>
-            <a href="/" class="pr-2">Home</a>
-            <a href="/dashboard/categoria">Categorías</a>
-        </div> -->
-    </div>
-    <br>
-    <br>
+    <a href="<?php echo base_url("/dashboard/etiqueta/new"); ?>" 
+        class="btn btn-success mb-3"
+    >New</a>
     <table class="table">
         <thead>
             <tr>
@@ -25,10 +19,19 @@
                     <td><?php echo $etiqueta->titulo; ?></td>
                     <td><?php echo $etiqueta->categoria_id; ?></td>
                     <td>
-                        <a href="/dashboard/etiqueta/show/<?php echo $etiqueta->id; ?>">Detail</a>                        
-                        <a href="/dashboard/etiqueta/edit/<?php echo $etiqueta->id; ?>">Edit</a>
+                        <a 
+                            href="/dashboard/etiqueta/show/<?php echo $etiqueta->id; ?>"
+                            class="btn btn-warning btn-sm"
+                        >Detail</a>                        
+                        <a 
+                            href="/dashboard/etiqueta/edit/<?php echo $etiqueta->id; ?>"
+                            class="btn btn-primary btn-sm"    
+                        >Edit</a>
                         <form action="/dashboard/etiqueta/delete/<?php echo $etiqueta->id; ?>" method="POST">
-                            <input type="submit" value="Delete">
+                            <input 
+                                type="submit" value="Delete"
+                                class="btn btn-danger btn-sm mt-1"    
+                            >
                         </form>
                     </td>
                 </tr>
