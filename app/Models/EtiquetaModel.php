@@ -34,4 +34,18 @@ class EtiquetaModel extends Model
 
         return $response[0]->titulo;
     }
+
+    /**
+     * retorna todos los registros de la tabla etiquetas, filtrando por el campo y valor recibidos por parametro
+     *
+     * @param int $field campo de la tabla etiquetas
+     * @param int $value valor buscado
+     * @return array retorna un array indexado de objetos donde cada objeto es un registro de la tabla etiquetas asociado a la pelicula buscada
+    */
+    public function getTagsByField($field, $value)
+    {
+        return $this->select("etiquetas.*")
+            ->where("etiquetas.$field", $value)
+            ->findAll();
+    }
 }

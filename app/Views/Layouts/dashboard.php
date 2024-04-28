@@ -22,6 +22,12 @@
                     <li class="nav-item">
                         <a href="<?php echo base_url("dashboard/pelicula"); ?>" class="nav-link">Películas</a>
                     </li>
+                    <li class="nav-item">
+                        <a 
+                            href="<?php echo base_url("blog"); ?>" 
+                            class="btn btn-outline-primary" 
+                        >Blog</a> <!-- nav-link -->
+                    </li>
                 </ul>
             </div>
         </div>

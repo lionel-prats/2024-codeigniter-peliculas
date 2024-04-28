@@ -14,7 +14,7 @@
             <input type="pasword" name="contrasena" class="form-control">
         </div>
         <div class="d-flex justify-content-between">
-            <input type="submit" value="Login" class="btn btn-primary">
+            <input type="submit" value="Iniciar Sesión" class="btn btn-primary">
             <a href="<?php echo route_to("usuario.register") ?>" class="btn btn-secondary">Registrarse</a>
         </div>
     </form>

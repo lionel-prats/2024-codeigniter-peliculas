@@ -53,6 +53,7 @@ $routes->group("dashboard", function($routes){
 });
 
 // $routes->group("blog", function($routes){
+    $routes->get("blog/etiquetas_por_categoria/(:num)", "Blog\Pelicula::etiquetas_por_categoria/$1", ["as" => "blog.pelicula.etiquetas_por_categoria"]);
     $routes->presenter("blog", ["controller" => "Blog\Pelicula"], ["only" => ["index", "show"]]);
 // });
 

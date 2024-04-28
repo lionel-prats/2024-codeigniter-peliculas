@@ -26,8 +26,8 @@
             <input type="pasword" class="form-control" name="contrasena">
         </div>
         <div class="mb-3 d-flex justify-content-between">
-            <input type="submit" class="btn btn-primary" value="Registrarse">
-            <a href="<?php echo route_to("usuario.login") ?>" class="btn btn-secondary">Iniciar Sesión</a>
+            <input type="submit" class="btn btn-primary" value="Crear Cuenta">
+            <a href="<?php echo route_to("usuario.login") ?>" class="btn btn-secondary">Login</a>
         </div>
     </form>
 <?php echo $this->endSection(); ?>

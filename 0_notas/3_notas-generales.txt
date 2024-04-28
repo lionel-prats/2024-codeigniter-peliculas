@@ -985,8 +985,7 @@ $peliculas = $peliculaModel->select("peliculas.*, c.titulo as categoria")
                         ->orderBy("peliculas.id")
                         ->paginate(5);
 
-$ultima_consulta_sql_puro = $peliculaModel->getLastQuery();
-ddl($ultima_consulta_sql_puro, 1);
+echo $peliculaModel->getLastQuery();
 
 ----- 
 
@@ -1097,4 +1096,25 @@ Sección 18: Módulo web
 151. Filtros para el listado: Filtrar, Buscar 
 
 - opciones de Codeigniter 4 para el QueryBuilder vvv 
-https://codeigniter4.github.io/userguide/database/query_builder.html
+https://codeigniter4.github.io/userguide/database/query_builder
+
+----- 
+
+- otro ejemplo de como ver en SQL puro una consulta armada con el QueryBuilder ORM vvv 
+
+* /app/Controllers/Blog/Pelicula VVV
+class Pelicula extends BaseController{
+    public function index()
+    {
+        $db = \Config\Database::connect();
+        $pelicula_model = $db->table("peliculas");
+        $peliculas = $pelicula_model->select("peliculas.*, C.titulo as categoria")
+            ->join("categorias C", "C.id = peliculas.categoria_id");
+        if($buscar = $this->request->getGet("buscar")){
+            $peliculas = $peliculas->like('peliculas.titulo', $buscar, 'both')
+                ->orlike('peliculas.descripcion', $buscar, 'both');
+        }    
+        $peliculas = $peliculas->orderBy("peliculas.id")->getCompiledSelect();
+        ddl($peliculas, 1);   
+    }
+}
