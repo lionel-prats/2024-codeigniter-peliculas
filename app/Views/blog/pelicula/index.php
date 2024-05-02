@@ -9,22 +9,27 @@
                     <select name="categoria_id" class="form-control flex-grow-1">
                         <option value="">Categoría</option>
                         <?php foreach($categorias as $categoria): ?>
-                            <option value="<?php echo $categoria->id; ?>">
-                                <?php echo $categoria->titulo; ?>
-                            </option>
+                            <option 
+                                value="<?php echo $categoria->id; ?>"
+                                <?php echo $old_categoria_id == $categoria->id ? "selected" : ""; ?> 
+                            ><?php echo $categoria->titulo; ?></option>
                         <?php endforeach ?>
                     </select>
                     <select name="etiqueta_id" class="form-control">
                         <option value="">Etiqueta</option>
                         <?php foreach($etiquetas as $etiqueta): ?>
-                            <option value="<?php echo $etiqueta->id; ?>">
-                                <?php echo $etiqueta->titulo; ?>
-                            </option>
+                            <option 
+                                value="<?php echo $etiqueta->id; ?>"
+                                <?php echo $old_etiqueta_id == $etiqueta->id ? "selected" : ""; ?> 
+                            ><?php echo $etiqueta->titulo; ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
                 <div class="d-flex gap-2">
-                    <input type="text" name="buscar" class="form-control" placeholder="Buscar...">
+                    <input 
+                        type="text" name="buscar" class="form-control" placeholder="Buscar..."
+                        value="<?php echo $old_buscar ? $old_buscar : ""; ?>"
+                    >
                     <input type="submit" value="Enviar" class="btn btn-secondary" id="send">
                 </div>
             </form>

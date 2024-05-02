@@ -1118,3 +1118,12 @@ class Pelicula extends BaseController{
         ddl($peliculas, 1);   
     }
 }
+
+----- 
+
+Sección 18: Módulo web
+156. Segunda forma de filtrar, agrupado
+
+- funcion when() (QueryBuilder Codeigniter)
+
+documentacion -> https://codeigniter4.github.io/userguide/database/query_builder.html#when

@@ -45,13 +45,25 @@ class Pelicula extends BaseController{
         if($etiqueta_id = $this->request->getGet("etiqueta_id")){
             $peliculas = $peliculas->where('PE.etiqueta_id', $etiqueta_id);
         }  
+        /* 
+        // bloque reemplazado por la funcion when() (v156)
         if($buscar = $this->request->getGet("buscar")){
             $peliculas = $peliculas
                 ->groupStart()
                     ->like('peliculas.titulo', $buscar, 'both')
                     ->orlike('peliculas.descripcion', $buscar, 'both')
                 ->groupEnd();
-        }    
+        }     
+        */
+        // bloque de reemplazo del bloque comentado arriba (funcion when() - v156)
+        $condition = $this->request->getGet("buscar");
+        $peliculas = $peliculas
+            ->when($condition, static function ($query, $condition) {
+                $query->groupStart()
+                    ->like('peliculas.titulo', $condition, 'both')
+                    ->orlike('peliculas.descripcion', $condition, 'both')
+                ->groupEnd();
+            });
         $peliculas = $peliculas
             ->groupBy("peliculas.id")
             ->orderBy("peliculas.id")
@@ -63,9 +75,12 @@ class Pelicula extends BaseController{
             // "etiquetas" => $etiqueta_model->orderBy("titulo")->findAll(),
             "etiquetas" => $etiquetas,
             "peliculas" => $peliculas,
-            'pager' => $pelicula_model->pager,
+            "pager" => $pelicula_model->pager,
+            "old_categoria_id" => $categoria_id ?? "",
+            "old_etiqueta_id" => $etiqueta_id ?? "",
+            "old_buscar" => $condition ?? "",
         ];
-        return view('blog/pelicula/index', $data);
+        return view("blog/pelicula/index", $data);
     }
     // http://localhost:8080/blog/etiquetas_por_categoria/$categoria_id (v155)
     public function etiquetas_por_categoria($categoria_id)

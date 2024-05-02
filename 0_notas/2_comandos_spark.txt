@@ -45,3 +45,6 @@ php spark make:seeder CategoriaSeeder
 
 php spark db:seed CategoriaSeeder
 -> ejecuto el seeder /app/Database/Seeds/CategoriaSeeder.php (crea los registros definidos en el metodo run() del seeder)
+
+composer update
+-> actualizar la version de CodeIgniter en mi proyecto (v156)
