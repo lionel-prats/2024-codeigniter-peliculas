@@ -14,7 +14,7 @@
             <div class="navbar-collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Películas</a>
+                        <a href="<?php echo base_url("blog"); ?>" class="nav-link">Películas</a>
                     </li>
                 </ul>
             </div>

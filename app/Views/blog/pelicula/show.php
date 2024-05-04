@@ -4,7 +4,8 @@
         <div class="card-body">
             <h1><?php echo $pelicula->titulo; ?></h1>
             <hr>
-            <a class="btn btn-primary" href="#"><?php echo $pelicula->categoria; ?></a>
+            <!-- target="_blank" --> 
+            <a class="btn btn-primary" href="<?php echo route_to("blog.pelicula.index_por_categoria", $pelicula->categoria_id);?>"><?php echo $pelicula->categoria; ?></a>
             <p><?php echo $pelicula->descripcion; ?></p>
             <?php if($pelicula_imagenes): ?>
                 <h3>Imagenes</h3>
@@ -30,10 +31,16 @@
             <?php endif ?>
             <div class="py-2 d-flex gap-3">
                 <?php foreach($pelicula_etiquetas as $etiqueta): ?>
-                    <a href="#" class="btn btn-sm btn-indigo"><?php echo $etiqueta->titulo; ?></a>
+                    <a 
+                        href="<?php echo route_to("blog.pelicula.index_por_etiqueta", $etiqueta->id);?>" 
+                        class="btn btn-sm btn-indigo"
+                    ><?php echo $etiqueta->titulo; ?></a>
                 <?php endforeach ?>
             </div>
         </div>
     </div>
-    <a class="btn btn-info mb-5" href="<?php echo base_url("blog"); ?>">Volver</a>
+    <a 
+        class="btn btn-info mb-5" 
+        href="<?php echo base_url("blog?categoria_id=$categoria_id&etiqueta_id=$etiqueta_id&buscar=$buscar"); ?>"
+    >Volver</a>
 <?php echo $this->endSection(); ?>

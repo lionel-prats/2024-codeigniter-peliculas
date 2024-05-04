@@ -1,6 +1,6 @@
 <?php echo $this->extend("Layouts/blog"); ?>
 <?php echo $this->section("contenido"); ?>
-    <h1>Películas</h1>
+    <h1><?php echo $titulo_vista; ?></h1>
     <hr>
     <div class="card my-3 text-bg-primary">
         <div class="card-body">
@@ -41,32 +41,13 @@
             </form>
         </div>
     </div>
-    <?php foreach($peliculas as $pelicula): ?>
-        <div class="card mb-3">
-            <div class="card-body">
-                <h4><?php echo $pelicula->titulo; ?></h4>
-                <a class="btn btn-sm btn-secondary" href="#"><?php echo $pelicula->categoria; ?></a>
-                <p><?php echo "$pelicula->descripcion (categoría $pelicula->categoria_id)"; ?></p>
-                <?php if($pelicula->imagen): ?>
-                    <img 
-                        class="img-size-10 mb-3"
-                        src="<?php echo "/uploads/peliculas/$pelicula->imagen"; ?>" 
-                        alt="Imagen Película"
-                    >
-                <?php endif ?>
-                <div class="mb-3">
-                    <?php foreach($pelicula->etiquetas as $etiqueta): ?>
-                        <span class="badge text-bg-indigo p-2" href="#"><?php echo $etiqueta; ?></span>
-                    <?php endforeach ?>
-                </div>
-                <a 
-                href="<?php echo base_url("blog/show/$pelicula->id"); ?>"
-                class="btn btn-primary"
-                >Ver...</a>
-            </div>
-        </div>
-    <?php endforeach; ?>
-    <?php echo $pager->links(); ?>
+
+    <?php echo view(
+                    "partials/_peliculas", 
+                    ["desde" => "\"/Views/blog/pelicula/index.php\" (v162)"]
+                ); 
+    ?>
+    
     <script>
         function disableEnableButton() {
             if(!select_categoria && !select_etiqueta && !input_buscar) {
