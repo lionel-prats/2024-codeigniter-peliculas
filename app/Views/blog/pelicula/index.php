@@ -7,7 +7,7 @@
             <form method="GET">
                 <div class="d-flex gap-2 mb-2">
                     <select name="categoria_id" class="form-control flex-grow-1">
-                        <option value="">Categoría</option>
+                        <option value="">Todas las categorías</option>
                         <?php foreach($categorias as $categoria): ?>
                             <option 
                                 value="<?php echo $categoria->id; ?>"
@@ -16,7 +16,7 @@
                         <?php endforeach ?>
                     </select>
                     <select name="etiqueta_id" class="form-control">
-                        <option value="">Etiqueta</option>
+                        <option value="">Todas las etiquetas</option>
                         <?php foreach($etiquetas as $etiqueta): ?>
                             <option 
                                 value="<?php echo $etiqueta->id; ?>"
@@ -27,10 +27,16 @@
                 </div>
                 <div class="d-flex gap-2">
                     <input 
-                        type="text" name="buscar" class="form-control" placeholder="Buscar..."
+                        type="text" name="buscar" class="form-control w-75 flex-grow-1" placeholder="Buscar..."
                         value="<?php echo $old_buscar ? $old_buscar : ""; ?>"
                     >
-                    <input type="submit" value="Enviar" class="btn btn-secondary" id="send">
+                    <div>
+                        <input type="submit" value="Enviar" class="btn btn-secondary" id="send">
+                        <a 
+                            class="btn btn-success"
+                            href="<?php echo base_url("blog"); ?>"
+                        >Limpiar Filtro</a>
+                    </div>
                 </div>
             </form>
         </div>
@@ -39,10 +45,23 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h4><?php echo $pelicula->titulo; ?></h4>
+                <a class="btn btn-sm btn-secondary" href="#"><?php echo $pelicula->categoria; ?></a>
                 <p><?php echo "$pelicula->descripcion (categoría $pelicula->categoria_id)"; ?></p>
+                <?php if($pelicula->imagen): ?>
+                    <img 
+                        class="img-size-10 mb-3"
+                        src="<?php echo "/uploads/peliculas/$pelicula->imagen"; ?>" 
+                        alt="Imagen Película"
+                    >
+                <?php endif ?>
+                <div class="mb-3">
+                    <?php foreach($pelicula->etiquetas as $etiqueta): ?>
+                        <span class="badge text-bg-indigo p-2" href="#"><?php echo $etiqueta; ?></span>
+                    <?php endforeach ?>
+                </div>
                 <a 
-                    href="<?php echo base_url("blog/show/$pelicula->id"); ?>"
-                    class="btn btn-primary"
+                href="<?php echo base_url("blog/show/$pelicula->id"); ?>"
+                class="btn btn-primary"
                 >Ver...</a>
             </div>
         </div>

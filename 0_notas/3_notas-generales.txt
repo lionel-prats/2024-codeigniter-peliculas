@@ -1127,3 +1127,29 @@ Sección 18: Módulo web
 - funcion when() (QueryBuilder Codeigniter)
 
 documentacion -> https://codeigniter4.github.io/userguide/database/query_builder.html#when
+
+----- 
+
+Sección 18: Módulo web
+160. Mostrar imagen en listado de películas
+
+- GROUP_CONCAT() -> funcion SQL
+*** Normalmente, GROUP_CONCAT() se usa junto con la cláusula GROUP BY vvv
+*** en este ejemplo, concatena como string los valores E.titulo, de todas las etiquetas asociadas a una pelicula (relacion muchos a muchos entre peliculas y etiquetas)
+
+SELECT peliculas.*, C.titulo as categoria, GROUP_CONCAT(E.titulo) as etiquetas 
+FROM peliculas 
+INNER JOIN categorias C ON C.id = peliculas.categoria_id 
+LEFT JOIN pelicula_etiqueta PE ON PE.pelicula_id = peliculas.id 
+LEFT JOIN etiquetas E ON E.id = PE.etiqueta_id 
+GROUP BY peliculas.id 
+ORDER BY peliculas.id 
+LIMIT 3
+
++----+-------------------+------------------------+---------------+--------------+--------------------------------------------------------------------+
+| id | titulo            | descripcion            | categoria_id  | categoria    | etiquetas                                                          |
++----+-------------------+------------------------+---------------+--------------+--------------------------------------------------------------------+
+| 1  | Titulo Pelicula 1 | Descripcion Pelicula 1 | 7             | Categoria 7  | Tag 22 - Categoria 5,Tag 35 - Categoria 8                          |
+| 2  | Titulo Pelicula 2 | Descripcion Pelicula 2 | 26            | Categoria 26 | Tag 14 - Categoria 26,Tag 51 - Categoria 26,Tag 114 - Categoria 26 |
+| 3  | Titulo Pelicula 3 | Descripcion Pelicula 3 | 7             | Categoria 7  | NULL                                                               |
++----+-------------------+------------------------+---------------+--------------+--------------------------------------------------------------------+

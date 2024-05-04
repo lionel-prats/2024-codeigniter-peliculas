@@ -14,7 +14,7 @@ class Pelicula extends BaseController{
         /* 
         -- consulta full en caso de que el usuario filtre por P.categoria_id, PE.etiqueta_id y (P.titulo OR P.descripcion) vvv 
 
-        SELECT peliculas.*, C.titulo as categoria 
+        SELECT peliculas.*, C.titulo as categoria, GROUP_CONCAT(E.titulo) as etiquetas 
         FROM peliculas 
         INNER JOIN categorias C ON C.id = peliculas.categoria_id 
         LEFT JOIN pelicula_etiqueta PE ON PE.pelicula_id = peliculas.id 
@@ -28,10 +28,25 @@ class Pelicula extends BaseController{
         */
         $categoria_model = new CategoriaModel;
         $pelicula_model = new PeliculaModel();
-        $peliculas = $pelicula_model->select("peliculas.*, C.titulo as categoria")
+        $peliculas = 
+            
+            // SELECT previo hasta el v159
+            // $pelicula_model->select("peliculas.*, C.titulo as categoria")
+
+            // SELECT #1 v160 -> GROUP_CONCAT() -> ver explicacion en 3_notas-generales.txt, apartado v160 
+            // $pelicula_model->select("peliculas.*, C.titulo as categoria, GROUP_CONCAT(E.titulo) as etiquetas")
+            
+            // SELECT #2 v160
+            $pelicula_model->select("peliculas.*, C.titulo as categoria, GROUP_CONCAT(DISTINCT(E.titulo)) as etiquetas, MIN(I.imagen) as imagen")
+            
             ->join("categorias C", "C.id = peliculas.categoria_id", "inner")
+
             ->join("pelicula_etiqueta PE", "PE.pelicula_id = peliculas.id", "left")
-            ->join("etiquetas E", "E.id = PE.etiqueta_id", "left");
+            ->join("etiquetas E", "E.id = PE.etiqueta_id", "left")
+            
+            ->join("pelicula_imagen PI", "PI.pelicula_id = peliculas.id", "left")
+            ->join("imagenes I", "I.id = PI.imagen_id", "left");
+
         if($categoria_id = $this->request->getGet("categoria_id")){
             $etiqueta_model = new EtiquetaModel;
             $etiquetas = $etiqueta_model
@@ -66,9 +81,26 @@ class Pelicula extends BaseController{
             });
         $peliculas = $peliculas
             ->groupBy("peliculas.id")
+            // LEFT JOIN... GROUP BY peliculas.id ORDER BY...
+            
+            // ->groupBy(["peliculas.id", "E.titulo"]) 
+            // LEFT JOIN... GROUP BY peliculas.id, E.titulo ORDER BY...
+            
             ->orderBy("peliculas.id")
             ->paginate(10);
-        // echo $pelicula_model->getLastQuery();
+            
+        get_sql_query($pelicula_model->getLastQuery());
+        
+        // convierto el string "etiquetas" de la consulta en un array para poder iterarlo en la vista (v160)
+        foreach($peliculas as $pelicula){
+            if($pelicula->etiquetas){
+                $etiquetas_explode = explode(",", $pelicula->etiquetas);
+                $pelicula->etiquetas = $etiquetas_explode;
+            } else {
+                $pelicula->etiquetas = [];
+            }
+        }
+
         $data = [
             "titulo_vista" => "Listado Películas",
             "categorias" => $categoria_model->orderBy("titulo")->findAll(),
@@ -99,10 +131,15 @@ class Pelicula extends BaseController{
     public function show($id_pelicula)
     {
         $pelicula_model = new PeliculaModel();
-        $pelicula = $pelicula_model->find($id_pelicula);
+        $pelicula = $pelicula_model
+            ->select("peliculas.*, C.titulo as categoria")
+            ->join("categorias C", "C.id = peliculas.categoria_id", "inner")
+            ->find($id_pelicula);
         $data = [
             "titulo_vista" => "Detalle Película",
             "pelicula" => $pelicula,
+            "pelicula_imagenes" => $pelicula_model->getImagesById($id_pelicula),
+            "pelicula_etiquetas" => $pelicula_model->getEtiquetasById($id_pelicula),
         ];
         return view('blog/pelicula/show', $data);
     }

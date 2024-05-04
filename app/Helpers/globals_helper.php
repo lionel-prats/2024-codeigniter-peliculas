@@ -10,16 +10,29 @@
  * @return none imprime el dato recibido por parametro, con opcion a a cortar la ejecucion
 */
 function ddl($data, $exit = null) {
-	if($exit == 1) {
+	if($exit == "v") {
+		echo "<var_dump>";
+		var_dump($data);
+		echo "</var_dump>";
+		return;
+	} elseif($exit == "ve") {
+		echo "<var_dump>";
+		var_dump($data);
+		exit;
+	} elseif($exit == "e") {
 		echo "<pre>";
 		print_r($data);
-		exit;
-	} elseif($exit == 2) {
-		echo "<pre>";
-		var_dump($data);
 		exit;
 	}
 	echo "<pre>";
 	print_r($data);
 	echo "</pre>";
+}
+
+function get_sql_query($orm_query) {
+	// forma de uso en, por ejemplo, un controlador vvv
+	// get_sql_query($pelicula_model->getLastQuery());
+	echo "<pre>";    
+	echo $orm_query;
+	echo "</pre>";  
 }

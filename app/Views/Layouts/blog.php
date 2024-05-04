@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $titulo_vista; ?></title>
-    <link rel="stylesheet" href="<?php echo base_url("bootstrap/dist/css/bootstrap.min.css") ?>">
+    <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap/dist/css/bootstrap.min.css") ?>">
+    <link rel="stylesheet" href="<?php echo base_url("assets/styles/style.css") ?>">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg mb-3">
