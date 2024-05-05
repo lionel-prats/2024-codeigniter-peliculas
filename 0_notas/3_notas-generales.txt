@@ -1153,3 +1153,47 @@ LIMIT 3
 | 2  | Titulo Pelicula 2 | Descripcion Pelicula 2 | 26            | Categoria 26 | Tag 14 - Categoria 26,Tag 51 - Categoria 26,Tag 114 - Categoria 26 |
 | 3  | Titulo Pelicula 3 | Descripcion Pelicula 3 | 7             | Categoria 7  | NULL                                                               |
 +----+-------------------+------------------------+---------------+--------------+--------------------------------------------------------------------+
+
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+
+- En este modulo, entre los videos 165 y 169, creamos todas las rutas y endpoints necesarios en 
+"Routes.php" y "/app/Controllers/Api/Pelicula.php" 
+respectivamente, para generar la misma data que generamos previamente para el modulo web en 
+"/app/Controllers/Blog/Pelicula.php" 
+durante la Sección 18
+
+- la programacion de los distintos endpoints es un copy-paste con adaptaciones de la que generamos en "/app/Controllers/Blog/Pelicula.php" para proveer a las distintas vistas del modulo web 
+
+- listado de endpoints y controladores creados segun video (v165 - v169) vvv 
+
+*v165
+GET http://localhost:8080/api/pelicula/paginado?page=40
+/app/Controllers/Api/Pelicula.php->paginado()
+*** SELECT * FROM peliculas, paginando cada 10 registros
+
+*v166
+GET http://localhost:8080/api/pelicula/paginado_full?buscar=a+2&etiqueta_id=36&categoria_id=7&page=12
+/app/Controllers/Api/Pelicula.php->paginado_full()
+*** misma data que /app/Controllers/Blog/Pelicula.php->index() 
+
+*v167
+GET http://localhost:8080/api/pelicula/index_categoria_id/4?page=3
+/app/Controllers/Api/Pelicula.php->index_categoria_id()
+*** misma data que /app/Controllers/Blog/Pelicula.php->index_por_categoria() 
+
+*v168
+GET http://localhost:8080/api/pelicula/index_etiqueta_id/39?page=2 
+/app/Controllers/Api/Pelicula.php->index_etiqueta_id()
+*** misma data que /app/Controllers/Blog/Pelicula.php->index_por_etiqueta() 
+
+*v169
+GET http://localhost:8080/api/pelicula/1
+/app/Controllers/Api/Pelicula.php->show()
+*** misma data que /app/Controllers/Blog/Pelicula.php->show() 
+
+*v170
+- en este video modificamos los metodos create() y update() de
+"/app/Controllers/Api/Pelicula.php->show()"
+para que se pueda crear o actualizar el campo "categoria_id" en peliculas respectivamente

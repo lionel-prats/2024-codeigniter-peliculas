@@ -10,6 +10,12 @@ $routes->get('/', 'Home::index');
 // $routes->get('/peliculas', 'Pelicula::index');
 
 $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+    
+    $routes->get("pelicula/paginado", "Pelicula::paginado"); // v165
+    $routes->get("pelicula/paginado_full", "Pelicula::paginado_full"); // v166
+    $routes->get("pelicula/index_categoria_id/(:num)", "Pelicula::index_categoria_id/$1"); // v167
+    $routes->get("pelicula/index_etiqueta_id/(:num)", "Pelicula::index_etiqueta_id/$1"); // v168
+    
     $routes->resource("pelicula");
     // GET    | api/pelicula           \App\Controllers\Api\Pelicula::index       
     // GET    | api/pelicula/new       \App\Controllers\Api\Pelicula::new      
@@ -19,6 +25,7 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
     // PATCH  | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
     // PUT    | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::update/$1
     // DELETE | api/pelicula/(.*)      \App\Controllers\Api\Pelicula::delete/$1
+     
     $routes->resource("categoria"); 
 });
 
