@@ -53,6 +53,7 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         helper(["globals", "cookie", "date"]);
+        // "globals" es referencia a /app/Helpers/globals_helper.php (helper creado por mi)
     
         // E.g.: $this->session = \Config\Services::session();
 

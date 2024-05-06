@@ -60,6 +60,9 @@ class Validation extends BaseConfig
         "descripcion" => "required|min_length[3]|max_length[2000]",
         "categoria_id" => "required|is_natural",
     ];
+    public $pelicula_etiqueta = [
+        "etiqueta_id" => "required",
+    ];
     public $login_usuarios = [
         "email" => "required|min_length[3]|max_length[70]",
         "contrasena" => "required|min_length[5]|max_length[15]",

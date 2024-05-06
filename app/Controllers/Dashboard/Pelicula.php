@@ -363,7 +363,11 @@ class Pelicula extends BaseController
         if($image_file = $this->request->getFile("imagen")){
             // ddl($image_file->getName(), 2); // nombre original del archivo cargado en el input:file (v121)
             if($image_file->isValid()){
-                if($this->validate("imagenes")){
+                // "preguntamos si hubo algun problema al momento del upload (v121 5'28")"
+                // ->isValid() es una referencia a UploadedFile->isValid()
+
+                if($this->validate("imagenes")){ 
+
                     $imagen_nombre = $image_file->getRandomName();
                     // $extension = $image_file->getExtension();
                     $extension = $image_file->guessExtension();
@@ -458,7 +462,7 @@ class Pelicula extends BaseController
         ];
         return view('dashboard/pelicula/etiquetas', $data);
     }
-    
+    // POST http://localhost:8080/dashboard/pelicula/$id_pelicula/etiquetas
     public function etiquetas_post($pelicula_id)
     {   
         $pelicula_etiqueta_model = new PeliculaEtiquetaModel;
@@ -466,8 +470,7 @@ class Pelicula extends BaseController
 
         if(!$etiqueta_id) {
             session()->setFlashdata("mensaje", "Debes seleccionar una etiqueta para la película"); 
-        } else {                                 
-                     
+        } else {                                
             // verifico si ya existe una etiqueta asignada a la pelicula
             $existe_tag = $pelicula_etiqueta_model->existTagForMovie($pelicula_id, $etiqueta_id);
             if(!$existe_tag) {
@@ -483,7 +486,7 @@ class Pelicula extends BaseController
         return redirect()->back();
     }
 
-    // /pelicula/(:num)/etiqueta/(:num)/delete
+    // POST /pelicula/(:num)/etiqueta/(:num)/delete
     public function etiqueta_delete($pelicula_id, $etiqueta_id)
     {   
         $pelicula_etiqueta_model = new PeliculaEtiquetaModel;   

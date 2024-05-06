@@ -794,6 +794,44 @@ Sección 12: Rest Api CRUD
 
 - POSTMAN es una herramienta que nos permita acceder a recursos REST
 
+- Endpoints para pruebas (navegador y POSTMAN, armé este listado en el v172) vvv 
+
+* GET http://localhost:8080/api/pelicula/paginado?page=40
+/app/Controllers/Api/Pelicula.php->paginado()
+
+* GET http://localhost:8080/api/pelicula/paginado_full?buscar=a+2&etiqueta_id=36&categoria_id=7&page=12
+/app/Controllers/Api/Pelicula.php->paginado_full()
+
+* GET http://localhost:8080/api/pelicula/index_categoria_id/4?page=3
+/app/Controllers/Api/Pelicula.php->index_categoria_id()
+
+* GET http://localhost:8080/api/pelicula/index_etiqueta_id/39?page=2 
+/app/Controllers/Api/Pelicula.php->index_etiqueta_id()
+
+* GET http://localhost:8080/api/pelicula/1
+/app/Controllers/Api/Pelicula.php->show()
+
+* POST http://localhost:8080/api/pelicula/$id_pelicula/etiquetas 
+/app/Controllers/Api/Pelicula.php->etiquetas_post($pelicula_id)
+
+* DELETE http://localhost:8080/api/pelicula/(:num)/etiqueta/(:num)/delete 
+/app/Controllers/Api/Pelicula.php->etiqueta_delete($pelicula_id, $etiqueta_id)
+
+* GET http://localhost:8080/api/etiqueta/
+/app/Controllers/Api/Etiqueta.php->index()
+
+* GET http://localhost:8080/api/etiqueta/50
+/app/Controllers/Api/Etiqueta.php->show()
+
+* POST http://localhost:8080/api/etiqueta
+/app/Controllers/Api/Etiqueta.php->create()
+
+* PATCH|PUT http://localhost:8080/api/etiqueta/$id_etiqueta
+/app/Controllers/Api/Etiqueta.php->update()
+
+DELETE http://localhost:8080/api/etiqueta/$id_etiqueta
+/app/Controllers/Api/Etiqueta.php->delete()
+
 ----- 
 
 Sección 13: Seeders
@@ -957,7 +995,20 @@ https://codeigniter4.github.io/userguide/libraries/index.html
 - documentacion oficial HELPERS Codeigniter
 https://codeigniter4.github.io/userguide/helpers/index.html
 
-- en /app/Controllers/BaseController.php, en el metodo initController() puedo cargar cualquier helper, modelo, etc, y estaran disponibles para cualquier controlador que herede de la clase abstracta BaseController (en este punto, todos los controladores de /app/Controllers/Dashboard/)
+- en /app/Controllers/BaseController.php, en el metodo initController() puedo cargar cualquier helper, modelo, etc, y estaran disponibles para cualquier controlador que herede de la clase abstracta BaseController (en este punto, todos los controladores de /app/Controllers/Dashboard/) vvv 
+
+abstract class BaseController extends Controller
+{
+    ...
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        ...
+        helper(["globals", "cookie", "date"]);
+        // "globals" es referencia a /app/Helpers/globals_helper.php (helper creado por mi)
+        ...
+    }
+    ...
+}
 
 - DATO DE COLOR: en el minuto 10' el profesor hace un echo de now() (metodo del helper "date", el cual retorna la fecha y hora actual en formato UNIX), es decir, el momento exacto en el que estaba grabando esta parte del video, y el resultado es vvv 
 - UNIX profesor = 1674297182 vvv
@@ -1193,7 +1244,59 @@ GET http://localhost:8080/api/pelicula/1
 /app/Controllers/Api/Pelicula.php->show()
 *** misma data que /app/Controllers/Blog/Pelicula.php->show() 
 
-*v170
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+170. Crear y actualizar película: Categoría
+
 - en este video modificamos los metodos create() y update() de
-"/app/Controllers/Api/Pelicula.php->show()"
+/app/Controllers/Api/Pelicula.php
 para que se pueda crear o actualizar el campo "categoria_id" en peliculas respectivamente
+*** similar a los metodos create() y update() de 
+/app/Controllers/Dashboard/Pelicula.php
+
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+171. Crear y actualizar película: Etiqueta
+
+- en este video trabaje en el endpoint para crear la relacion entre una pelicula y una etiqueta (similar a /app/Controllers/Blog/Pelicula.php->etiquetas_post())
+POST http://localhost:8080/api/pelicula/$id_pelicula/etiquetas 
+/app/Controllers/Api/Pelicula.php->etiquetas_post($pelicula_id)
+
+- en este video trabaje en el endpoint para eliminar fisicamente la relacion entre una pelicula y una etiqueta (similar a /app/Controllers/Blog/Pelicula.php->etiqueta_delete())
+DELETE http://localhost:8080/api/pelicula/(:num)/etiqueta/(:num)/delete 
+/app/Controllers/Api/Pelicula.php->etiqueta_delete($pelicula_id, $etiqueta_id)
+
+- forma de validar si la consulta afecto algun registro (codigo extraido de /app/Controllers/Api/Pelicula.php->etiqueta_delete()) vvv
+$pelicula_etiqueta_model = new PeliculaEtiquetaModel;
+$pelicula_etiqueta_model
+    ->where("pelicula_id", $pelicula_id)
+    ->where("etiqueta_id", $etiqueta_id)
+    ->delete();
+if($pelicula_etiqueta_model->affectedRows()) {
+    ...
+}
+
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+172. CRUD etiquetas
+
+- cree el recurso "etiqueta" para el CRUD de etiquetas desde la API (Routes.php) vvv 
+$routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+    ...
+    $routes->resource("etiqueta");
+    ...
+});
+- cree el controlador de la API /app/Controllers/Api/Etiqueta.php
+- programe los 5 metodos para el CRUD de la tabla etiquetas: index(), show(), create(), update() y delete() 
+
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+173. Upload
+
+- creamos un endpoint para poder subir imagenes al servidor con la edicion de una pelicula 
+- para esto, en el controlador /app/Controllers/Api/Pelicula.php, creamos el metodo upload() 
+- la logica de este metodo es muy similar a la de /app/Controllers/Dashboard/Pelicula.php->asignar_imagen() 

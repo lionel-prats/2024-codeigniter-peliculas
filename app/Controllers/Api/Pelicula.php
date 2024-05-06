@@ -3,6 +3,8 @@
 namespace App\Controllers\Api;
 
 // use App\Models\PeliculaModel;
+use App\Models\EtiquetaModel;
+use App\Models\PeliculaEtiquetaModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class Pelicula extends ResourceController 
@@ -189,5 +191,66 @@ class Pelicula extends ResourceController
         
         $id = $this->model->delete($id);
         return $this->respond($id);
-    }   
+    }
+    
+    // POST http://localhost:8080/api/pelicula/$id_pelicula/etiquetas (v171)
+    /**
+     * crea la relación entre una película y una etiqueta
+     *
+     * @param string $pelicula_id p.id
+     * @return string json donde la clave "response" indica el resultado de la accion
+    */
+    public function etiquetas_post($pelicula_id)
+    {   
+        $status = 400;
+        if($this->validate("pelicula_etiqueta")){
+            $etiqueta_id = $this->request->getPost("etiqueta_id");
+            $etiqueta_model = new EtiquetaModel;
+            $etiqueta_existe = $etiqueta_model->find($etiqueta_id);
+            if($etiqueta_existe) {
+                $pelicula_etiqueta_model = new PeliculaEtiquetaModel;
+                $existe_relacion = $pelicula_etiqueta_model->existTagForMovie($pelicula_id, $etiqueta_id);
+                if(!$existe_relacion) {
+                    $pelicula_etiqueta_model->save([
+                        "pelicula_id" => $pelicula_id,
+                        "etiqueta_id" => $etiqueta_id,
+                    ]); 
+                    $response = ["response" => "Se ha creado la relación entre la película $pelicula_id y la etiqueta $etiqueta_id."];
+                    $status = 200;
+                } else {
+                    $response = ["response" => "La etiqueta $etiqueta_id ya está asociada a la película $pelicula_id."];
+                }
+            } else {
+                $response = ["response" => "La etiqueta $etiqueta_id no existe."];
+            }
+        } else {
+            $response = $this->validator->getErrors();
+        }
+        return $this->respond($response, $status);
+    }
+
+    // DELETE http://localhost:8080/api/pelicula/(:num)/etiqueta/(:num)/delete (v171)
+    /**
+     * elimina la relación entre una película y una etiqueta
+     *
+     * @param string $pelicula_id p.id
+     * @param string $etiqueta_id e.id
+     * @return string json donde la clave "response" indica el resultado de la accion
+    */
+    public function etiqueta_delete($pelicula_id, $etiqueta_id)
+    {   
+        $status = 400;
+        $pelicula_etiqueta_model = new PeliculaEtiquetaModel;
+        $pelicula_etiqueta_model
+            ->where("pelicula_id", $pelicula_id)
+            ->where("etiqueta_id", $etiqueta_id)
+            ->delete();
+        if($pelicula_etiqueta_model->affectedRows()) {
+            $response = ["response" => "Se ha eliminado la relacion entre la película $pelicula_id y la etiqueta $etiqueta_id."];
+            $status = 200;
+        } else {
+            $response = ["response" => "La relacion entre la película $pelicula_id y la etiqueta $etiqueta_id no existe."];
+        }
+        return $this->respond($response, $status);
+    }
 }
