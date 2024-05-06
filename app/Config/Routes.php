@@ -17,6 +17,8 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
     $routes->get("pelicula/index_etiqueta_id/(:num)", "Pelicula::index_etiqueta_id/$1"); // v168
     $routes->post("pelicula/(:num)/etiquetas", "Pelicula::etiquetas_post/$1"); // v171
     $routes->delete("pelicula/(:num)/etiqueta/(:num)/delete", "Pelicula::etiqueta_delete/$1/$2");
+    $routes->post("pelicula/(:num)/imagen/upload", "Pelicula::upload/$1"); // v173
+    $routes->delete("pelicula/(:num)/imagen/(:num)", "Pelicula::borrar_imagen/$1/$2"); // v174
 
     $routes->resource("pelicula");
     // GET    | api/pelicula           \App\Controllers\Api\Pelicula::index       

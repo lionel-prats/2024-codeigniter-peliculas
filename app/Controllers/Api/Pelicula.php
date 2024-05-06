@@ -3,18 +3,17 @@
 namespace App\Controllers\Api;
 
 // use App\Models\PeliculaModel;
+use App\Models\ImagenModel;
 use App\Models\EtiquetaModel;
+use App\Models\PeliculaImagenModel;
 use App\Models\PeliculaEtiquetaModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class Pelicula extends ResourceController 
 {
-    // instancia de PeliculaModel
-    protected $modelName = "App\Models\PeliculaModel";
-
-    // defino en que formato se van a exponer los datos de los endpoints que maneja este controlador
-    protected $format = "json"; // codeigniter tambien soporta xml 
-    // protected $format = "xml"; 
+    protected $modelName = "App\Models\PeliculaModel"; // instancia de PeliculaModel
+    protected $format = "json"; // defino en que formato se van a exponer los datos de los endpoints que maneja este controlador
+    // protected $format = "xml"; // codeigniter tambien soporta xml 
 
     // GET /api/pelicula
     public function index() 
@@ -250,6 +249,76 @@ class Pelicula extends ResourceController
             $status = 200;
         } else {
             $response = ["response" => "La relacion entre la película $pelicula_id y la etiqueta $etiqueta_id no existe."];
+        }
+        return $this->respond($response, $status);
+    }
+
+    // POST http://localhost:8080/api/pelicula/$id_pelicula/imagen/upload (v173)
+    public function upload($pelicula_id)
+    {
+        helper("filesystem"); 
+        $status = 400;
+        if($image_file = $this->request->getFile("imagen")){
+            if($image_file->isValid()){
+                if($this->validate("imagenes")){ 
+                    $imagen_nombre = $image_file->getRandomName();
+                    $extension = $image_file->guessExtension();
+                    try {
+                        $image_file->move("../public/uploads/peliculas", $imagen_nombre);
+                        $imagenModel = new ImagenModel();
+                        $data = [
+                            "imagen" => $imagen_nombre,
+                            "extension" => $extension,
+                            "data" => json_encode(get_file_info("../public/uploads/peliculas/$imagen_nombre")),
+                        ];
+                        $imagen_id = $imagenModel->insert($data); 
+                        $PeliculaImagenModel = new PeliculaImagenModel();
+                        $data = [
+                            'pelicula_id' => $pelicula_id,
+                            'imagen_id' => $imagen_id,
+                        ];
+                        $PeliculaImagenModel->insert($data);                         
+                        $response = ["response" => "pasó las 4 validaciones, la imagen se subio al servidor y se creo la relacion entre el id de la pelicula recibido y la imagen subida"];
+                        $status = 200;
+                    } catch (\Throwable $th) {
+                        $response = ["response" => "pasó 3 validaciones, falló en la cuarte (alg⌂n problema en el servidor)"];
+                    }
+                } else {
+                    $response = ["response" => "pasó 2 validaciones, falló en la tercera (tipo de archivo invalido)"];
+                }
+            } else {
+                $response = ["response" => "pasó 1 validacion, falló en la segunda (existe input 'imagen' pero esta vacio)"];
+            }
+        } else {
+            $response = ["response" => "pasó 0 validaciones, falló en la primera (no se envio input 'imagen')"];
+        }
+        return $this->respond($response, $status);
+    }
+
+    // DELETE http://localhost:8080/api/pelicula/$id_pelicula/imagen/$id_imagen (v174)
+    public function borrar_imagen($pelicula_id, $imagen_id) {
+        $status = 400;
+        $pelicula_imagen_model = new PeliculaImagenModel;
+        $pelicula_imagen_model
+            ->where("pelicula_id", $pelicula_id)
+            ->where("imagen_id", $imagen_id)
+            ->delete();
+        if($pelicula_imagen_model->affectedRows()) {
+            $imagen_model = new ImagenModel();
+            $imagen = $imagen_model->find($imagen_id);
+            $image_path = "../public/uploads/peliculas/$imagen->imagen";
+            if($pelicula_imagen_model->where("imagen_id", $imagen_id)->countAllResults() == 0){
+                try {
+                    unlink("$image_path");
+                    $imagen_model->delete($imagen_id);
+                } catch (\Throwable $th) { 
+                    // ...
+                }
+            }
+            $response = ["response" => "Se ha eliminado la relacion entre la película $pelicula_id y la imagen $imagen_id."];
+            $status = 200;
+        } else {
+            $response = ["response" => "La relacion entre la película $pelicula_id y la imagen $imagen_id no existe."];
         }
         return $this->respond($response, $status);
     }

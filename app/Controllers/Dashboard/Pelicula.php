@@ -343,7 +343,8 @@ class Pelicula extends BaseController
             return redirect()->back()->with("mensaje", "No existe imagen en server");
         }
         $pelicula_imagen_model = new PeliculaImagenModel();
-        $pelicula_imagen_model->where("imagen_id", $imagen_id)
+        $pelicula_imagen_model
+            ->where("imagen_id", $imagen_id)
             ->where("pelicula_id", $pelicula_id)
             ->delete();   
         if($pelicula_imagen_model->where("imagen_id", $imagen_id)->countAllResults() == 0){
@@ -359,7 +360,10 @@ class Pelicula extends BaseController
 
     private function asignar_imagen($pelicula_id) // v119
     {
-        helper("filesystem");
+        helper("filesystem"); 
+        // importo el helper /vendor/codeigniter4/framework/system/Helpers/filesystem_helper.php
+        // podría haberlo importado de otras formas (por ejemplo, en BaseController, como el helper que arme yo "globals_helper.php"), pero preferí hacerlo dentro de este metodo porque no es un helper que necesito todo el tiempo, y asi no sobrecargo tanto otras partes de la aplicacion
+        
         if($image_file = $this->request->getFile("imagen")){
             // ddl($image_file->getName(), 2); // nombre original del archivo cargado en el input:file (v121)
             if($image_file->isValid()){
@@ -372,8 +376,8 @@ class Pelicula extends BaseController
                     // $extension = $image_file->getExtension();
                     $extension = $image_file->guessExtension();
                     try {
-                        // $image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
-                        $image_file->move(/* WRITEPATH .  */"../public/uploads/peliculas", $imagen_nombre);
+                        //$image_file->move(WRITEPATH . "uploads/peliculas", $imagen_nombre);
+                        $image_file->move("../public/uploads/peliculas", $imagen_nombre);
 
                         // insert en tabla imagenes
                         $imagenModel = new ImagenModel();
@@ -382,6 +386,7 @@ class Pelicula extends BaseController
                             "extension" => $extension,
                             // "data" => "Pendiente",
                             "data" => json_encode(get_file_info("../public/uploads/peliculas/$imagen_nombre")),
+                            // get_file_info() -> funcion del helper filesystem_helper.php
                         ];
                         $imagen_id = $imagenModel->insert($data); 
                         

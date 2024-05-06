@@ -1297,6 +1297,43 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
 seccion 19: Rest api relaciones métodos personalizados
 173. Upload
 
-- creamos un endpoint para poder subir imagenes al servidor con la edicion de una pelicula 
+- creamos un endpoint para poder subir imagenes al servidor con la edicion de una pelicula y que a su vez cree la relacion entre lapeliucla y la imagen (INSERT en imagenes y en pelicula_imagen)
 - para esto, en el controlador /app/Controllers/Api/Pelicula.php, creamos el metodo upload() 
 - la logica de este metodo es muy similar a la de /app/Controllers/Dashboard/Pelicula.php->asignar_imagen() 
+
+- creo la ruta (endpoint) vvv
+$routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+    ...
+    $routes->post("pelicula/(:num)/imagen/upload", "Pelicula::upload/$1");
+    ...
+});
+
+- cree el metodo /app/Controllers/Api/Pelicula->upload($pelicula_id)
+
+----- 
+
+seccion 19: Rest api relaciones métodos personalizados
+174. Upload: Eliminar imágenes
+
+- creamos un endpoint para poder eliminar la relacion entre una pelicula y una imagen, y a su vez, si la imagen no tiene ninguna relacion con ninguna pelicula, se borra del servidor
+- para esto, en el controlador /app/Controllers/Api/Pelicula.php, creamos el metodo borrar_imagen() 
+- la logica de este metodo es muy similar a la de /app/Controllers/Dashboard/Pelicula.php->borrar_imagen126() 
+
+- creo la ruta (endpoint) vvv
+$routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+    ...
+    $routes->delete("pelicula/(:num)/imagen/(:num)", "Pelicula::borrar_imagen/$1/$2");
+    ...
+});
+
+- cree el metodo /app/Controllers/Api/Pelicula->borrar_imagen($pelicula_id, $imagen_id)
+
+EXTRA vvv
+- forma de hacer un COUNT() desde el ORM (bloque extraido de /app/Controllers/Api/Pelicula.php->borrar_imagen()) vvv 
+if($pelicula_imagen_model->where("imagen_id", $imagen_id)->countAllResults() == 0){
+    ...
+}
+
+----- 
+
+seccion 20: Shield
