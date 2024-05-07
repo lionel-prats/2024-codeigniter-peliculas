@@ -15,11 +15,11 @@ seccion 14: relaciones                                 | 151
 seccion 15: Carga de archivos                          | 65
 seccion 16: Librerías y funciones en Codeigniter       | 30
 seccion 17: Bootsrap 5                                 | 70
-seccion 18: Módulo web                                 | 129 | 983 minutos | 16 horas 23 minutos
+seccion 18: Módulo web                                 | 129 
+seccion 19: Rest api relaciones métodos personalizados | 31  
+seccion 20: Shield                                     | 28  | 1042 minutos | 17 horas 22 minutos
 
-seccion 19: Rest api relaciones métodos personalizados | 31
-seccion 20: xxx                                        | 28
-seccion 21: xxx                                        | 159
+seccion 21: seccion 21: Shield: Grupos y Permisos      | 159
 seccion 22: xxx                                        | 68
 seccion 23: xxx                                        | 145
 seccion 24: xxx                                        | 29
@@ -36,8 +36,8 @@ seccion 34: xxx                                        | 295
 seccion 35: xxx                                        | 76
 seccion 36: xxx                                        | 27  | 3274 minutos | 54 horas 34 minutos
 
-realizado -> 983  minutos | 16 horas 23 minutos | (30.02%) 
-pendiente -> 2291 minutos | 38 horas 11 minutos | (69.98%)
+realizado -> 1042 minutos | 17 horas 22 minutos | (31.83%) 
+pendiente -> 2232 minutos | 37 horas 12 minutos | (68.17%)
 total     -> 3274 minutos | 54 horas 34 minutos | (100%)
 
 CANAL YOUTUBE PROFESOR vvv

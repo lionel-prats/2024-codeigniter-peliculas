@@ -1337,3 +1337,133 @@ if($pelicula_imagen_model->where("imagen_id", $imagen_id)->countAllResults() == 
 ----- 
 
 seccion 20: Shield
+176. Instalar y configurar
+
+- documentacion Shield 
+https://codeigniter4.github.io/userguide/libraries/official_packages.html#shield
+https://shield.codeigniter.com/
+
+1. Creo el proyecto "code4authshield" desde la terminal de laragon vvv 
+C:\laragon\www
+λ composer create-project codeigniter4/appstarter code4authshield
+...
+
+2. en el nuevo proyecto, instalo Shield vvv
+composer require codeigniter4/shield
+
+3. configuramos las variables de entorno en el .env para habilitar la conexion a la BD por crear en nuestro entorno local (se llamara "1_code4authshield")
+
+4. Desde Heidi, creo la BD "1_code4authshield"
+
+5. Corremos el siguiente comando (siguiendo la documentacion) vvv 
+php spark shield:setup vvv
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/1_code4authshield
+$ php spark shield:setup
+CodeIgniter v4.5.1 Command Line Tool - Server Time: 2024-05-07 00:51:14 UTC+00:00
+  Created: APPPATH\Config/Auth.php
+  Created: APPPATH\Config/AuthGroups.php
+  Created: APPPATH\Config/AuthToken.php
+  Updated: APPPATH\Config\Autoload.php
+  Updated: APPPATH\Config\Routes.php
+  Updated: We have updated file 'APPPATH\Config\Security.php' for security reasons.
+  The required Config\Email::$fromEmail is not set. Do you set now? [y, n]: y
+  What is your email? : admin@correo.com
+  The required Config\Email::$fromName is not set. Do you set now? [y, n]: n
+  Updated: APPPATH\Config\Email.php
+  Run `spark migrate --all` now? [y, n]: y
+Running all new migrations...
+        Running: (CodeIgniter\Shield) 2020-12-28-223112_CodeIgniter\Shield\Database\Migrations\CreateAuthTables
+        Running: (CodeIgniter\Settings) 2021-07-04-041948_CodeIgniter\Settings\Database\Migrations\CreateSettingsTable
+        Running: (CodeIgniter\Settings) 2021-11-14-143905_CodeIgniter\Settings\Database\Migrations\AddContextColumn
+Migrations complete.
+
+*** documentacion -> "Run the following command. This command handles steps 1-6 of Manual Setup." 
+*** la consola nos indica las acciones que ejecuto este comando 
+*** se corrieron 3 migraciones vvv
+    /vendor/codeigniter4/shield/src/Database/Migrations/2020-12-28-223112_create_auth_tables.php
+    /vendor/codeigniter4/settings/src/Database/Migrations/2021-07-04-041948_CreateSettingsTable.php
+    /vendor/codeigniter4/settings/src/Database/Migrations/2021-11-14-143905_AddContextColumn.php
+*** en la DB recien creada "1_code4authshield" se crearon una serie de tablas (Similar a Laravel Passport) vvv 
+
+USE 1_code4authshield;
+SHOW TABLES;
+* auth_groups_users
+* auth_identities
+* auth_logins
+* auth_permissions_users
+* auth_remember_tokens
+* auth_token_logins
+* migrations
+* settings
+* users
+
+----- 
+
+seccion 20: Shield
+177. Shield: Resumen
+
+- entre otras acciones que ejecutó el comando "php spark shield:setup" en 5. del v176, creó en Routes.php el recurso "service...", el cual define una serie de rutas vvv 
+service('auth')->routes($routes); (Routes.php)
++--------+-------------------------+--------------------+--------------------------------------------------------------------+----------------+---------------+
+| Method | Route                   | Name               | Handler                                                            | Before Filters | After Filters |
++--------+-------------------------+--------------------+--------------------------------------------------------------------+----------------+---------------+
+| GET    | register                | »                  | \CodeIgniter\Shield\Controllers\RegisterController::registerView   |                |               |
+| GET    | login                   | »                  | \CodeIgniter\Shield\Controllers\LoginController::loginView         |                |               |
+| GET    | login/magic-link        | magic-link         | \CodeIgniter\Shield\Controllers\MagicLinkController::loginView     |                |               |
+| GET    | login/verify-magic-link | verify-magic-link  | \CodeIgniter\Shield\Controllers\MagicLinkController::verify        |                |               |
+| GET    | logout                  | »                  | \CodeIgniter\Shield\Controllers\LoginController::logoutAction      |                |               |
+| GET    | auth/a/show             | auth-action-show   | \CodeIgniter\Shield\Controllers\ActionController::show             |                |               |
+| POST   | register                | »                  | \CodeIgniter\Shield\Controllers\RegisterController::registerAction |                |               |
+| POST   | login                   | »                  | \CodeIgniter\Shield\Controllers\LoginController::loginAction       |                |               |
+| POST   | login/magic-link        | »                  | \CodeIgniter\Shield\Controllers\MagicLinkController::loginAction   |                |               |
+| POST   | auth/a/handle           | auth-action-handle | \CodeIgniter\Shield\Controllers\ActionController::handle           |                |               |
+| POST   | auth/a/verify           | auth-action-verify | \CodeIgniter\Shield\Controllers\ActionController::verify           |                |               |
++--------+-------------------------+--------------------+--------------------------------------------------------------------+----------------+---------------+       
+
+- ubicacion de los controladores vvv
+/vendor/codeigniter4/shield/src/Controllers/
+
+- ubicacion de las vistas vvv
+/vendor/codeigniter4/shield/src/Views/
+
+- GET "http://localhost:8080/login" renderiza automaticamente un form de login
+- GET "http://localhost:8080/register" renderiza automaticamente un form de registro
+- GET "http://localhost:8080/logout" cierra automaticamente una sesion iniciada
+
+- si estuviera usando un VirtualHost, tendria que setear el atributo $baseURL de la clase App (/app/Config/App.php) con el nombre del mismo vvv
+public string $baseURL = 'http://nombreVirtualHost.test';
+*** como yo estoy usando el servidor local de CodeIgniter dejo el atributo tal cual vvv
+public string $baseURL = 'http://localhost:8080/';
+
+1. cree un nuevo usuario desde "http://localhost:8080/index.php/register"
+Email Address   -> "admin@correo.com" (el dato se almacenó en la tabla auth_identities.secret)
+Username        -> "admin"            (el dato se almacenó en la tabla users.username)
+Password        -> "shield12345"      (el dato hasheado se almacenó en la tabla auth_identities.secret2) 
+
+2. el comando "php spark shield:setup" tambien creó 2 archivos nuevos de configuracion:
+* /app/Config/Auth.php
+    - en el atributo $views definimos que vista se va a ejecutar para cada ruta disponible (por default se encuentran en /vendor/codeigniter4/shield/src/Views/)
+    ** si queremos customizar estas vistas, no conviene modificar las vistas por default (los frameworks se actualizan y puede que estos archivos se actualizen, y al updatear el proyecto para tenerlo al dia podemos tener conflictos si les hacemos modificaciones)
+    ** la alternativa es crear archivos propios (en /app/Views/) y modificar el atributo $views segun la vista que querramos editar vvv
+    ** por ejemplo, podemos crear el archivo /app/Views/custom_login.php y que la ruta GET "http://localhost:8080/login renderize este archivo vvv
+    class Auth extends ShieldAuth
+    {
+        ...
+        public array $views = [
+            'login' => 'custom_login.php',
+        ];
+        ...
+    }
+    - en el atributo $redirects definimos las redirecciones de la ejecucion exitosa de las peticiones a las rutas disponibles ("/login", "/register", "/logout", etc) 
+    - el metodo loginRedirect() se ejecuta como middleware de la peticion a /login (podemos implementar codigo aca)
+    - el metodo registerRedirect() se ejecuta como middleware de la peticion a /register (podemos implementar codigo aca)
+    - el metodo logoutRedirect() se ejecuta como middleware de la peticion a /logout (podemos implementar codigo aca)
+
+* /app/Config/AuthGroups.php
+
+----- 
+
+seccion 21: Shield: Grupos y Permisos
+
+...
