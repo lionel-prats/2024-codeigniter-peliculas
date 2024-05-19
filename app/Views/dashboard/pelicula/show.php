@@ -74,14 +74,15 @@
             button.onclick = (e) => {
                 fetch(button.getAttribute("data-url"), {
                     method: "POST"
-                }).then(res => /* res.json() */  window.location.reload())  
-                .then(res => {
-                    if(res.deleted) {
+                })
+                    // .then(res => res.json())  
+                    .then(window.location.reload())  
+                    /* .then(res => {
+                        console.log(res);
                         // estamos en la vista"http://localhost:8080/dashboard/pelicula/show/$pelicula_id"
                         // con esta instruccion, se recarga la pagina en la que estamos parados cada vez el usuario elimine la etiqueta de la pelicula cuyo detalle estamos viendo (v115) 
                         window.location.reload()
-                    }
-                })
+                    }) */
             }
         })
     </script>

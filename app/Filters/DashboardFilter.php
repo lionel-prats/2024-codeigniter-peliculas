@@ -26,7 +26,7 @@ class DashboardFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if(!session()->get("usuario") || session("usuario")->tipo != "admin") {
-            return redirect()->to("/login")->with("mensaje", "acceso denegado");
+            return redirect()->to("/login")->with("mensaje", "acceso denegado (desde DashboardFilter.php)");
         }
         
         // if(session("usuario") == null) {

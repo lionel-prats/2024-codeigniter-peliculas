@@ -393,6 +393,7 @@ Sección 5: Rutas y redirecciones
 
 - en /app/Config/App.php seteo el atributo $indexPage como un string vacio para que funcione correctamente el redireccionamiento desde los controladores vvv 
 
+// public string $indexPage = 'index.php';
 public string $indexPage = '';
 
 - de ser necesario, hay que modificar tambien el atributo $baseURL, para que el redireccionamiento funcione correctamente; en mi caso, al estar desarrollando con el servidor levantado con spark en el 8080, el seteo necesario es el siguiente vvv
@@ -429,6 +430,46 @@ $ git tag v0.3 -m "Seccion 5: Rutas y redirecciones"
 6)
 User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/0_codeigniter4 (main)
 git push --tags
+
+---------- 
+
+Sección 5: Rutas y redirecciones 
+
+CONCLUSION: recopilacion de tipo de redirecciones utilizadas durante todo el proyecto "0_codeigniter4" vvv 
+
+return redirect()
+    ->back();
+
+return redirect()
+    ->back()
+    ->with("mensaje", "Película borrada exitosamente");
+
+return redirect()
+    ->back()
+    ->withInput();
+
+return redirect()
+    ->route("pelicula.test");
+
+return redirect()
+    ->to("/dashboard/categoria")
+return redirect()
+    ->to((route_to("usuario.login")));
+
+return redirect()
+    ->to("/dashboard/categoria")
+    ->with("alert-bg", "alert-success");
+
+return redirect()
+    ->to(route_to("usuario.login"))
+    ->with("mensaje", $message)
+    ->with("alert-bg", "alert-success");
+
+return redirect()
+    ->to("/dashboard/categoria")
+    ->with("mensaje", $message)
+    ->with("alert-bg", "alert-success");
+
 
 ---------- 
 
@@ -661,7 +702,7 @@ class Filters extends BaseConfig
             // 'invalidchars',
         ],
         'after' => [
-            'toolbar',
+            'toolbar', // tiene que ver con el toolbar (icono CI) del vertice inferior derecho de la pantalla del navegador
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -743,7 +784,7 @@ class Filters extends BaseConfig
 
 2.2) 
 - modifico la propiedad $filters (array) agregando una nueva clave que invoca al alias que referencia a DashboarFilter. 
-- $filters va a ser un array en el que definimos las rutas en las cuales queremos que se ejecute la logica que vamos a definir en el metodo before() del filtro referenciado entre ña peticion realizada y previo a llegar a los correspondientes controladores
+- $filters va a ser un array en el que definimos las rutas en las cuales queremos que se ejecute la logica que vamos a definir en el metodo before() del filtro referenciado (en este caso DashboardFilter.php) entre la peticion realizada y previo a llegar a los correspondientes controladores
 - la logica que vamos a definir en el metodo DashboardFilter::before() vvv
 class Filters extends BaseConfig
 {
@@ -764,7 +805,7 @@ class DashboardFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if(!session()->get("usuario") || session("usuario")->tipo != "admin") {
-            return redirect()->to("/login")->with("mensaje", "acceso denegado");
+            return redirect()->to("/login")->with("mensaje", "acceso denegado (desde DashboardFilter.php)");
         }
     }
 }
@@ -1427,6 +1468,9 @@ service('auth')->routes($routes); (Routes.php)
 - ubicacion de las vistas vvv
 /vendor/codeigniter4/shield/src/Views/
 
+- ubicacion de los modelos vvv
+/vendor/codeigniter4/shield/src/Models/
+
 - GET "http://localhost:8080/login" renderiza automaticamente un form de login
 - GET "http://localhost:8080/register" renderiza automaticamente un form de registro
 - GET "http://localhost:8080/logout" cierra automaticamente una sesion iniciada
@@ -1443,7 +1487,7 @@ Password        -> "shield12345"      (el dato hasheado se almacenó en la tabla
 
 2. el comando "php spark shield:setup" tambien creó 2 archivos nuevos de configuracion:
 * /app/Config/Auth.php
-    - en el atributo $views definimos que vista se va a ejecutar para cada ruta disponible (por default se encuentran en /vendor/codeigniter4/shield/src/Views/)
+    - en el atributo $views (array) definimos que vista se va a ejecutar para cada ruta disponible (por default se encuentran en /vendor/codeigniter4/shield/src/Views/)
     ** si queremos customizar estas vistas, no conviene modificar las vistas por default (los frameworks se actualizan y puede que estos archivos se actualizen, y al updatear el proyecto para tenerlo al dia podemos tener conflictos si les hacemos modificaciones)
     ** la alternativa es crear archivos propios (en /app/Views/) y modificar el atributo $views segun la vista que querramos editar vvv
     ** por ejemplo, podemos crear el archivo /app/Views/custom_login.php y que la ruta GET "http://localhost:8080/login renderize este archivo vvv
@@ -1455,15 +1499,275 @@ Password        -> "shield12345"      (el dato hasheado se almacenó en la tabla
         ];
         ...
     }
-    - en el atributo $redirects definimos las redirecciones de la ejecucion exitosa de las peticiones a las rutas disponibles ("/login", "/register", "/logout", etc) 
-    - el metodo loginRedirect() se ejecuta como middleware de la peticion a /login (podemos implementar codigo aca)
-    - el metodo registerRedirect() se ejecuta como middleware de la peticion a /register (podemos implementar codigo aca)
-    - el metodo logoutRedirect() se ejecuta como middleware de la peticion a /logout (podemos implementar codigo aca)
+    - en el atributo $redirects definimos las redirecciones luego de la ejecucion exitosa de las peticiones a las rutas disponibles ("/login", "/register", "/logout", etc) 
+    - el metodo loginRedirect() se ejecuta como middleware de la peticion a /login (podemos implementar codigo aca) (o sea, se ejecuta antes de la renderizacion de la vista definida en $views para /login)
+    - el metodo registerRedirect() se ejecuta como middleware de la peticion a /register (podemos implementar codigo aca) (o sea, se ejecuta antes de la renderizacion de la vista definida en $views para /login)
+    - el metodo logoutRedirect() se ejecuta como middleware de la peticion a /logout (podemos implementar codigo aca) (o sea, se ejecuta antes de la renderizacion de la vista definida en $views para /login)
 
 * /app/Config/AuthGroups.php
 
 ----- 
 
 seccion 21: Shield: Grupos y Permisos
+181. Sistema de permisos a usuarios: Listado de usuarios
+
+- shield provee el modelo UserModel, que esta asociado a la tabla users (tambien creada por shield)
+
+- documentacion gestion de usuarios con shield vvv 
+https://shield.codeigniter.com/user_management/managing_users/
+
+- ejemplo de como instanciar el modelo para poder conectarnos a la tabla usuarios (/app/Controllers/Dashboard/Usuario.php->index()) vvv 
+
+class Usuario extends BaseController
+{
+    public function index() 
+    {
+        // 2 formas de instanciar el modelo Usuario (definido internamente por Shield) // v181
+        $user_model = auth()->getProvider();
+        // $user_model = model("UserModel");
+
+        $usuarios = $user_model->find();
+        $data = [
+            "title" => "Usuario",
+            "usuarios" => $usuarios,
+        ];
+        return view("dashboard/usuario/index", $data);
+    }
+}
+
+----- 
+
+seccion 21: Shield: Grupos y Permisos
+182. Sistema de permisos a usuarios: Detalle de usuario
+
+- documentacion gestion de permisos de usuario (JOIN con auth_groups_user) vvv
+https://shield.codeigniter.com/references/authorization/
+
+- como acceder a los grupos (?) de un usuario
+- /app/Controllers/Dashboard/Usuario.php->show() vvv 
+$user_model = model("UserModel");
+$usuario = $user_model->find($id_usuario);
+ddl($usuario->getGroups()); // array con los valores del campo group de los registros asociados al usuario en la tabla "auth_groups_user"
+ddl($usuario->getPermissions()); // array con los valores del campo permission de los registros asociados al usuario en la tabla "auth_permissions_user"
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+183. Sistema de permisos a usuarios: Listado de permisos, pruebas
+
+- ubicacion del modelo UserModel, modelo pregconfigurado por Shield vvv 
+/vendor/codeigniter4/shield/src/Models/UserModel.php
+
+----- 
+
+- archivo de configuracion /app/config/AuthGroups.php vvv 
+
+- en el atributo $permissions (array) definimos los permisos que podemos asignar a un usuario
+
+- en el atributo $groups (array) definimos los grupos en los que podemos incluir a un usuario
+
+----- 
+
+- forma de recibir la respuesta de una consulta a la DB en formato array de objetos vvv
+- /app/Controllers/Dashboard/Usuario.php vvv
+
+public function show($id_usuario) {
+    ...
+    $group_model = model("GroupModel");
+    $registros_tabla_auth_groups_users = $group_model->asObject()->find();
+    ddl($registros_tabla_auth_groups_users);
+    ...
+}
+
+----- 
+
+- con la funcion config($nombre_archivo_configuracion) podemos acceder al contenido de cualquiera de los archivos de configuracion de la aplicacion (definidos en /app/config/*.php) vvv 
+
+$config = config('Pager');
+
+documentacion -> https://codeigniter4.github.io/userguide/general/configuration.html
+
+- forma de acceder a los atributos del archivo de configuracion /app/config/AuthGroups.php desde el controlador /app/Controllers/Dashboard/Usuario->show() vvv
+
+class Usuario extends BaseController
+{
+    public function show($id_usuario) 
+    {
+        $AuthGroups_content = config("AuthGroups");
+        ddl($AuthGroups_content->groups)
+        ddl($AuthGroups_content->permissions)
+        ddl($AuthGroups_content->matrix)
+    }
+}
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+186. Demo: Conocer asignación de grupos y permisos
+
+- cree dos rutas para hacer una demo de como gestionar los grupos y permisos de un usuario vvv
+GET http://localhost:8080/dashboard/usuario/gestionar_grupos/$id_usuario
+    * /app/Controllers/Dashboard/Usuario->gestionar_grupos($id_usuario)
+GET http://localhost:8080/dashboard/usuario/gestionar_permisos/$id_usuario
+    * /app/Controllers/Dashboard/Usuario->gestionar_permisos($id_usuario)
+
+- en la vista /Views/dashboard/usuario/show.php implementamos una demo de como validar si un usuario tiene tal o cual permiso con el metodo can() (ver archivo)
+*** la vista esta asociada a la ruta GET http://localhost:8080/dashboard/usuario/$id_usuario
+*** la ruta ejecuta el controlador /app/Controllers/Dashboard/Usuario->show($id_usuario), el cual renderiza la vista
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+187. Reto: Asignar/remover permisos con un click
+
+- FormData() -> clase que tenemos en JS para manejar la data de un formulario mediante JS vvv 
+- fragmento de la vista /Views/dashboard/usuario/show.php (http://localhost:8080/dashboard/usuario/$id_usuario) vvv
+<script>
+    let formData = new FormData();
+</script>
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+188. Terminar implementación
+
+- deshabilitar el toolbar (icono CI) del vertice inferior derecho de la pantalla del navegador vvv 
+/app/Config/Filters.php vvv
+...
+public array $required = [
+    'before' => [
+        'forcehttps', // Force Global Secure Requests
+        'pagecache',  // Web Page Caching
+    ],
+    'after' => [
+        'pagecache',   // Web Page Caching
+        'performance', // Performance Metrics
+        // 'toolbar',     // Debug Toolbar      // comentando esta linea el toolbar desaparece (ver notas v84, aprox linea 664, donde en el proyecto anterior, anula el toolbar de otra forma)
+    ],
+];
+...
+*** deshabiitando el toolbar no necesito escribir un "exit;" en los endpoints internos que voy armando para que no rompa en el front (como por ejemplo tuve que hacer en el video pasado en el controlador /app/Controllers/Dashboard/Usuario->manejar_permisos() )
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+191. Demo: Sincronizar
+
+1. cree la ruta POST http://localhost:8080/dashboard/usuario/$id_usuario/sincronizar-permisos (/app/Controllers/Dashboard/Usuario->sincronizar_permisos())
+2. arme un bloque HTML en /app/Views/dashboard/usuario/show.php (GET http://localhost:8080/dashboard/usuario/$id_usuario) con un checkbox por permiso definido en mi sistema (AuthGroups->permissions)
+3. en el bloque JS de esta vista, cree la funcion getCheckedValues(), que es ejecutada con el "btn.Actualizar Permisos", y que retorna un array con los check seleccionados en 2.
+4. desde el bloque JS se hace un POST a la ruta creada en 1. pasando como argumento el array de permisos seleccionados obtenidos en 3.
+5. este endpoint recibe los permisos seleccionados y en el controlador sincronizar_permisos() se ejecuta la funcion de Shield syncPermissions(), la cual hace un INSERT en auth_permissions_users asociado al usuario de cada permiso recibido y un DELETE de todos los permisos no recibidos que puedan haber asociados al usuario (si el permiso ya existia no pasa nada)
+*** en 5. utilize el desempaquetado de arrays de PHP vvv 
+    $permisos = $this->request->getPost("permisos"); // "admin.admin,users.create,users.delete"
+    $array_permisos = explode(",", $permisos); // ['admin.admin', 'users.create', 'users.delete']
+    $usuario->syncPermissions(...$array_permisos) // syncPermissions('admin.admin', 'users.create', 'users.delete')
+*** que es equivalente a $usuario->syncPermissions('admin.admin', 'users.create', 'users.delete')
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+192. Proteger app: Definir permisos
+
+- en este video modifica los seteos de AuthGroups.php (archivo de configuracion de Shield) vvv 
+
+1. setea el atributo $groups
+- definimos 3 grupos: superadmin, admin y user
+
+2. setea el atributo $permissions
+- definimos 2 bloques de permisos:
+    * bloque "admin" -> bloque de permisos asociados a los recursos de la app (CRUD sobre peliculas, etiquetas, categorias comentarios, posts, etc)
+    * bloque "users" -> oque de permisos asociados a los usuarios de la app (CRUD sobre los usuarios del sistema)
+
+3. setea el atributo $matrix
+- definimos los permisos para los grupos definidos en $groups
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+193. Proteger app: Módulo de usuario
+
+- vamos a proteger el modulo Usuario
+    * refiere a todas lar rutas que tienen que ver con la gestion de usuarios (CRUD de usuarios del sistema)
+    * http://localhost:8080/dashboard/usuario...
+
+
+- la funcion auth()->user() 
+    * nos permite validar si existe uusario logueado
+    * retorna el object(CodeIgniter\Shield\Entities\User) en caso de que haya uusario logueado, null en caso contrario
+
+- la funcion auth()->user()->can('users.detail') 
+    * nos permite validar si el usuario logueado cuenta con el permiso que le pasamos como argumento
+    * retorna un bool
+ 
+- terminado el video, usando las 2 funciones de arriba, protegimos las rutas vv 
+* GET  http://localhost:8080/dashboard/usuario (Usuario->index())
+* GET  http://localhost:8080/dashboard/usuario/$d_usuario_ver_detalle (Usuario->show())
+* POST http://localhost:8080/dashboard/usuario/$d_usuario_ver_detalle/manejar-permisos (Usuario->manejar_permisos())
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+194. Proteger app: Redirecciones y limitaciones en la vista
+
+- en este video implementamos redirecciones de vistas en los controladores Usuario->index() y Usuario->show() 
+- tambien, en la vista GET http://localhost:8080/dashboard/usuario/1, donde se ve el detalle de un usuario y mediante peticiones fetch podemos modificar los permisos del usuario detallado, implementamos una validacion para que solo pueda acceder a esta funcionalidad un usuario logueado con con los permisos adecuados
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+195. Proteger app: Filtro para proteger módulo de Usuarios
+
+1. creo el filtro LoggedIn (/app/Filters/LoggedIn.php) vvv 
+
+User@DESKTOP-0VF0DF8 MINGW64 /c/laragon/www/1_code4authshield (main)
+$ php spark make:filter
+... 
+Filter class name : LoggedIn
+...
+
+2. configuro Filters.php para que el filtro LoggedIn funcione correctamete 
+    *** configuramos el llamado a $LoggedIn->before() para especificar en que rutas queremos implementar su logica antes de llegas a un controlador
+    *** si el llamado lo definieramos en $globals, el metodo $LoggedIn->before() se ejecutara con cualquier peticion a nuestras rutas antes de llegar a sus respectivos controladores
+
+3. configuro LoggedIn->before() para implementar la logica de autenticacion para todas las rutas del modulo Usuario
+
+3.1. la funcion auth()->loggedIn() retorna un bool -> true si el usuario esta auitenticado (logueado), false en caso contrario
+*** documentacion -> https://shield.codeigniter.com/references/authentication/session/?h=
+
+4. implementada esta logica de manera global para todo el modulo Usuario la podemos remover de los controladores Usuario->index() y Usuario->show() (implementaciones del v194)
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+196. Proteger: controladores de ejemplo y redirecciones
+
+- vimos ejemplos de como implementar validaciones de autenticacion y permisos en los recursos vvv 
+* http://localhost:8080/admin 
+* http://localhost:8080/other
+* http://localhost:8080/regular
+* http://localhost:8080/contacto
+
+*** la logica de validacion esta definida en el controlador "Base", del cual heredan Admin, Other y Regular, y la ruta http://localhost:8080/contacto (Other->contacto()) fueron creados en este mismo video 
+
+--------------------------------------------------------------------------------
+
+seccion 21: Shield: Grupos y Permisos
+CONCLUSION 
+
+- los grupos de mi aplicacion con Shield se definen en AuthGroups->groups (AuthGroups.php)
+- los grupos que asignamos a un usuario se registran en la tabla auth_groups_users
+
+- los permisos de mi aplicacion con Shield se definen en AuthGroups->permissions (AuthGroups.php)
+- cada permiso esta asociado a un grupo 
+- los permisos que asignamos a un usuario se registran en la tabla auth_permissions_users
+- cuando asignamos un permiso particular a un usuario la idea es que sea un permiso por fuera de los que ya tengan asignados los grupos que tenga asignado ese usuario 
+
+- los permisos asignados a un grupo los definimos en AuthGroups->matrix (AuthGroups.php)
+
+--------------------------------------------------------------------------------
+
+seccion 22: Trabajando con librerías 
+198. Haciendo peticiones HTTP (CURL): get y delete 
 
 ...

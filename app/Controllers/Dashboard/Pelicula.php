@@ -501,6 +501,7 @@ class Pelicula extends BaseController
         if($result) {
             // echo json_encode(["deleted" => true,"pelicula_id" => $pelicula_id,"etiqueta_id" => $etiqueta_id]);
             echo '{"mensaje":"eliminado"}';
+            exit;
         }
     }
 }
