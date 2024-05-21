@@ -131,6 +131,14 @@ class Pelicula extends ResourceController
     // POST http://localhost:8080/api/pelicula/create (las pruebas se hacen con POSTMAN)
     public function create() 
     {
+        // // bloque para validar si llegan bien los datos en el body de la peticion POST
+        // return $this->respond([
+        //     $this->request->getPost("titulo"),
+        //     $this->request->getPost("descripcion"),
+        //     $this->request->getPost("categoria_id")
+        // ]);
+        // // fin bloque
+
         // $peliculaModel = new PeliculaModel();
         // $this->validate("peliculas") es referencia a Validation::peliculas (/app/Config/Validation.php)
         if($this->validate("peliculas")){
